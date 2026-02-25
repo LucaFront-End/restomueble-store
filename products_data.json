@@ -1,0 +1,683 @@
+[
+  {
+    "name": "Conjunto modelo Chabeli, estándar 4 sillas",
+    "id": "f76fe399-c300-4951-87cf-aa6cf659f991",
+    "slug": "conjunto-modelo-chabeli-estándar-4-sillas",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Tamaño:",
+        "choices": [
+          "Mesa de 1.00x60",
+          "Mesa de 80x80",
+          "Mesa de 80cm de Diametro"
+        ]
+      },
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      },
+      {
+        "name": "Terminados:",
+        "choices": [
+          "Terminado rústico brillante",
+          "Terminado rústico mate",
+          "Terminado boleado",
+          "Terminado domino",
+          "Terminado aluminio",
+          "Sin terminado adicional"
+        ]
+      }
+    ],
+    "variantCount": 36,
+    "variants": [
+      {
+        "id": "f7f3e3d9-ef9c-4cbe-8508-3b9f3223b388",
+        "choices": {
+          "Tamaño:": "Mesa de 1.00x60",
+          "Estilo:": "Pintura",
+          "Terminados:": "Terminado rústico brillante"
+        },
+        "inStock": true
+      },
+      {
+        "id": "2db36772-9ebf-414a-afc8-96050d581477",
+        "choices": {
+          "Tamaño:": "Mesa de 1.00x60",
+          "Estilo:": "Pintura",
+          "Terminados:": "Terminado rústico mate"
+        },
+        "inStock": true
+      },
+      {
+        "id": "55055ce7-e693-4cb4-8543-623902b543dc",
+        "choices": {
+          "Tamaño:": "Mesa de 1.00x60",
+          "Estilo:": "Pintura",
+          "Terminados:": "Terminado boleado"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Italia con rodete",
+    "id": "4b64ad29-7e7b-42ab-8f41-0181e3aa0a53",
+    "slug": "banco-modelo-italia-con-rodete",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "c3cf5980-78db-45f8-ae40-c578a2854fb2",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "23462dd5-1225-46de-9741-7ccd8f35b53d",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Italia",
+    "id": "ee258fff-4ad5-4441-baf0-e10f6458ae31",
+    "slug": "banco-modelo-italia",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "6f958c0e-4c57-4add-88c8-0169452a43aa",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "cafd38e4-8364-4bf0-a147-4a8b3c97782d",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Italia con rodete",
+    "id": "54b64de3-90d8-442b-a50e-00dceb7dde97",
+    "slug": "silla-modelo-italia-con-rodete",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "3015998f-578e-4617-8df9-8ca64ae082a0",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "12d0d4f8-c9f4-48eb-8bf2-9bc91825ebe8",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Italia",
+    "id": "d9b3c79d-7cc6-41ab-934b-e87814e45989",
+    "slug": "silla-modelo-italia",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "20811759-6d77-48f6-8dc0-06357f8c5c43",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "d3ce07b4-d048-4671-b8b8-978dd8036085",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Periquera Infantil",
+    "id": "4db1841c-d665-487b-be11-da82f265baff",
+    "slug": "periquera-infantil",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "6974a289-c3a1-44fd-b0fd-d762b1dbdbc2",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "9f89a1cd-3987-471f-bb05-4af79b317811",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Tolix",
+    "id": "4c7950b1-abbb-49d4-b267-07a4b1f63bd9",
+    "slug": "silla-modelo-tolix",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Tiffany",
+    "id": "87071193-a501-4990-99e3-8a093ebeba5a",
+    "slug": "silla-modelo-tiffany",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Nova",
+    "id": "b3cbcf0c-22a2-4dcc-9e49-5bffb3661faf",
+    "slug": "silla-modelo-nova",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Tulum",
+    "id": "e73b6a59-a67f-4d4c-92b9-9712a9be6c79",
+    "slug": "silla-modelo-tulum",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Hit",
+    "id": "2380dde0-cbba-417d-98f1-d65178e3381a",
+    "slug": "silla-modelo-hit",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Pony de 50 cm",
+    "id": "9ef88aea-e3ea-403d-bf39-c2b84dd9e620",
+    "slug": "banco-modelo-pony-50-cm",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "7b3af0c8-a24e-4a20-b473-f576cf12d73a",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "e0c2f597-c0b7-4f4d-9636-d7cd2b79f0b9",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Pony de 60 cm",
+    "id": "08225fc6-1b5e-4d41-b75a-e5cc2fcffda8",
+    "slug": "banco-modelo-pony-60-cm",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "686dddda-588a-455d-b228-1cf1f41f7e64",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "ef33be37-2d75-4cef-b65a-26a4b7199e80",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Pony de 70 cm",
+    "id": "14495153-5a1d-4e54-8221-e6138d002b60",
+    "slug": "banco-modelo-pony-70-cm",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "c4d48f64-2793-4953-859f-9aa2ed376fb8",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "d3e79ceb-73b8-4a00-b080-32fb2245083a",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Ibiza",
+    "id": "519dd0bf-6729-4e7d-a869-264be82c6e27",
+    "slug": "banco-modelo-ibiza",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Roma con rodete",
+    "id": "5be89897-88ad-4d55-9717-24c565282c3c",
+    "slug": "banco-modelo-romaitalia-con-rodete",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "11e40902-5d9c-4733-a3ee-ca18ef3b6323",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "99ea950e-9bea-4d1e-9741-f7b9152f55f1",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Roma",
+    "id": "e7e8c621-4667-434f-be02-aeedbab109e9",
+    "slug": "banco-modelo-romaitalia",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "7a6e4ae8-e5cf-4585-ad1f-69d02e70edf5",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "03d99372-4e82-4943-8aaa-8d1fcec6cbc3",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Solera",
+    "id": "8950df4b-2043-4221-88c4-5d166744f9eb",
+    "slug": "banco-modelo-solera",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "366152f9-7fc5-49b9-afb6-d67fe3aa760e",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "d9e27e04-36a4-4b9b-9400-c02dde3adb01",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Banco modelo Chabeli",
+    "id": "ebbff1b2-580b-4ce0-9faf-b3817ab73377",
+    "slug": "banco-modelo-chabeli",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "a707c237-c2d3-4fbc-be99-3dbf6266581c",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "7c154e99-3fa2-4092-a618-0ac1d94b1302",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Roma con rodete",
+    "id": "4663945c-711e-44f7-b8e0-ae7147c7d959",
+    "slug": "silla-modelo-romaitalia-con-rodete",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "56b9fd51-5246-4c3a-9967-cd15c93048fc",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "d1b11b3d-c798-4fff-9d2b-5ce36faf73fb",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Roma",
+    "id": "a73a74c9-4fa0-434d-9926-c9461ebfb205",
+    "slug": "silla-modelo-romaitalia",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "9bf2f66d-3f20-484c-a887-dece4fb3f74e",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "0ceb38e3-c9ff-4b71-a14a-5c7fa4babaeb",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Panda",
+    "id": "4301f632-50e7-4d0a-a8fa-eaf82d8ddf11",
+    "slug": "silla-modelo-panda",
+    "hasOptions": false,
+    "options": [],
+    "variantCount": 1,
+    "variants": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "choices": {},
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Solera",
+    "id": "d23419db-39e3-4999-bfc6-3e27891abeb9",
+    "slug": "silla-modelo-solera",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "e13183f3-2aa7-43bd-9125-d27c1d56cf74",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "d61d9507-5b7d-47bc-b19b-4b78920acd97",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "name": "Silla modelo Chabeli",
+    "id": "e1c85144-6ee4-4af4-9005-8b588df7c88e",
+    "slug": "silla-modelo-chabeli",
+    "hasOptions": true,
+    "options": [
+      {
+        "name": "Estilo:",
+        "choices": [
+          "Pintura",
+          "Cromo"
+        ]
+      }
+    ],
+    "variantCount": 2,
+    "variants": [
+      {
+        "id": "530284a1-05af-4c8d-af8d-b00e91706f0a",
+        "choices": {
+          "Estilo:": "Pintura"
+        },
+        "inStock": true
+      },
+      {
+        "id": "2ef32035-e373-42d5-9089-3517ae1c9f8c",
+        "choices": {
+          "Estilo:": "Cromo"
+        },
+        "inStock": true
+      }
+    ]
+  }
+]

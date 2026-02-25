@@ -1,0 +1,67 @@
+[
+    {
+        "slug": "muebles-restaurantes-cdmx",
+        "titulo": "Muebles para Restaurantes en CDMX",
+        "subtitulo": "Mobiliario industrial de uso rudo para la Ciudad de México",
+        "descripcion": "Equipamos restaurantes, taquerías, cafeterías y fondas en toda la CDMX con muebles diseñados para el ritmo del servicio diario. Más de 30 años de experiencia fabricando sillas y mesas que realmente aguantan.",
+        "ciudad": "Ciudad de México",
+        "estado": "CDMX",
+        "keywords": [
+            "muebles restaurantes cdmx",
+            "sillas restaurantes ciudad de mexico",
+            "mesas restaurante df"
+        ]
+    },
+    {
+        "slug": "sillas-restaurantes-monterrey",
+        "titulo": "Sillas para Restaurantes en Monterrey",
+        "subtitulo": "Mobiliario resistente para el norte de México",
+        "descripcion": "Envío directo a Monterrey y todo Nuevo León. Sillas y mesas industriales para taquerías, restaurantes y cafeterías. Fabricación mexicana con garantía de durabilidad.",
+        "ciudad": "Monterrey",
+        "estado": "Nuevo León",
+        "keywords": [
+            "sillas restaurantes monterrey",
+            "muebles restaurante nuevo leon",
+            "mobiliario hosteleria mty"
+        ]
+    },
+    {
+        "slug": "mobiliario-hoteles-guadalajara",
+        "titulo": "Mobiliario para Hoteles en Guadalajara",
+        "subtitulo": "Equipamiento hotelero de alta resistencia",
+        "descripcion": "Proveemos mobiliario para hoteles, salones de eventos y restaurantes en Guadalajara y todo Jalisco. Personalización de acabados y envío incluido.",
+        "ciudad": "Guadalajara",
+        "estado": "Jalisco",
+        "keywords": [
+            "muebles hoteles guadalajara",
+            "mobiliario hotelero jalisco",
+            "sillas hotel gdl"
+        ]
+    },
+    {
+        "slug": "mesas-cafeterias-puebla",
+        "titulo": "Mesas para Cafeterías en Puebla",
+        "subtitulo": "Diseño funcional para cafés y bistrós",
+        "descripcion": "Mesas y sillas para cafeterías, bistrós y restaurantes en Puebla. Mobiliario que combina diseño y durabilidad, perfecto para espacios de alto tráfico.",
+        "ciudad": "Puebla",
+        "estado": "Puebla",
+        "keywords": [
+            "mesas cafeteria puebla",
+            "muebles cafe puebla",
+            "mobiliario bistro"
+        ]
+    },
+    {
+        "slug": "sillas-taquerias-tijuana",
+        "titulo": "Sillas para Taquerías en Tijuana",
+        "subtitulo": "Mobiliario rudo para la frontera",
+        "descripcion": "Sillas y bancos de uso rudo para taquerías y puestos de comida en Tijuana y Baja California. Resistentes, fáciles de limpiar y apilables.",
+        "ciudad": "Tijuana",
+        "estado": "Baja California",
+        "keywords": [
+            "sillas taquerias tijuana",
+            "muebles taqueria bc",
+            "bancos restaurante tijuana"
+        ]
+    }
+]

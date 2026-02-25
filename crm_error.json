@@ -1,0 +1,29 @@
+{
+  "message": "{\n  \"message\": \"\",\n  \"details\": {\n    \"applicationError\": {\n      \"description\": \"\",\n      \"code\": 403,\n      \"data\": {\n        \"requestId\": \"1771993076.6785134074931291\",\n        \"details\": {\n          \"message\": \"\",\n          \"details\": {}\n        }\n      }\n    },\n    \"requestId\": \"1771993076.6785134074931291\"\n  }\n}",
+  "details": {
+    "applicationError": {
+      "description": "",
+      "code": 403,
+      "data": {
+        "requestId": "1771993076.6785134074931291",
+        "details": {
+          "message": "",
+          "details": {}
+        }
+      }
+    },
+    "requestId": "1771993076.6785134074931291"
+  },
+  "all": {
+    "stack": "Error: {\n  \"message\": \"\",\n  \"details\": {\n    \"applicationError\": {\n      \"description\": \"\",\n      \"code\": 403,\n      \"data\": {\n        \"requestId\": \"1771993076.6785134074931291\",\n        \"details\": {\n          \"message\": \"\",\n          \"details\": {}\n        }\n      }\n    },\n    \"requestId\": \"1771993076.6785134074931291\"\n  }\n}\n    at errorBuilder (file:///D:/Workspace/Assets/Restomueble%20ecom/store/node_modules/@wix/sdk/build/rest-modules.js:97:12)\n    at Object.request (file:///D:/Workspace/Assets/Restomueble%20ecom/store/node_modules/@wix/sdk/build/rest-modules.js:42:35)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createContact2 (file:///D:/Workspace/Assets/Restomueble%20ecom/store/node_modules/@wix/auto_sdk_crm_contacts/build/es/index.mjs:943:20)",
+    "response": {
+      "status": 403
+    },
+    "requestId": "1771993076.6785134074931291",
+    "details": {
+      "requestId": "1771993076.6785134074931291"
+    },
+    "status": 403,
+    "message": "{\n  \"message\": \"\",\n  \"details\": {\n    \"applicationError\": {\n      \"description\": \"\",\n      \"code\": 403,\n      \"data\": {\n        \"requestId\": \"1771993076.6785134074931291\",\n        \"details\": {\n          \"message\": \"\",\n          \"details\": {}\n        }\n      }\n    },\n    \"requestId\": \"1771993076.6785134074931291\"\n  }\n}"
+  }
+}

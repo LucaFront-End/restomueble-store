@@ -1,0 +1,62 @@
+{
+  "kind": "singleType",
+  "collectionName": "homes",
+  "info": {
+    "singularName": "home",
+    "pluralName": "homes",
+    "displayName": "Home"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "heroOverline": { "type": "string" },
+    "heroTitulo": { "type": "string" },
+    "heroSubtitulo": { "type": "text" },
+    "heroImagen": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "heroStats": { "type": "component", "repeatable": true, "component": "home.stat", "min": 3, "max": 3 },
+    "heroCtaPrimarioTexto": { "type": "string" },
+    "heroCtaPrimarioUrl": { "type": "string" },
+    "heroCtaSecundarioTexto": { "type": "string" },
+    "heroCtaSecundarioUrl": { "type": "string" },
+
+    "categoriesTag": { "type": "string" },
+    "categoriesTitle": { "type": "string" },
+    "categoriesDescription": { "type": "text" },
+    "categoriesList": { "type": "component", "repeatable": true, "component": "home.category", "min": 5, "max": 5 },
+
+    "benefitsList": { "type": "component", "repeatable": true, "component": "home.benefit", "min": 4, "max": 4 },
+
+    "projectsTitle": { "type": "string" },
+    "projectsSubtitle": { "type": "text" },
+    "projectsList": { "type": "component", "repeatable": true, "component": "home.project", "min": 4, "max": 4 },
+
+    "aboutHistoriaTitle": { "type": "string" },
+    "aboutHistoriaTexto": { "type": "text" },
+    "aboutHistoriaImagen": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "aboutMisionTitle": { "type": "string" },
+    "aboutMisionTexto": { "type": "text" },
+    "aboutMisionImagen": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "aboutValoresTitle": { "type": "string" },
+    "aboutValoresTexto": { "type": "text" },
+    "aboutValoresImagen": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "aboutStats": { "type": "component", "repeatable": true, "component": "home.stat", "min": 3, "max": 3 },
+
+    "logosLabel": { "type": "string" },
+    "logosList": { "type": "component", "repeatable": true, "component": "home.logo", "min": 8, "max": 8 },
+
+    "ctaEmailDestino": { "type": "string" },
+
+    "footerSlogan": { "type": "text" },
+    "footerEmail": { "type": "string" },
+    "footerTelefono": { "type": "string" },
+    "footerDireccion": { "type": "text" },
+    "footerHorario": { "type": "string" },
+    "footerInstagram": { "type": "string" },
+    "footerFacebook": { "type": "string" },
+    "footerLinkedin": { "type": "string" },
+    "footerWhatsapp": { "type": "string" },
+    "footerCopyright": { "type": "string" },
+    "footerCredits": { "type": "string" }
+  }
+}

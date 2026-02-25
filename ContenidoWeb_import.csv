@@ -1,0 +1,19 @@
+clave,valor,tipo
+hero_titulo,Muebles hechos para el ritmo del restaurante,texto
+hero_subtitulo,"Sillas y mesas de uso rudo. Diseñados para taquerías, cafeterías, franquicias, hoteles y eventos. Aquí no se rompen a la primera.",texto
+hero_badge,+30 años fabricando en México,texto
+stat_anos,30+,texto
+stat_anos_label,Años de experiencia,texto
+stat_restaurantes,500+,texto
+stat_restaurantes_label,Restaurantes equipados,texto
+stat_mexico,100%,texto
+stat_mexico_label,Hecho en México,texto
+stat_lineas,5,texto
+stat_lineas_label,Líneas de producto,texto
+cta_titulo,¿Tienes un proyecto de restaurante?,texto
+cta_subtitulo,"Desde una taquería hasta una cadena de franquicias. Te ayudamos a equipar tu negocio con mobiliario que realmente aguanta.",texto
+telefono,+52 55 1234 5678,texto
+whatsapp,5512345678,texto
+email,info@restomueble.mx,texto
+direccion,"Ciudad de México, México",texto
+footer_descripcion,Mobiliario que sí aguanta el ritmo del restaurante. +30 años fabricando en México.,texto

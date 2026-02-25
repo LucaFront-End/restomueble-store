@@ -1,0 +1,46 @@
+{
+  "name": "store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@portabletext/react": "^6.0.2",
+    "@sanity/image-url": "^2.0.3",
+    "@sanity/vision": "^5.8.1",
+    "@supabase/supabase-js": "^2.95.3",
+    "@wix/blog": "^1.0.578",
+    "@wix/crm": "^1.0.1477",
+    "@wix/data": "^1.0.403",
+    "@wix/ecom": "^1.0.1831",
+    "@wix/members": "^1.0.427",
+    "@wix/redirects": "^1.0.109",
+    "@wix/sdk": "^1.21.3",
+    "@wix/stores": "^1.0.701",
+    "framer-motion": "^12.31.0",
+    "js-cookie": "^3.0.5",
+    "next": "16.1.6",
+    "next-sanity": "^12.1.0",
+    "react": "19.2.3",
+    "react-bricks": "^5.0.0",
+    "react-dom": "19.2.3",
+    "react-icons": "^5.5.0",
+    "sanity": "^5.8.1",
+    "styled-components": "^6.3.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

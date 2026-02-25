@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_home_projects",
+  "info": { "displayName": "Project" },
+  "attributes": {
+    "nombre": { "type": "string", "required": true },
+    "ubicacion": { "type": "string" },
+    "categoria": { "type": "string" },
+    "imagen": { "type": "media", "multiple": false, "required": true, "allowedTypes": ["images"] }
+  }
+}

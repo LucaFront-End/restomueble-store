@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+/* ================================================
+   LUXURY / HIGH-END DESIGN SYSTEM
+   Restomueble Premium Edition
+   ================================================ */
+
+:root {
+  /* === PALETA DE COLORES PREMIUM === */
+
+  /* Bases Neutras */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FAFAFA;
+  /* Off-white muy sutil */
+  --bg-tertiary: #F5F5F0;
+  /* Stone ligero (Cálido) */
+  --bg-dark: #121212;
+  /* Casi negro para contrastes fuertes */
+
+  /* Textos */
+  --text-primary: #1A1A1A;
+  /* Negro suave */
+  --text-secondary: #555555;
+  /* Gris medio elegante */
+  --text-light: #888888;
+  --text-inverse: #FFFFFF;
+
+  /* Acentos de Lujo (Brand Identity) */
+  --accent: #FCB724;
+  /* Brand Yellow/Gold */
+  --accent-dark: #D99410;
+  --accent-light: #FDE6A0;
+  --brand-navy: #26316C;
+  /* Brand Navy Blue */
+  --brand-navy-light: rgba(38, 49, 108, 0.05);
+  --brand-navy-deep: #141A3A;
+  /* Deep Navy for overlays/footers */
+
+  /* Estados */
+  --error: #990000;
+  /* Rojo oscuro dramático */
+  --success: #2E5940;
+  /* Verde bosque */
+
+  /* === TIPOGRAFÍA === */
+  /* 'Playfair Display' para títulos dice "Alta Gama/Editorial" */
+  --font-heading: 'Playfair Display', serif;
+  /* 'Montserrat' para cuerpo dice "Moderno/Legible" */
+  --font-body: 'Montserrat', sans-serif;
+
+  /* === LAYOUT & ESPACIADO === */
+  --container-width: 1440px;
+  /* Pantallas grandes */
+  --header-height: 90px;
+
+  /* === BORDES & SOMBRAS === */
+  --radius-sm: 2px;
+  /* Bordes casi rectos para seriedad */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Sombras difusas y elegantes (High elevation) */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+  /* Sombra "Luxury Float" */
+
+  --transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Movimiento lento y suave */
+}
+
+/* === RESET BASE === */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+  /* Leading generoso para lectura cómoda */
+}
+
+/* === TIPOGRAFÍA === */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  /* El color hereda del body o de clases utilitarias */
+}
+
+.heading-display {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 400;
+  /* Regular en Display es más elegante que Bold */
+  font-style: italic;
+  /* Toque editorial opcional */
+}
+
+.heading-xl {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+}
+
+.heading-lg {
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 400;
+}
+
+.heading-md {
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+.text-body-lg {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+
+.text-body {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.overline {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  /* Tracking muy amplio -> Lujo */
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* === BOTONES (Minimalistas/Lujo) === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: var(--transition);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+/* Botón Sólido Oscuro */
+.btn-primary {
+  background-color: var(--text-primary);
+  color: var(--text-inverse);
+  border-radius: 0;
+  /* Recto = Serio/Premium */
+}
+
+.btn-primary:hover {
+  background-color: var(--accent);
+  /* Hover a dorado */
+  color: var(--bg-primary);
+  /* Texto claro sobre dorado */
+}
+
+/* Botón Outline Elegante */
+.btn-outline {
+  border-color: var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background: var(--text-primary);
+  color: var(--text-inverse);
+}
+
+/* Botón Fantasma (Link con flecha) */
+.btn-link {
+  padding: 0;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--text-primary);
+}
+
+.btn-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* === COMPONENTES BASE === */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section {
+  padding: 8rem 0;
+}
+
+/* Espaciado muy generoso */
+
+/* === CARDS === */
+.card-product {
+  background: var(--bg-secondary);
+  transition: var(--transition);
+  position: relative;
+}
+
+.card-product:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-product img {
+  mix-blend-mode: multiply;
+  /* Si el fondo es gris, integra la imagen */
+}
+
+/* Utility Animations */
+.animate-enter {
+  animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Infinite Scroll Animation for Logo Carousel */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Reverse Scroll Animation */
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-reverse {
+  animation: scroll-reverse 35s linear infinite;
+}
+
+.animate-scroll-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* === UTILITIES === */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

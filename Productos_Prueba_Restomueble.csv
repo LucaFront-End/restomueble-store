@@ -1,0 +1,16 @@
+Handle,Name,Type,Description,Price,Visible,SKU,Collection,Ribbon,Inventory,Weight,ManageInventory
+mesa-industrial-firme,Mesa Industrial Firme,physical,Estructura de acero reforzado y superficie de madera tratada para uso rudo industrial.,2450,true,MESA-F-01,Mesas,,10,15,true
+mesa-comedor-parota,Mesa Comedor Parota High-End,physical,Superficie de parota sólida de una sola pieza. Acabado premium mate.,12800,true,MESA-F-02,Mesas,Premium,5,45,true
+mesa-cafeteria-redonda,Mesa Cafetería Redonda Pro,physical,Base de pedestal en fundición de hierro y cubierta laminada anti-rayaduras.,1850,true,MESA-C-01,Mesas,,20,12,true
+silla-minimal-cafe,Silla Minimalista Café,physical,Diseño ergonómico en polipropileno de alta resistencia con patas de madera.,950,true,SILLA-C-01,Sillas,,50,4,true
+silla-luxury-velvet,Silla Luxury Velvet Hotel,physical,Tapizado en terciopelo suave con estructura dorada reforzada. Ideal para restaurantes elite.,2100,true,SILLA-H-01,Sillas,Elite,12,6,true
+silla-apilable-evento,Silla Apilable Evento PRO,physical,Estructura ligera de aluminio con asiento acolchado. Diseño inteligente para transporte.,850,true,SILLA-E-01,Sillas,,100,3.5,true
+banco-alto-barra-pro,Banco Alto Barra PRO,physical,Taburete con respaldo medio y descansapiés reforzado. Ideal para barras industriales.,1650,true,BANCO-P-01,Bancos,,30,7,true
+taburete-madera-minimal,Taburete Madera Minimal,physical,Banco de madera sólida con diseño escandinavo. Perfecto para cafeterías modernas.,1200,true,BANCO-P-02,Bancos,,25,5,true
+banco-tolix-industrial,Banco Tolix Industrial,physical,El clásico diseño industrial en acero galvanizado con acabado mate.,980,true,BANCO-I-01,Bancos,,40,6,true
+sillon-lounge-hotel-velvet,Sillón Lounge Hotel Velvet,physical,Sofá individual de diseño envolvente para áreas de espera y lobbies de hotel.,4200,true,HOTEL-L-01,Hotel,Luxury,8,18,true
+sofa-espera-corporate,Sofá Espera Corporate,physical,Sofá de dos plazas con tapicería de grado industrial fácil de limpiar.,8500,true,HOTEL-L-02,Hotel,,4,35,true
+sillon-club-cuero,Sillón Club Cuero Industrial,physical,Diseño vintage en cuero sintético de alta durabilidad con base de acero.,5600,true,HOTEL-L-03,Hotel,,6,22,true
+mesa-plegable-banquete,Mesa Plegable Banquete Elite,physical,Mesa rectangular plegable con superficie de polietileno de alta densidad.,1250,true,EVENTO-P-01,Eventos,,60,14,true
+silla-tiffany-resina,Silla Tiffany Resina Pro,physical,Silla clásica para eventos fabricada en resina de alta resistencia que no se descarapela.,720,true,EVENTO-E-02,Eventos,,200,4,true
+tablon-circular-plegable,Tablón Circular Plegable,physical,Mesa redonda para eventos multitudinarios. Sistema de bloqueo de seguridad.,1800,true,EVENTO-P-03,Eventos,,30,18,true
