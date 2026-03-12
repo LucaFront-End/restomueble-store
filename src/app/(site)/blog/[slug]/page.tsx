@@ -11,8 +11,13 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-    const posts = await getAllPosts(50);
-    return posts.map((p) => ({ slug: normalizePostSlug(p.slug) }));
+    try {
+        const posts = await getAllPosts(50);
+        return posts.map((p) => ({ slug: normalizePostSlug(p.slug) }));
+    } catch (e) {
+        console.error("[Blog] Error fetching posts for static params:", e);
+        return [];
+    }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

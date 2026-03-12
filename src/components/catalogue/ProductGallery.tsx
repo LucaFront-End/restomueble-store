@@ -2,16 +2,24 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProductGalleryProps {
     mainImage: string;
     gallery: any[];
     productName: string;
+    externalSelectedImage?: string;
 }
 
-export const ProductGallery = ({ mainImage, gallery, productName }: ProductGalleryProps) => {
+export const ProductGallery = ({ mainImage, gallery, productName, externalSelectedImage }: ProductGalleryProps) => {
     const [selectedImage, setSelectedImage] = useState(mainImage);
+
+    // React to external image changes (e.g. from color/variant selector)
+    useEffect(() => {
+        if (externalSelectedImage) {
+            setSelectedImage(externalSelectedImage);
+        }
+    }, [externalSelectedImage]);
 
     // Filter out duplicates and ensure mainImage is first if needed, 
     // but Wix usually provides mainImage separately. 

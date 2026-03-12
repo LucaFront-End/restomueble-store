@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion } from "framer-motion";
 import type { products } from "@wix/stores";
@@ -17,6 +17,8 @@ interface NormalizedVariant {
     id: string;
     choices: Record<string, string>;
     inStock: boolean;
+    formattedPrice?: string;
+    imageUrl?: string;
 }
 
 /** Convert Wix SDK (all-optional) types to normalized strict types */
@@ -35,11 +37,16 @@ function normalizeOptions(raw: products.ProductOption[]): NormalizedOption[] {
 function normalizeVariants(raw: products.Variant[]): NormalizedVariant[] {
     return raw
         .filter(v => v._id && v.choices)
-        .map(v => ({
-            id: v._id!,
-            choices: (v.choices as Record<string, string>) ?? {},
-            inStock: v.stock?.inStock !== false,
-        }));
+        .map(v => {
+            const variantData = v.variant as any;
+            return {
+                id: v._id!,
+                choices: (v.choices as Record<string, string>) ?? {},
+                inStock: v.stock?.inStock !== false,
+                formattedPrice: variantData?.priceData?.formatted?.price || undefined,
+                imageUrl: variantData?.media?.items?.[0]?.image?.url || undefined,
+            };
+        });
 }
 
 interface AddToCartProps {
@@ -47,12 +54,16 @@ interface AddToCartProps {
     productName: string;
     productOptions?: products.ProductOption[];
     variants?: products.Variant[];
+    onPriceChange?: (formattedPrice: string) => void;
+    onImageChange?: (imageUrl: string) => void;
 }
 
 export default function AddToCart({
     productId,
     productOptions = [],
     variants = [],
+    onPriceChange,
+    onImageChange,
 }: AddToCartProps) {
     const [quantity, setQuantity] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -91,6 +102,16 @@ export default function AddToCart({
     const variantInStock = hasOptions
         ? (matchedVariant ? matchedVariant.inStock : true)
         : true;
+
+    // Fire callbacks when selected variant changes
+    useEffect(() => {
+        if (matchedVariant?.formattedPrice && onPriceChange) {
+            onPriceChange(matchedVariant.formattedPrice);
+        }
+        if (matchedVariant?.imageUrl && onImageChange) {
+            onImageChange(matchedVariant.imageUrl);
+        }
+    }, [matchedVariant, onPriceChange, onImageChange]);
 
     const handleAddToCart = async () => {
         if (!isReady || !allOptionsSelected || !variantInStock) return;

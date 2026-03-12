@@ -15,6 +15,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Proxy Wix's internal API routes (checkout cookies, auth, etc.)
+        // This is required for Wix Headless checkout on custom domains
+        {
+          source: "/_api/:path*",
+          destination: "https://www.josepja.com/_api/:path*",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   images: {
     remotePatterns: [
       {

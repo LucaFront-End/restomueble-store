@@ -17,18 +17,23 @@ export const revalidate = 3600;
 
 // Generar rutas estáticas para AMBOS tipos de páginas
 export async function generateStaticParams() {
-    const [cmsLandings, storeLandings] = await Promise.all([
-        getAllLandings(),
-        getAllStoreLandings(),
-    ]);
+    try {
+        const [cmsLandings, storeLandings] = await Promise.all([
+            getAllLandings(),
+            getAllStoreLandings(),
+        ]);
 
-    const landingSlugs = cmsLandings.length > 0
-        ? cmsLandings.map((l) => ({ landing: l.slug }))
-        : landingsDataFallback.map((l) => ({ landing: l.slug }));
+        const landingSlugs = cmsLandings.length > 0
+            ? cmsLandings.map((l) => ({ landing: l.slug }))
+            : landingsDataFallback.map((l) => ({ landing: l.slug }));
 
-    const storeSlugs = storeLandings.map((s) => ({ landing: s.slug }));
+        const storeSlugs = storeLandings.map((s) => ({ landing: s.slug }));
 
-    return [...landingSlugs, ...storeSlugs];
+        return [...landingSlugs, ...storeSlugs];
+    } catch (e) {
+        console.error("Error fetching landings for static params:", e);
+        return [];
+    }
 }
 
 // Metadata dinámica para SEO
@@ -266,7 +271,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                                 </svg>
                             </Link>
                             <a
-                                href="https://wa.me/525512345678?text=Hola,%20me%20interesa%20cotizar%20mobiliario"
+                                href="https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white border border-white/40 px-8 py-4 font-semibold transition-all shadow-lg text-shadow-sm"
@@ -472,7 +477,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                             Explorar Catálogo
                         </Link>
                         <a
-                            href="https://wa.me/525512345678?text=Hola,%20me%20interesa%20cotizar%20mobiliario%20para%20mi%20restaurante"
+                            href="https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario%20para%20mi%20restaurante"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-10 py-5 font-bold text-lg transition-all hover:scale-105 shadow-xl"

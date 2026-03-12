@@ -1,10 +1,8 @@
 import { getWixServerClient } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
-import { ProductGallery } from "@/components/catalogue/ProductGallery";
-import { ProductInfo } from "@/components/catalogue/ProductInfo";
+import ProductPageClient from "./ProductPageClient";
+import { ReviewsSection } from "@/components/catalogue/ReviewsSection";
 import { RelatedProducts } from "@/components/catalogue/RelatedProducts";
-import AddToCart from "./AddToCart";
-import ShippingCalculator from "@/components/ShippingCalculator";
 
 export const revalidate = 60; // Revalidate product pages every 60 seconds
 
@@ -90,43 +88,18 @@ export default async function ProductoPage({ params }: PageProps) {
         notFound();
     }
 
-    const mainImage = product.media?.mainMedia?.image?.url || "/placeholder-product.png";
-    const gallery = product.media?.items || [];
-    const price = product.priceData?.formatted?.price || "$0";
-    const description = product.description || "";
-
     return (
         <main className="bg-white min-h-screen pt-[var(--header-height)]">
             <div className="container mx-auto px-6 py-12 md:py-24">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
-                    {/* Left: Gallery */}
-                    <ProductGallery
-                        mainImage={mainImage}
-                        gallery={gallery}
-                        productName={product.name || "Producto"}
-                    />
-
-                    {/* Right: Info (Sticky) */}
-                    <div className="relative">
-                        <ProductInfo
-                            title={product.name || "Producto"}
-                            price={price}
-                            description={description}
-                        >
-                            <AddToCart
-                                productId={product._id || ""}
-                                productName={product.name || ""}
-                                productOptions={product.productOptions || []}
-                                variants={product.variants || []}
-                            />
-                            <ShippingCalculator />
-                        </ProductInfo>
-                    </div>
-                </div>
+                <ProductPageClient product={product} />
             </div>
 
-            {/* Related Products Section (Full Width Background ideally, but container constrained here) */}
+            {/* Reviews Section */}
+            <ReviewsSection productName={product.name || "Producto"} />
+
+            {/* Related Products Section */}
             <RelatedProducts currentProductId={product._id || ""} products={relatedProducts} />
         </main>
     );
 }
+

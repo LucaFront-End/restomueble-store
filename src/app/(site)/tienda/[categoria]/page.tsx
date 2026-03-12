@@ -28,7 +28,12 @@ async function getProducts(collectionId?: string) {
 }
 
 export async function generateStaticParams() {
-    return getAllCollectionSlugs().map((slug) => ({ categoria: slug }));
+    try {
+        return getAllCollectionSlugs().map((slug) => ({ categoria: slug }));
+    } catch (e) {
+        console.error("Error fetching collection slugs:", e);
+        return [];
+    }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -83,8 +88,8 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
                                 key={cat.slug}
                                 href={`/tienda/${cat.slug}`}
                                 className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${cat.slug === categoria
-                                        ? "bg-[var(--brand-navy)] text-white"
-                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    ? "bg-[var(--brand-navy)] text-white"
+                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                     }`}
                             >
                                 {cat.name}

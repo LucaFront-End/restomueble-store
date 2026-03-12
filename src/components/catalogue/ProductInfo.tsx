@@ -63,8 +63,11 @@ const AccordionItem = ({
 };
 
 export const ProductInfo = ({ title, price, description, children, slug }: ProductInfoProps) => {
-    const whatsappMessage = `Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
-    const whatsappUrl = `https://wa.me/5215512345678?text=${encodeURIComponent(whatsappMessage)}`; // Replace with actual number if provided, using dummy for now or previous context if available. User didn't specify number, using generic placeholder logic or specific if I find one. Checking codebase for context... actually I'll use a placeholder and ask user to confirm number or search for it.
+    const whatsappNumber = "525551147772";
+    const whatsappBuyMessage = `Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
+    const whatsappBuyUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappBuyMessage)}`;
+    const whatsappMayoreoMessage = `Sw Mayoreo ${title}`;
+    const whatsappMayoreoUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMayoreoMessage)}`;
 
     return (
         <div className="sticky top-32 space-y-8 px-4 md:px-0 font-sans">
@@ -115,7 +118,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
 
                 {/* WhatsApp Button */}
                 <Link
-                    href={whatsappUrl}
+                    href={whatsappBuyUrl}
                     target="_blank"
                     className="w-full py-4 bg-[#25D366] text-white font-bold text-sm hover:bg-[#128C7E] transition-all duration-300 flex items-center justify-center gap-2 rounded-sm uppercase tracking-wider"
                 >
@@ -125,13 +128,17 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                     COMPRAR POR WHATSAPP
                 </Link>
 
-                {/* Secondary B2B CTA */}
-                <button className="w-full py-4 border border-gray-200 text-gray-600 font-semibold text-sm hover:border-gray-900 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 group">
+                {/* Secondary B2B CTA — Wholesale via WhatsApp */}
+                <Link
+                    href={whatsappMayoreoUrl}
+                    target="_blank"
+                    className="w-full py-4 border border-gray-200 text-gray-600 font-semibold text-sm hover:border-gray-900 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 group"
+                >
                     <span>SOLICITAR COTIZACIÓN POR VOLUMEN</span>
                     <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                </button>
+                </Link>
 
                 <p className="text-center text-xs text-gray-400">
                     Descuentos especiales para hoteles y restaurantes a partir de 10 unidades.

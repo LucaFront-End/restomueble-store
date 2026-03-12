@@ -71,8 +71,12 @@ export default function CartPage() {
                 },
             });
 
+            console.log("[Checkout] redirectSession.fullUrl:", redirectSession?.fullUrl);
+
             if (redirectSession?.fullUrl) {
                 window.location.href = redirectSession.fullUrl;
+            } else {
+                throw new Error("No se recibió URL de checkout");
             }
         } catch (error) {
             console.error("Error creating checkout:", error);
