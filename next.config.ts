@@ -18,11 +18,18 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        // Proxy Wix's internal API routes (checkout cookies, auth, etc.)
-        // This is required for Wix Headless checkout on custom domains
+        // Proxy Wix internal routes to the actual Wix backend.
+        // josepja.com DNS points to Vercel, so /_api and /__ecom paths
+        // need to be forwarded to Wix's servers for checkout to work.
         {
           source: "/_api/:path*",
-          destination: "https://www.josepja.com/_api/:path*",
+          destination:
+            "https://lobomercadologomx.wixsite.com/josepja/_api/:path*",
+        },
+        {
+          source: "/__ecom/:path*",
+          destination:
+            "https://lobomercadologomx.wixsite.com/josepja/__ecom/:path*",
         },
       ],
       afterFiles: [],

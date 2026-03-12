@@ -63,40 +63,19 @@ export default function CartPage() {
                 channelType: cart.ChannelType.WEB,
             });
 
-            const { redirectSession } = await wixClient.redirects.createRedirectSession({
-                ecomCheckout: { checkoutId: checkout.checkoutId },
-                callbacks: {
-                    postFlowUrl: window.location.origin + "/gracias",
-                    thankYouPageUrl: window.location.origin + "/gracias",
-                },
-            });
-
-            console.log("[Checkout] redirectSession.fullUrl:", redirectSession?.fullUrl);
-
-            if (redirectSession?.fullUrl) {
-                let checkoutUrl = redirectSession.fullUrl;
-
-                // Wix Headless fix: when the domain is connected in Wix but DNS
-                // points to Vercel, Wix returns a cookie-setting URL on our domain
-                // (josepja.com/_api/iam/cookie/...) which 404s. The REAL checkout
-                // URL is inside the "redirectUrl" query parameter — extract it.
-                if (checkoutUrl.includes("/_api/iam/cookie/")) {
-                    try {
-                        const url = new URL(checkoutUrl);
-                        const realRedirect = url.searchParams.get("redirectUrl");
-                        if (realRedirect) {
-                            console.log("[Checkout] Bypassing cookie URL, redirecting to:", realRedirect);
-                            checkoutUrl = realRedirect;
-                        }
-                    } catch (e) {
-                        console.warn("[Checkout] Could not parse redirect URL, using original");
-                    }
-                }
-
-                window.location.href = checkoutUrl;
-            } else {
-                throw new Error("No se recibió URL de checkout");
+            const checkoutId = checkout.checkoutId;
+            if (!checkoutId) {
+                throw new Error("No se recibió checkoutId");
             }
+
+            // Build Wix checkout URL directly — bypasses createRedirectSession
+            // which has redirect URL validation issues with custom domains.
+            const WIX_SITE = "lobomercadologomx.wixsite.com/josepja";
+            const thankYouUrl = encodeURIComponent(window.location.origin + "/gracias");
+            const checkoutUrl = `https://${WIX_SITE}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+
+            console.log("[Checkout] Redirecting to:", checkoutUrl);
+            window.location.href = checkoutUrl;
         } catch (error) {
             console.error("Error creating checkout:", error);
             alert("Error al procesar. Intenta de nuevo.");
