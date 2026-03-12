@@ -74,7 +74,26 @@ export default function CartPage() {
             console.log("[Checkout] redirectSession.fullUrl:", redirectSession?.fullUrl);
 
             if (redirectSession?.fullUrl) {
-                window.location.href = redirectSession.fullUrl;
+                let checkoutUrl = redirectSession.fullUrl;
+
+                // Wix Headless fix: when the domain is connected in Wix but DNS
+                // points to Vercel, Wix returns a cookie-setting URL on our domain
+                // (josepja.com/_api/iam/cookie/...) which 404s. The REAL checkout
+                // URL is inside the "redirectUrl" query parameter — extract it.
+                if (checkoutUrl.includes("/_api/iam/cookie/")) {
+                    try {
+                        const url = new URL(checkoutUrl);
+                        const realRedirect = url.searchParams.get("redirectUrl");
+                        if (realRedirect) {
+                            console.log("[Checkout] Bypassing cookie URL, redirecting to:", realRedirect);
+                            checkoutUrl = realRedirect;
+                        }
+                    } catch (e) {
+                        console.warn("[Checkout] Could not parse redirect URL, using original");
+                    }
+                }
+
+                window.location.href = checkoutUrl;
             } else {
                 throw new Error("No se recibió URL de checkout");
             }
