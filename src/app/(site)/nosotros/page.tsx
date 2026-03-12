@@ -32,7 +32,7 @@ const valores = [
 ];
 
 const hitos = [
-    { year: "1994", event: "Fundación de Restomueble como taller artesanal en la CDMX." },
+    { year: "1994", event: "Fundación de Josepja como taller artesanal en la CDMX." },
     { year: "2005", event: "Primera línea industrializada para cadenas de restaurantes." },
     { year: "2012", event: "Expansión a nivel nacional equipando hoteles premium en Cancún." },
     { year: "2024", event: "Lanzamiento de nuestra división de diseño digital y catálogo interactivo." }
@@ -64,7 +64,7 @@ export default function NosotrosPage() {
                             <div className="aspect-[3/4] relative rounded-lg overflow-hidden shadow-2xl">
                                 <Image
                                     src="/images/about-craft-new.png" // Updated to New Image
-                                    alt="Artesanía Restomueble"
+                                    alt="Artesanía Josepja"
                                     fill
                                     className="object-cover hover:scale-105 transition-transform duration-[1.5s]"
                                 />
@@ -202,7 +202,7 @@ export default function NosotrosPage() {
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/images/about-workshop-new.png" // Updated to New Image
-                        alt="Taller Restomueble"
+                        alt="Taller Josepja"
                         fill
                         className="object-cover"
                     />

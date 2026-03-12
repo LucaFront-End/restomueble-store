@@ -318,7 +318,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div className="order-2 lg:order-1">
                             <span className="text-[var(--accent)] font-semibold text-sm tracking-wider uppercase mb-4 block">
-                                ¿Por qué Restomueble?
+                                ¿Por qué Josepja?
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
                                 Fabricación Especializada para {landing.ciudad}

@@ -14,8 +14,8 @@ const contactInfo = [
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
             </svg>
         ),
-        label: "Showroom Central",
-        value: "Av. Prado Norte 450, Lomas de Chapultepec, CDMX",
+        label: "Ubicación",
+        value: "C. 7, Codice Mendocino, 55236 Ecatepec de Morelos, Méx.",
         desc: "Visitas bajo previa cita para atención personalizada."
     },
     {
@@ -25,8 +25,8 @@ const contactInfo = [
             </svg>
         ),
         label: "Email Corporativo",
-        value: "hola@restomueble.mx",
-        href: "mailto:hola@restomueble.mx",
+        value: "ventas@josepja.com",
+        href: "mailto:ventas@josepja.com",
         desc: "Cotizaciones y propuestas comerciales."
     },
     {
@@ -36,8 +36,8 @@ const contactInfo = [
             </svg>
         ),
         label: "Línea Directa",
-        value: "+52 55 8902 4431",
-        href: "tel:+525589024431",
+        value: "+52 55 5114 7772",
+        href: "tel:+525551147772",
         desc: "Atención inmediata Lun - Vie 9:00 - 18:00."
     }
 ];
@@ -123,9 +123,9 @@ export default function ContactoPage() {
                             <div className="relative pt-12">
                                 <div className="absolute top-0 left-0 w-12 h-px bg-gray-100" />
                                 <div className="flex items-center gap-12 opacity-20 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700 cursor-default">
-                                    <span className="font-serif text-4xl text-gray-900">RESTO</span>
+                                    <span className="font-serif text-4xl text-gray-900">JOSE</span>
                                     <div className="w-2 h-2 rounded-full bg-[var(--accent)]" />
-                                    <span className="font-serif text-4xl text-gray-900">MUEBLE</span>
+                                    <span className="font-serif text-4xl text-gray-900">PJA</span>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +232,7 @@ export default function ContactoPage() {
                                             </div>
                                             <h3 className="text-4xl md:text-5xl font-serif text-white mb-6">¡Propuesta en camino!</h3>
                                             <p className="text-white/60 text-lg font-light leading-relaxed mb-12">
-                                                Gracias por confiar en Restomueble. Un asesor especializado revisará los detalles de tu proyecto y te contactará en las próximas 24 horas hábiles.
+                                                Gracias por confiar en Josepja. Un asesor especializado revisará los detalles de tu proyecto y te contactará en las próximas 24 horas hábiles.
                                             </p>
                                             <button
                                                 onClick={() => setIsSubmitted(false)}

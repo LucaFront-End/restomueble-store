@@ -8,7 +8,7 @@ import "./HeroCarousel.css";
 const SLIDES = [
     {
         id: 0,
-        preTitle: "Mobiliario para hostelería",
+        preTitle: "Mobiliario para restaurantes",
         bgTitle: "JOSEPJA",
         desc: "Fabricamos mobiliario industrial a medida para restaurantes, antros y hoteles. Diseño de autor, producción nacional.",
         cta: "Ver Catálogo",
@@ -18,7 +18,7 @@ const SLIDES = [
     },
     {
         id: 1,
-        preTitle: "Para tu restaurante",
+        preTitle: "Mesas y sillas resistentes",
         bgTitle: "RESTAURANTES",
         desc: "Mesas y sillas fabricadas a medida para el ritmo de un restaurante. Resistentes, apilables y con diseño de autor.",
         cta: "Ver Sillas",
@@ -28,7 +28,7 @@ const SLIDES = [
     },
     {
         id: 2,
-        preTitle: "Para tu antro",
+        preTitle: "Periqueras y bancos de barra",
         bgTitle: "ANTROS",
         desc: "Periqueras y bancos de barra con estructura de acero y madera. El statement que tu espacio nocturno necesita.",
         cta: "Ver Periqueras",
@@ -38,7 +38,7 @@ const SLIDES = [
     },
     {
         id: 3,
-        preTitle: "Para tus eventos",
+        preTitle: "Mobiliario de gala",
         bgTitle: "EVENTOS",
         desc: "Sillas Tiffany y mobiliario de gala para bodas, banquetes y eventos corporativos. Elegancia que se renta.",
         cta: "Cotizar",

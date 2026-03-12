@@ -35,6 +35,8 @@ function createCookieTokenStorage() {
     };
 }
 
+import { items } from "@wix/data";
+
 function buildWixClient() {
     return createClient({
         modules: {
@@ -42,6 +44,7 @@ function buildWixClient() {
             currentCart,
             orders,
             redirects,
+            items,
         },
         auth: OAuthStrategy({
             clientId: WIX_CLIENT_ID,

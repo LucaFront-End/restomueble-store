@@ -68,10 +68,10 @@ export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params;
     const product = await getProduct(slug);
 
-    if (!product) return { title: "Producto no encontrado | Restomueble" };
+    if (!product) return { title: "Producto no encontrado | Josepja" };
 
     return {
-        title: `${product.name} | Restomueble`,
+        title: `${product.name} | Josepja`,
         description: product.description?.substring(0, 160) || "Mobiliario premium para hospitalidad.",
         openGraph: {
             images: [product.media?.mainMedia?.image?.url || ""],

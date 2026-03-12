@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useContext, useState } from "react";
+import { WixContext } from "@/context/wixContext";
 
 /**
  * FOOTER PREMIUM - "THE EDITORIAL STATEMENT"
  * 
  * Un diseño de pie de página inspirado en revistas de arquitectura y diseño de lujo.
- * Combina tipografía masiva con espacios en blanco (o negro) generosos y detalles 
- * minimalistas que refuerzan la identidad de Restomueble.
  */
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const { wixClient } = useContext(WixContext);
+    const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
     // Enlaces de navegación organizados
     const navLinks = [
@@ -30,11 +32,11 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-[var(--brand-navy-deep)] text-white pt-16 md:pt-32 pb-8 md:pb-12 border-t border-white/5 font-[var(--font-body)]">
+        <footer className="bg-[var(--brand-navy-deep)] text-white pt-12 md:pt-20 pb-8 md:pb-12 border-t border-white/5 font-[var(--font-body)]">
             <div className="container px-6 mx-auto">
 
                 {/* BRAND STATEMENT: El cierre visual fuerte de la web */}
-                <div className="mb-12 md:mb-24 border-b border-white/10 pb-12 md:pb-20">
+                <div className="mb-10 md:mb-16 border-b border-white/10 pb-10 md:pb-16">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                         <div className="max-w-2xl">
                             <motion.div
@@ -46,7 +48,7 @@ const Footer = () => {
                                 <img
                                     src="/logo-footer.png"
                                     alt="Josepja"
-                                    className="h-36 md:h-48 w-auto object-contain"
+                                    className="h-24 md:h-32 w-auto object-contain"
                                 />
                             </motion.div>
                             <p className="text-base md:text-xl text-gray-400 font-light leading-relaxed italic font-[var(--font-heading)]">
@@ -56,17 +58,56 @@ const Footer = () => {
 
                         {/* Newsletter minimalista y elegante */}
                         <div className="w-full md:w-80">
-                            <p className="text-xs uppercase tracking-[0.3em] mb-4 md:mb-6 font-bold" style={{ color: '#FFFFFF' }}>Newsletter</p>
-                            <div className="relative group">
-                                <input
-                                    type="email"
-                                    placeholder="Tu correo"
-                                    className="w-full bg-transparent border-b border-white/20 py-3 md:py-4 pr-0 md:pr-28 focus:outline-none focus:border-[var(--accent)] transition-all duration-500 placeholder:text-gray-700 text-sm md:text-base min-h-[44px]"
-                                />
-                                <button className="mt-3 md:mt-0 md:absolute md:right-0 md:bottom-4 text-xs md:text-sm text-gray-400 group-hover:text-white transition-colors tracking-wider font-medium min-h-[44px] md:min-h-0">
-                                    SUSCRIBIRSE →
-                                </button>
-                            </div>
+                            <p className="text-xs uppercase tracking-[0.3em] mb-4 md:mb-6 font-bold" style={{ color: '#FFFFFF' }}>Descargar Catálogo</p>
+                            <p className="text-xs text-gray-500 mb-3">Dejá tu correo y descargá nuestro catálogo completo en PDF.</p>
+                            <form
+                                onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const input = (e.target as HTMLFormElement).querySelector('input') as HTMLInputElement;
+                                    const email = input?.value?.trim();
+                                    if (!email) return;
+
+                                    setNewsletterStatus("loading");
+                                    try {
+                                        await wixClient.items.insert("NewsletterSuscripciones", {
+                                            email,
+                                            fecha: new Date().toISOString(),
+                                            origen: "catalogo-footer",
+                                        });
+                                        setNewsletterStatus("success");
+                                        window.open('/catalogo-josepja.pdf', '_blank');
+                                        input.value = '';
+                                    } catch (err) {
+                                        console.error("[Newsletter] Error saving to CMS:", err);
+                                        // Download anyway even if CMS save fails
+                                        window.open('/catalogo-josepja.pdf', '_blank');
+                                        setNewsletterStatus("error");
+                                    }
+                                }}
+                            >
+                                <div className="relative group">
+                                    <input
+                                        type="email"
+                                        placeholder="Tu correo electrónico"
+                                        required
+                                        disabled={newsletterStatus === "loading"}
+                                        className="w-full bg-transparent border-b border-white/20 py-3 md:py-4 pr-0 md:pr-28 focus:outline-none focus:border-[var(--accent)] transition-all duration-500 placeholder:text-gray-700 text-sm md:text-base min-h-[44px] disabled:opacity-50"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={newsletterStatus === "loading"}
+                                        className="mt-3 md:mt-0 md:absolute md:right-0 md:bottom-4 text-xs md:text-sm text-gray-400 group-hover:text-white transition-colors tracking-wider font-medium min-h-[44px] md:min-h-0 disabled:opacity-50"
+                                    >
+                                        {newsletterStatus === "loading" ? "ENVIANDO..." : "DESCARGAR →"}
+                                    </button>
+                                </div>
+                                {newsletterStatus === "success" && (
+                                    <p className="text-xs text-green-400 mt-2">¡Gracias! Tu catálogo se está descargando.</p>
+                                )}
+                                {newsletterStatus === "error" && (
+                                    <p className="text-xs text-yellow-400 mt-2">Descargando catálogo...</p>
+                                )}
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -77,20 +118,20 @@ const Footer = () => {
                     {/* Columna: Contacto Rápido */}
                     <div className="col-span-1 md:col-span-4 space-y-6 md:space-y-8">
                         <div>
-                            <h4 className="text-xs uppercase tracking-[0.3em] mb-8 font-bold" style={{ color: '#FFFFFF' }}>Showroom México</h4>
-                            <div className="space-y-4 text-gray-400 text-sm">
-                                <p className="leading-relaxed hover:text-white transition-colors cursor-default">
-                                    Av. Prado Norte 450, Lomas de Chapultepec,<br />
-                                    CDMX, CP 11000
-                                </p>
-                                <p className="pt-2">
-                                    <a href="mailto:hola@restomueble.mx" className="text-white hover:text-[var(--accent)] transition-colors border-b border-white/10 italic">
-                                        hola@restomueble.mx
-                                    </a>
-                                </p>
-                                <p className="font-mono text-[13px]">+52 55 8902 4431</p>
-                            </div>
+                        <h4 className="text-xs uppercase tracking-[0.3em] mb-8 font-bold" style={{ color: '#FFFFFF' }}>Contacto</h4>
+                        <div className="space-y-4 text-gray-400 text-sm">
+                            <p className="leading-relaxed hover:text-white transition-colors cursor-default">
+                                C. 7, Codice Mendocino,<br />
+                                55236 Ecatepec de Morelos, Méx.
+                            </p>
+                            <p className="pt-2">
+                                <a href="mailto:ventas@josepja.com" className="text-white hover:text-[var(--accent)] transition-colors border-b border-white/10 italic">
+                                    ventas@josepja.com
+                                </a>
+                            </p>
+                            <p className="font-mono text-[13px]">+52 55 5114 7772</p>
                         </div>
+                    </div>
 
                         {/* Redes Sociales - Glassmorphism discreto */}
                         <div className="flex gap-4 pt-4">
@@ -145,7 +186,7 @@ const Footer = () => {
                 <div className="pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
                     <div className="flex items-center gap-10">
                         <p className="text-[10px] uppercase tracking-widest text-gray-600">
-                            © {currentYear} Restomueble Group.
+                            © {currentYear} Josepja.
                         </p>
                         <div className="hidden md:flex gap-6">
                             <Link href="/privacidad" className="text-[10px] uppercase tracking-widest text-gray-600 hover:text-white transition-colors">Privacy</Link>

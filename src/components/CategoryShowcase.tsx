@@ -9,7 +9,7 @@ const categories = [
     {
         id: "firme",
         slug: "mesas",
-        title: "Restomueble FIRME",
+        title: "Josepja FIRME",
         productName: "Mesa Bar Industrial",
         description: "Estabilidad superior y acabados de uso rudo para los espacios más exigentes.",
         image: "/product-firme.png",
@@ -17,7 +17,7 @@ const categories = [
     {
         id: "cafe",
         slug: "sillas",
-        title: "Restomueble CAFÉ",
+        title: "Josepja CAFÉ",
         productName: "Silla Minimalista Cuero",
         description: "Elegancia atemporal combinada con la ergonomía necesaria para largas estancias.",
         image: "/product-cafe.png",
@@ -25,7 +25,7 @@ const categories = [
     {
         id: "pro",
         slug: "bancos",
-        title: "Restomueble PRO",
+        title: "Josepja PRO",
         productName: "Banco Industrial PRO",
         description: "Diseño industrial puro con durabilidad estructural garantizada.",
         image: "/product-pro.png",
@@ -33,7 +33,7 @@ const categories = [
     {
         id: "hotel",
         slug: "hotel",
-        title: "Restomueble HOTEL",
+        title: "Josepja HOTEL",
         productName: "Sillón Lounge Velvet",
         description: "Confort premium y diseño sofisticado para lobbies y zonas de descanso.",
         image: "/product-hotel.png",
@@ -41,7 +41,7 @@ const categories = [
     {
         id: "evento",
         slug: "eventos",
-        title: "Restomueble EVENTO",
+        title: "Josepja EVENTO",
         productName: "Silla Apilable Elite",
         description: "La solución definitiva para eventos masivos: ligereza, fuerza y almacenamiento eficiente.",
         image: "/product-evento.png",

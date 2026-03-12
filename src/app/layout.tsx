@@ -16,9 +16,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Restomueble | Fabricación de Mobiliario para Restaurantes",
-  description: "Diseño y fabricación de mobiliario a medida para restaurantes, hoteles y oficinas. Más de 15 años de experiencia. Garantía de calidad.",
-  keywords: ["muebles restaurante", "sillas restaurante", "mesas", "mobiliario", "fabricación México"],
+  title: "Josepja Muebles para Restaurantes | Mesas para Restaurantes y Cafeterías | Mesas y sillas",
+  description: "Diseño y fabricación de mobiliario a medida para restaurantes, hoteles y oficinas. Más de 30 años de experiencia. Garantía de calidad.",
+  keywords: ["muebles restaurante", "sillas restaurante", "mesas restaurante", "mesas cafetería", "mobiliario", "fabricación México", "Josepja"],
 };
 
 export default function RootLayout({

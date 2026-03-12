@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCataloguePopup } from "@/context/cataloguePopupContext";
+import { WixContext } from "@/context/wixContext";
 
 const CataloguePopup = () => {
     const { isOpen, closePopup } = useCataloguePopup();
+    const { wixClient } = useContext(WixContext);
     const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -55,16 +57,21 @@ const CataloguePopup = () => {
         setIsSubmitting(true);
 
         try {
-            // TODO: Save lead to Wix CMS or Supabase
-            // For now, we simulate a delay and trigger the download
-            await new Promise((resolve) => setTimeout(resolve, 1200));
+            // Save lead to Wix CMS
+            await wixClient.items.insert("NewsletterSuscripciones", {
+                email: formData.email,
+                nombre: formData.name,
+                telefono: formData.phone,
+                fecha: new Date().toISOString(),
+                origen: "catalogo-popup",
+            });
 
             // Trigger PDF download
             // Replace with real catalogue PDF URL when available
-            const pdfUrl = "/catalogo-restomueble.pdf";
+            const pdfUrl = "/catalogo-josepja.pdf";
             const link = document.createElement("a");
             link.href = pdfUrl;
-            link.download = "Catalogo-Restomueble-2025.pdf";
+            link.download = "Catalogo-Josepja.pdf";
             link.click();
 
             setIsSuccess(true);

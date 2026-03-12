@@ -265,7 +265,7 @@ export default function ProyectosPage() {
                             <div className="aspect-[4/5] relative rounded-[2rem] overflow-hidden shadow-2xl">
                                 <Image
                                     src="/images/projects/cafe.jpg" // Placeholder reused (assuming duplicate was done)
-                                    alt="Servicio Restomueble"
+                                    alt="Servicio Josepja"
                                     fill
                                     className="object-cover"
                                 />

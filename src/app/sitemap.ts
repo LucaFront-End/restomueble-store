@@ -2,7 +2,7 @@ import { getWixServerClient } from "@/lib/wixClientServer";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://restomueble.mx";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://josepja.com";
 
     // Páginas estáticas
     const staticPages: MetadataRoute.Sitemap = [

@@ -49,14 +49,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const collection = getCollectionBySlug(categoria);
 
     if (!collection) {
-        return { title: "Colección no encontrada | Restomueble" };
+        return { title: "Colección no encontrada | Josepja" };
     }
 
     return {
-        title: `${collection.name} | Restomueble — Mobiliario Premium`,
+        title: `${collection.name} | Josepja — Mobiliario Premium`,
         description: collection.description,
         openGraph: {
-            title: `${collection.name} | Restomueble`,
+            title: `${collection.name} | Josepja`,
             description: collection.description,
         },
     };

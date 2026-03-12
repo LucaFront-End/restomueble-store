@@ -11,7 +11,7 @@ const sections = [
         title: "Historia",
         heading: "30+ años fabricando el legado de México",
         description:
-            "Desde 1990, en Restomueble hemos dedicado cada jornada a crear mobiliario que resiste al paso del tiempo. Comenzamos en un pequeño taller en la CDMX y hoy somos referentes en la industria.",
+            "Desde 1990, en Josepja hemos dedicado cada jornada a crear mobiliario que resiste al paso del tiempo. Comenzamos en un pequeño taller en la CDMX y hoy somos referentes en la industria.",
         stats: [
             { value: "30+", label: "AÑOS" },
             { value: "500+", label: "PROYECTOS" },

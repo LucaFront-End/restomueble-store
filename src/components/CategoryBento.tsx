@@ -201,7 +201,7 @@ const CategoryBento = ({ content = {} }: CategoryBentoProps) => {
                                         {/* Micro Label with Brand Color Highlight */}
                                         <div className="inline-block mb-2 md:mb-3 px-2.5 md:px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:border-[#FFD700]/50 transition-colors">
                                             <p className="text-[9px] md:text-[10px] font-bold tracking-[0.15em] text-white/80 uppercase">
-                                                Restomueble
+                                                Josepja
                                             </p>
                                         </div>
 
