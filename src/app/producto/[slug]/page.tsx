@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ProductPageClient from "./ProductPageClient";
 import { ReviewsSection } from "@/components/catalogue/ReviewsSection";
 import { RelatedProducts } from "@/components/catalogue/RelatedProducts";
+import { getColorsByProduct } from "@/lib/wixCmsColores";
 
 export const revalidate = 60; // Revalidate product pages every 60 seconds
 
@@ -88,10 +89,14 @@ export default async function ProductoPage({ params }: PageProps) {
         notFound();
     }
 
+    // Fetch color/material combinations from the "CMS Colores" CMS collection.
+    // Matches by slug (Referencia field) — the most precise product identifier.
+    const colorData = await getColorsByProduct(product.slug || "");
+
     return (
         <main className="bg-white min-h-screen pt-[var(--header-height)]">
             <div className="container mx-auto px-6 py-12 md:py-24">
-                <ProductPageClient product={product} />
+                <ProductPageClient product={product} colorData={colorData} />
             </div>
 
             {/* Reviews Section */}

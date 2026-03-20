@@ -4,13 +4,16 @@ import { useState } from "react";
 import { ProductGallery } from "@/components/catalogue/ProductGallery";
 import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import AddToCart from "./AddToCart";
+import ColorSelector from "./ColorSelector";
 import ShippingCalculator from "@/components/ShippingCalculator";
+import type { ColorCombination } from "@/lib/wixCmsColores";
 
 interface ProductPageClientProps {
     product: any; // Raw Wix Product — types are all-optional with nulls
+    colorData?: ColorCombination[];
 }
 
-export default function ProductPageClient({ product }: ProductPageClientProps) {
+export default function ProductPageClient({ product, colorData = [] }: ProductPageClientProps) {
     const mainImage = product.media?.mainMedia?.image?.url || "/placeholder-product.png";
     const gallery = product.media?.items || [];
     const basePrice = product.priceData?.formatted?.price || "$0";
@@ -44,9 +47,17 @@ export default function ProductPageClient({ product }: ProductPageClientProps) {
                         onPriceChange={(formattedPrice) => setCurrentPrice(formattedPrice)}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
                     />
+
+                    {/* Color/Material selectors — visual only, no price impact */}
+                    <ColorSelector
+                        colorData={colorData}
+                        onImageChange={(imageUrl) => setExternalImage(imageUrl)}
+                    />
+
                     <ShippingCalculator />
                 </ProductInfo>
             </div>
         </div>
     );
 }
+

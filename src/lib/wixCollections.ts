@@ -36,6 +36,12 @@ export const COLLECTIONS: WixCollection[] = [
         description: "Conjuntos completos de mobiliario para equipar tu espacio.",
         wixId: "10312fa4-6afc-4258-bf01-d24bb61122a5",
     },
+    {
+        slug: "salas-lounge",
+        name: "Salas Lounge",
+        description: "Salas lounge y mobiliario de descanso para espacios de hospitalidad.",
+        wixId: "8a850e35-ab0f-41f4-9e4b-6dc957337ddb",
+    },
 ];
 
 /**
