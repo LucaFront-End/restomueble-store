@@ -6,7 +6,7 @@ import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import AddToCart from "./AddToCart";
 import ColorSelector from "./ColorSelector";
 import ShippingCalculator from "@/components/ShippingCalculator";
-import DeliveryConditions from "@/components/DeliveryConditions";
+
 import type { ColorCombination } from "@/lib/wixCmsColores";
 
 interface ProductPageClientProps {
@@ -56,7 +56,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                     />
 
                     <ShippingCalculator />
-                    <DeliveryConditions />
+
                 </ProductInfo>
             </div>
         </div>

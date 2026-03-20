@@ -159,8 +159,14 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                     />
                     {/* Removed Dimensions & Specifications as requested */}
                     <AccordionItem
-                        title="Tiempos de Entrega & Garantía"
-                        content="Envío inmediato (2-5 días hábiles) para productos en stock. Fabricación especial: 15-20 días hábiles. Garantía de 3 años contra defectos de fabricación."
+                        title="Condiciones de Entrega & Garantía"
+                        html={`
+                            <p style="margin-bottom:12px">Las entregas a domicilio se programan con anticipación y se realizan en la fecha acordada, dentro de horario abierto, a pie de camión.</p>
+                            <p style="margin-bottom:12px">Una vez generada la nota, el cliente cuenta con <strong>2 días naturales</strong> para solicitar cambios sin costo. Después de este periodo, cualquier modificación generará un cargo adicional.</p>
+                            <p style="margin-bottom:12px">En caso de cancelación, se aplicará una penalización del <strong>20%</strong> del total del pedido.</p>
+                            <p style="margin-bottom:12px">Se otorga una garantía de <strong>12 meses</strong>, válida únicamente por defectos de fabricación en estructura, soldadura y ensambles.</p>
+                            <p style="font-size:11px;color:#999">La garantía no aplica por daños ocasionados por mal uso, sobrecarga de peso, exposición a humedad o condiciones inadecuadas, golpes, desgaste natural o modificaciones realizadas por terceros.</p>
+                        `}
                     />
                 </div>
             </motion.div>
