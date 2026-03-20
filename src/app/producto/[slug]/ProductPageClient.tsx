@@ -6,7 +6,6 @@ import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import AddToCart from "./AddToCart";
 import ColorSelector from "./ColorSelector";
 import ShippingCalculator from "@/components/ShippingCalculator";
-
 import type { ColorCombination } from "@/lib/wixCmsColores";
 
 interface ProductPageClientProps {
@@ -22,6 +21,9 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     // Reactive state: price & image change when a variant is selected
     const [currentPrice, setCurrentPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
+
+    // Track variant selections (Estilo, Terminado, etc.) for conditional color filtering
+    const [variantSelections, setVariantSelections] = useState<Record<string, string>>({});
 
     return (
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
@@ -47,11 +49,13 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         variants={product.variants || []}
                         onPriceChange={(formattedPrice) => setCurrentPrice(formattedPrice)}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
+                        onSelectedOptionsChange={(options) => setVariantSelections(options)}
                     />
 
-                    {/* Color/Material selectors — visual only, no price impact */}
+                    {/* Color/Material selectors — filtered by current variant selections */}
                     <ColorSelector
                         colorData={colorData}
+                        variantSelections={variantSelections}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
                     />
 

@@ -1,46 +1,89 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { ColorCombination } from "@/lib/wixCmsColores";
 import { getDistinctValues, findImageForCombination } from "@/lib/wixCmsColores";
 
 interface ColorSelectorProps {
     colorData: ColorCombination[];
+    /** Currently selected variant options from AddToCart (e.g. {"Estilo:": "Pintura", "Terminados:": "Terminado rústico"}) */
+    variantSelections?: Record<string, string>;
     onImageChange: (imageUrl: string) => void;
+}
+
+/**
+ * Normalize a variant option name for fuzzy matching.
+ * Wix options have trailing colons: "Terminados:" → "terminados"
+ */
+function normalizeKey(key: string): string {
+    return key.replace(/:$/, "").trim().toLowerCase();
+}
+
+/**
+ * Check if a CMS terminado value matches the selected variant terminado.
+ * E.g. CMS has "Terminado rústico brillante", variant has "Terminado rústico brillante"
+ * Uses case-insensitive comparison.
+ */
+function matchesTerminado(cmsValue: string, variantValue: string): boolean {
+    if (!cmsValue || !variantValue) return true; // No filter if either is empty
+    return cmsValue.toLowerCase().trim() === variantValue.toLowerCase().trim();
 }
 
 /**
  * Color/material selector driven by Wix CMS "CMS Colores" data.
  *
- * Shows selectors for Fórmica and Color del Vinil.
- * These ONLY change the product image — they do NOT affect the price.
- * Renders nothing if there's no color data for this product.
+ * Shows selectors for Fórmica and Color del Vinil, filtered by the
+ * currently selected variant options (Estilo, Terminado).
+ *
+ * Chain: Estilo → Terminado → Fórmica → Vinil → Image
  */
-export default function ColorSelector({ colorData, onImageChange }: ColorSelectorProps) {
-    const formicas = useMemo(() => getDistinctValues(colorData, "formica"), [colorData]);
-    const vinilos = useMemo(() => getDistinctValues(colorData, "colorVinil"), [colorData]);
+export default function ColorSelector({ colorData, variantSelections = {}, onImageChange }: ColorSelectorProps) {
+    // Find relevant variant selections by normalizing keys
+    const selectedTerminado = useMemo(() => {
+        for (const [key, value] of Object.entries(variantSelections)) {
+            if (normalizeKey(key).includes("terminado")) return value;
+        }
+        return null;
+    }, [variantSelections]);
 
-    const [selectedFormica, setSelectedFormica] = useState<string | null>(
-        formicas.length > 0 ? formicas[0] : null
-    );
-    const [selectedVinil, setSelectedVinil] = useState<string | null>(
-        vinilos.length > 0 ? vinilos[0] : null
-    );
+    // Filter CMS data based on the selected terminado
+    const filteredData = useMemo(() => {
+        if (!selectedTerminado) return colorData;
+        return colorData.filter(item =>
+            matchesTerminado(item.terminado, selectedTerminado)
+        );
+    }, [colorData, selectedTerminado]);
 
-    // Don't render anything if there's no color data
-    if (colorData.length === 0) return null;
+    const formicas = useMemo(() => getDistinctValues(filteredData, "formica"), [filteredData]);
+    const vinilos = useMemo(() => getDistinctValues(filteredData, "colorVinil"), [filteredData]);
+
+    const [selectedFormica, setSelectedFormica] = useState<string | null>(null);
+    const [selectedVinil, setSelectedVinil] = useState<string | null>(null);
+
+    // Reset selections when filtered options change (e.g. user changed Terminado)
+    useEffect(() => {
+        setSelectedFormica(formicas.length > 0 ? formicas[0] : null);
+        setSelectedVinil(vinilos.length > 0 ? vinilos[0] : null);
+    }, [formicas, vinilos]);
+
+    // When selections change, find and emit the matching image
+    useEffect(() => {
+        if (selectedFormica || selectedVinil) {
+            const imageUrl = findImageForCombination(filteredData, selectedFormica, selectedVinil);
+            if (imageUrl) onImageChange(imageUrl);
+        }
+    }, [selectedFormica, selectedVinil, filteredData, onImageChange]);
+
+    // Don't render anything if there's no color data after filtering
+    if (filteredData.length === 0) return null;
     if (formicas.length === 0 && vinilos.length === 0) return null;
 
     const handleFormicaChange = (value: string) => {
         setSelectedFormica(value);
-        const imageUrl = findImageForCombination(colorData, value, selectedVinil);
-        if (imageUrl) onImageChange(imageUrl);
     };
 
     const handleVinilChange = (value: string) => {
         setSelectedVinil(value);
-        const imageUrl = findImageForCombination(colorData, selectedFormica, value);
-        if (imageUrl) onImageChange(imageUrl);
     };
 
     return (

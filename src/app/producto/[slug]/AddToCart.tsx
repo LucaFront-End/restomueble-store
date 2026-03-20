@@ -56,6 +56,7 @@ interface AddToCartProps {
     variants?: products.Variant[];
     onPriceChange?: (formattedPrice: string) => void;
     onImageChange?: (imageUrl: string) => void;
+    onSelectedOptionsChange?: (options: Record<string, string>) => void;
 }
 
 export default function AddToCart({
@@ -64,6 +65,7 @@ export default function AddToCart({
     variants = [],
     onPriceChange,
     onImageChange,
+    onSelectedOptionsChange,
 }: AddToCartProps) {
     const [quantity, setQuantity] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +114,13 @@ export default function AddToCart({
             onImageChange(matchedVariant.imageUrl);
         }
     }, [matchedVariant, onPriceChange, onImageChange]);
+
+    // Notify parent of selected variant options (for conditional color filtering)
+    useEffect(() => {
+        if (onSelectedOptionsChange) {
+            onSelectedOptionsChange(selectedOptions);
+        }
+    }, [selectedOptions, onSelectedOptionsChange]);
 
     const handleAddToCart = async () => {
         if (!isReady || !allOptionsSelected || !variantInStock) return;
