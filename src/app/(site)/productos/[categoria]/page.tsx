@@ -3,6 +3,7 @@ import { getCollectionBySlug, getAllCollectionSlugs, COLLECTIONS } from "@/lib/w
 import { notFound } from "next/navigation";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
 import { ProductCard } from "@/components/catalogue/ProductCard";
+import ConjuntosFilters, { type ConjuntoProduct } from "@/components/catalogue/ConjuntosFilters";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -123,42 +124,55 @@ export default async function CategoriaPage({ params }: PageProps) {
                 </div>
             </div>
 
-            {/* Products Grid */}
-            <section className="py-12 md:py-20 px-6 bg-white">
-                <div className="container mx-auto max-w-7xl">
-                    {/* Results Count */}
-                    <div className="mb-12 flex justify-between items-center">
-                        <span className="text-xs font-medium uppercase tracking-widest text-gray-400">
-                            Colección: {collection.name}
-                        </span>
-                        <span className="text-xs font-medium uppercase tracking-widest text-gray-400">
-                            {products.length} {products.length === 1 ? "Pieza" : "Piezas"}
-                        </span>
-                    </div>
+            {/* Products: Conjuntos uses special layout with model tabs + type filter */}
+            {categoria === "conjuntos" ? (
+                <ConjuntosFilters
+                    products={products.map((p): ConjuntoProduct => ({
+                        id: p._id || "",
+                        name: p.name || "Producto",
+                        slug: p.slug || "",
+                        imageUrl: p.media?.mainMedia?.image?.url || "/placeholder-product.png",
+                        price: p.priceData?.formatted?.price || "$0",
+                        inStock: p.stock?.inStock ?? true,
+                        isOnSale: p.discount?.type === "PERCENT" || p.discount?.type === "AMOUNT",
+                    }))}
+                />
+            ) : (
+                <section className="py-12 md:py-20 px-6 bg-white">
+                    <div className="container mx-auto max-w-7xl">
+                        <div className="mb-12 flex justify-between items-center">
+                            <span className="text-xs font-medium uppercase tracking-widest text-gray-400">
+                                Colección: {collection.name}
+                            </span>
+                            <span className="text-xs font-medium uppercase tracking-widest text-gray-400">
+                                {products.length} {products.length === 1 ? "Pieza" : "Piezas"}
+                            </span>
+                        </div>
 
-                    {products.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 md:gap-y-20">
-                            {products.map((product, index) => (
-                                <ProductCard key={product._id} product={product} index={index} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-32 bg-gray-50 rounded-2xl">
-                            <p className="text-xl text-[var(--text-secondary)] font-light mb-6">
-                                {collection.wixId
-                                    ? "Todavía no hay productos en esta colección."
-                                    : "Esta colección aún no está vinculada a Wix. Actualiza el wixId en wixCollections.ts."}
-                            </p>
-                            <Link
-                                href="/productos"
-                                className="inline-block border-b border-black text-black text-sm font-bold tracking-widest uppercase pb-1 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
-                            >
-                                Ver Todas las Colecciones
-                            </Link>
-                        </div>
-                    )}
-                </div>
-            </section>
+                        {products.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 md:gap-y-20">
+                                {products.map((product, index) => (
+                                    <ProductCard key={product._id} product={product} index={index} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-32 bg-gray-50 rounded-2xl">
+                                <p className="text-xl text-[var(--text-secondary)] font-light mb-6">
+                                    {collection.wixId
+                                        ? "Todavía no hay productos en esta colección."
+                                        : "Esta colección aún no está vinculada a Wix. Actualiza el wixId en wixCollections.ts."}
+                                </p>
+                                <Link
+                                    href="/productos"
+                                    className="inline-block border-b border-black text-black text-sm font-bold tracking-widest uppercase pb-1 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+                                >
+                                    Ver Todas las Colecciones
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            )}
         </main>
     );
 }

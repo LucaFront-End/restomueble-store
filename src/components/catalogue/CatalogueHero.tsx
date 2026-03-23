@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export const CatalogueHero = ({ title = "Catálogo", subtitle = "Nuestra colección completa", productCount = 0 }: { title?: string, subtitle?: string, productCount?: number }) => {
     return (
-        <section className="relative pt-32 pb-16 md:pt-48 md:pb-24 px-6 overflow-hidden bg-white">
+        <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 overflow-hidden bg-white">
             {/* Premium Decorative Elements */}
             <div className="absolute inset-0 pointer-events-none">
                 {/* Top-Left Corner Accent */}
