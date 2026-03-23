@@ -124,7 +124,7 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                     {/* Modal */}
                     <motion.div
                         ref={modalRef}
-                        className="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl"
+                        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
                         initial={{ scale: 0.9, opacity: 0, y: 30 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -174,8 +174,7 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                         <div className="p-6 md:p-8">
                             {!isSuccess ? (
                                 <>
-                                    {/* Header */}
-                                    <div className="mb-8 text-center">
+                                    <div className="mb-6 text-center">
                                         <div
                                             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
                                             style={{
@@ -222,101 +221,52 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                                         </p>
                                     </div>
 
-                                    {/* Form */}
-                                    <form onSubmit={handleSubmit} className="space-y-4">
-                                        {/* Name */}
-                                        <div>
-                                            <label htmlFor="ws-name" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Nombre completo
-                                            </label>
-                                            <input
-                                                id="ws-name"
-                                                type="text"
-                                                value={formData.name}
-                                                onChange={(e) => handleChange("name", e.target.value)}
-                                                placeholder="Ej: María López"
-                                                className={inputClass("name")}
-                                            />
-                                            {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
-                                        </div>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                            {/* Name */}
+                                            <div>
+                                                <label htmlFor="ws-name" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Nombre completo</label>
+                                                <input id="ws-name" type="text" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Ej: María López" className={inputClass("name")} />
+                                                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                                            </div>
 
-                                        {/* Phone */}
-                                        <div>
-                                            <label htmlFor="ws-phone" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Teléfono / WhatsApp
-                                            </label>
-                                            <input
-                                                id="ws-phone"
-                                                type="tel"
-                                                value={formData.phone}
-                                                onChange={(e) => handleChange("phone", e.target.value)}
-                                                placeholder="+52 55 1234 5678"
-                                                className={inputClass("phone")}
-                                            />
-                                            {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
-                                        </div>
+                                            {/* Phone */}
+                                            <div>
+                                                <label htmlFor="ws-phone" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Teléfono / WhatsApp</label>
+                                                <input id="ws-phone" type="tel" value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)} placeholder="+52 55 1234 5678" className={inputClass("phone")} />
+                                                {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                                            </div>
 
-                                        {/* Email */}
-                                        <div>
-                                            <label htmlFor="ws-email" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Email
-                                            </label>
-                                            <input
-                                                id="ws-email"
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => handleChange("email", e.target.value)}
-                                                placeholder="tu@email.com"
-                                                className={inputClass("email")}
-                                            />
-                                            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-                                        </div>
+                                            {/* Email */}
+                                            <div>
+                                                <label htmlFor="ws-email" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Email</label>
+                                                <input id="ws-email" type="email" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} placeholder="tu@email.com" className={inputClass("email")} />
+                                                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                                            </div>
 
-                                        {/* Ciudad */}
-                                        <div>
-                                            <label htmlFor="ws-ciudad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Ciudad
-                                            </label>
-                                            <input
-                                                id="ws-ciudad"
-                                                type="text"
-                                                value={formData.ciudad}
-                                                onChange={(e) => handleChange("ciudad", e.target.value)}
-                                                placeholder="Ej: Ciudad de México"
-                                                className={inputClass("ciudad")}
-                                            />
-                                        </div>
+                                            {/* Ciudad */}
+                                            <div>
+                                                <label htmlFor="ws-ciudad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Ciudad</label>
+                                                <input id="ws-ciudad" type="text" value={formData.ciudad} onChange={(e) => handleChange("ciudad", e.target.value)} placeholder="Ej: Ciudad de México" className={inputClass("ciudad")} />
+                                            </div>
 
-                                        {/* Product name (read-only) */}
-                                        <div>
-                                            <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Producto
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={productName}
-                                                readOnly
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-600 cursor-not-allowed"
-                                            />
-                                        </div>
+                                            {/* Product name (read-only) */}
+                                            <div>
+                                                <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Producto</label>
+                                                <input type="text" value={productName} readOnly className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-600 cursor-not-allowed" />
+                                            </div>
 
-                                        {/* Cantidad */}
-                                        <div>
-                                            <label htmlFor="ws-cantidad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>
-                                                Cantidad
-                                            </label>
-                                            <select
-                                                id="ws-cantidad"
-                                                value={formData.cantidad}
-                                                onChange={(e) => handleChange("cantidad", e.target.value)}
-                                                className={`${inputClass("cantidad")} appearance-none`}
-                                            >
-                                                <option value="">Selecciona una opción</option>
-                                                <option value="20-40">20 - 40 piezas</option>
-                                                <option value="40-60">40 - 60 piezas</option>
-                                                <option value="60+">60 o más piezas</option>
-                                            </select>
-                                            {errors.cantidad && <p className="text-xs text-red-500 mt-1">{errors.cantidad}</p>}
+                                            {/* Cantidad */}
+                                            <div>
+                                                <label htmlFor="ws-cantidad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Cantidad</label>
+                                                <select id="ws-cantidad" value={formData.cantidad} onChange={(e) => handleChange("cantidad", e.target.value)} className={`${inputClass("cantidad")} appearance-none`}>
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="20-40">20 - 40 piezas</option>
+                                                    <option value="40-60">40 - 60 piezas</option>
+                                                    <option value="60+">60 o más piezas</option>
+                                                </select>
+                                                {errors.cantidad && <p className="text-xs text-red-500 mt-1">{errors.cantidad}</p>}
+                                            </div>
                                         </div>
 
                                         {/* Submit */}

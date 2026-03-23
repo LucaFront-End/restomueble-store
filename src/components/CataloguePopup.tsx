@@ -116,7 +116,7 @@ const CataloguePopup = () => {
                     {/* Modal */}
                     <motion.div
                         ref={modalRef}
-                        className="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl"
+                        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
                         initial={{ scale: 0.9, opacity: 0, y: 30 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -167,7 +167,7 @@ const CataloguePopup = () => {
                             {!isSuccess ? (
                                 <>
                                     {/* Header */}
-                                    <div className="mb-8 text-center">
+                                    <div className="mb-6 text-center">
                                         {/* Catalogue icon */}
                                         <div
                                             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5"
@@ -218,160 +218,46 @@ const CataloguePopup = () => {
                                     </div>
 
                                     {/* Form */}
-                                    <form onSubmit={handleSubmit} className="space-y-5">
-                                        {/* Name */}
-                                        <div>
-                                            <label
-                                                htmlFor="popup-name"
-                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                                                style={{ color: "var(--text-secondary)" }}
-                                            >
-                                                Nombre completo
-                                            </label>
-                                            <input
-                                                id="popup-name"
-                                                type="text"
-                                                value={formData.name}
-                                                onChange={(e) =>
-                                                    handleChange("name", e.target.value)
-                                                }
-                                                placeholder="Ej: María López"
-                                                className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.name
-                                                        ? "border-red-400 bg-red-50/50"
-                                                        : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"
-                                                    }`}
-                                                style={{
-                                                    fontFamily: "var(--font-body)",
-                                                }}
-                                            />
-                                            {errors.name && (
-                                                <p className="text-xs text-red-500 mt-1">
-                                                    {errors.name}
-                                                </p>
-                                            )}
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                            {/* Name */}
+                                            <div>
+                                                <label htmlFor="popup-name" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Nombre completo</label>
+                                                <input id="popup-name" type="text" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Ej: María López" className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.name ? "border-red-400 bg-red-50/50" : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"}`} style={{ fontFamily: "var(--font-body)" }} />
+                                                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                                            </div>
+
+                                            {/* Email */}
+                                            <div>
+                                                <label htmlFor="popup-email" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Email</label>
+                                                <input id="popup-email" type="email" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} placeholder="tu@email.com" className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.email ? "border-red-400 bg-red-50/50" : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"}`} style={{ fontFamily: "var(--font-body)" }} />
+                                                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                                            </div>
+
+                                            {/* Phone */}
+                                            <div>
+                                                <label htmlFor="popup-phone" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Teléfono / WhatsApp</label>
+                                                <input id="popup-phone" type="tel" value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)} placeholder="+52 55 1234 5678" className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.phone ? "border-red-400 bg-red-50/50" : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"}`} style={{ fontFamily: "var(--font-body)" }} />
+                                                {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                                            </div>
+
+                                            {/* Ciudad */}
+                                            <div>
+                                                <label htmlFor="popup-ciudad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Ciudad</label>
+                                                <input id="popup-ciudad" type="text" value={formData.ciudad} onChange={(e) => handleChange("ciudad", e.target.value)} placeholder="Ej: Ciudad de México" className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)] text-sm transition-all duration-300 outline-none" style={{ fontFamily: "var(--font-body)" }} />
+                                            </div>
                                         </div>
 
-                                        {/* Email */}
-                                        <div>
-                                            <label
-                                                htmlFor="popup-email"
-                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                                                style={{ color: "var(--text-secondary)" }}
-                                            >
-                                                Email
-                                            </label>
-                                            <input
-                                                id="popup-email"
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) =>
-                                                    handleChange("email", e.target.value)
-                                                }
-                                                placeholder="tu@email.com"
-                                                className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.email
-                                                        ? "border-red-400 bg-red-50/50"
-                                                        : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"
-                                                    }`}
-                                                style={{
-                                                    fontFamily: "var(--font-body)",
-                                                }}
-                                            />
-                                            {errors.email && (
-                                                <p className="text-xs text-red-500 mt-1">
-                                                    {errors.email}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {/* Phone */}
-                                        <div>
-                                            <label
-                                                htmlFor="popup-phone"
-                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                                                style={{ color: "var(--text-secondary)" }}
-                                            >
-                                                Teléfono / WhatsApp
-                                            </label>
-                                            <input
-                                                id="popup-phone"
-                                                type="tel"
-                                                value={formData.phone}
-                                                onChange={(e) =>
-                                                    handleChange("phone", e.target.value)
-                                                }
-                                                placeholder="+52 55 1234 5678"
-                                                className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none ${errors.phone
-                                                        ? "border-red-400 bg-red-50/50"
-                                                        : "border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"
-                                                    }`}
-                                                style={{
-                                                    fontFamily: "var(--font-body)",
-                                                }}
-                                            />
-                                            {errors.phone && (
-                                                <p className="text-xs text-red-500 mt-1">
-                                                    {errors.phone}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {/* Ciudad */}
-                                        <div>
-                                            <label
-                                                htmlFor="popup-ciudad"
-                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                                                style={{ color: "var(--text-secondary)" }}
-                                            >
-                                                Ciudad
-                                            </label>
-                                            <input
-                                                id="popup-ciudad"
-                                                type="text"
-                                                value={formData.ciudad}
-                                                onChange={(e) =>
-                                                    handleChange("ciudad", e.target.value)
-                                                }
-                                                placeholder="Ej: Ciudad de México"
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)] text-sm transition-all duration-300 outline-none"
-                                                style={{
-                                                    fontFamily: "var(--font-body)",
-                                                }}
-                                            />
-                                        </div>
-
-                                        {/* Cantidad de conjuntos */}
-                                        <div>
-                                            <label
-                                                htmlFor="popup-cantidad"
-                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                                                style={{ color: "var(--text-secondary)" }}
-                                            >
-                                                Cantidad de conjuntos
-                                            </label>
-                                            <select
-                                                id="popup-cantidad"
-                                                value={formData.cantidad}
-                                                onChange={(e) =>
-                                                    handleChange("cantidad", e.target.value)
-                                                }
-                                                className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none appearance-none bg-white ${errors.cantidad
-                                                        ? "border-red-400 bg-red-50/50"
-                                                        : "border-gray-200 hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"
-                                                    }`}
-                                                style={{
-                                                    fontFamily: "var(--font-body)",
-                                                }}
-                                            >
+                                        {/* Cantidad de conjuntos - full width */}
+                                        <div className="mb-4">
+                                            <label htmlFor="popup-cantidad" className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-secondary)" }}>Cantidad de conjuntos</label>
+                                            <select id="popup-cantidad" value={formData.cantidad} onChange={(e) => handleChange("cantidad", e.target.value)} className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none appearance-none bg-white ${errors.cantidad ? "border-red-400 bg-red-50/50" : "border-gray-200 hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"}`} style={{ fontFamily: "var(--font-body)" }}>
                                                 <option value="">Selecciona una opción</option>
                                                 <option value="1-8">1 - 8 conjuntos</option>
                                                 <option value="8-20">8 - 20 conjuntos</option>
                                                 <option value="20+">20 o más conjuntos</option>
                                             </select>
-                                            {errors.cantidad && (
-                                                <p className="text-xs text-red-500 mt-1">
-                                                    {errors.cantidad}
-                                                </p>
-                                            )}
+                                            {errors.cantidad && <p className="text-xs text-red-500 mt-1">{errors.cantidad}</p>}
                                         </div>
 
                                         {/* Submit */}
