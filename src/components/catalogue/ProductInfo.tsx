@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import WholesalePopup from "@/components/WholesalePopup";
 
 interface ProductInfoProps {
     title: string;
@@ -64,10 +65,10 @@ const AccordionItem = ({
 
 export const ProductInfo = ({ title, price, description, children, slug }: ProductInfoProps) => {
     const whatsappNumber = "525551147772";
-    const whatsappBuyMessage = `Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
+    const whatsappBuyMessage = `SW-Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
     const whatsappBuyUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappBuyMessage)}`;
-    const whatsappMayoreoMessage = `Sw Mayoreo ${title}`;
-    const whatsappMayoreoUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMayoreoMessage)}`;
+
+    const [showWholesale, setShowWholesale] = useState(false);
 
     return (
         <div className="sticky top-32 space-y-8 px-4 md:px-0 font-sans">
@@ -128,22 +129,28 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                     COMPRAR POR WHATSAPP
                 </Link>
 
-                {/* Secondary B2B CTA — Wholesale via WhatsApp */}
-                <Link
-                    href={whatsappMayoreoUrl}
-                    target="_blank"
+                {/* Secondary B2B CTA — Wholesale popup form */}
+                <button
+                    onClick={() => setShowWholesale(true)}
                     className="w-full py-4 border border-gray-200 text-gray-600 font-semibold text-sm hover:border-gray-900 hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
                     <span>SOLICITAR COTIZACIÓN POR VOLUMEN</span>
                     <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                </Link>
+                </button>
 
                 <p className="text-center text-xs text-gray-400">
                     Descuentos especiales para hoteles y restaurantes a partir de 10 unidades.
                 </p>
             </motion.div>
+
+            {/* Wholesale Popup */}
+            <WholesalePopup
+                isOpen={showWholesale}
+                onClose={() => setShowWholesale(false)}
+                productName={title}
+            />
 
             {/* Description & Details Accordion */}
             <motion.div

@@ -10,6 +10,16 @@ export interface ContactFormData {
     mensaje: string;
 }
 
+export interface LeadFormData {
+    nombre: string;
+    email: string;
+    telefono: string;
+    ciudad?: string;
+    cantidad?: string;
+    producto?: string;
+    origen: string; // "popup", "mayoreo", "concierge", "contacto"
+}
+
 export interface ActionResult {
     success: boolean;
     error?: string;
@@ -111,6 +121,72 @@ export async function subscribeNewsletter(email: string): Promise<ActionResult> 
         return {
             success: false,
             error: "No se pudo procesar tu suscripción.",
+        };
+    }
+}
+
+/**
+ * Save a lead to the Wix CMS "Leads" collection.
+ * The "origen" field tracks where the lead came from:
+ * - "popup" = Catalogue popup form
+ * - "mayoreo" = Wholesale form on product page
+ * - "concierge" = Design concierge wizard at bottom of homepage
+ * - "contacto" = Contact page form
+ *
+ * Uses the OAuth server client for CMS writes (items.insert)
+ * and the API key client for CRM contact creation.
+ *
+ * Set up a Wix Automation to email ventas@josepja.com when a new Leads item is created.
+ */
+export async function submitLead(data: LeadFormData): Promise<ActionResult> {
+    try {
+        // Use OAuth client for CMS data operations (items.insert)
+        const { getWixServerClient } = await import("@/lib/wixClientServer");
+        const cmsClient = getWixServerClient();
+
+        await cmsClient.items.insert("Leads", {
+            nombre: data.nombre,
+            email: data.email,
+            telefono: data.telefono,
+            ciudad: data.ciudad || "",
+            cantidad: data.cantidad || "",
+            producto: data.producto || "",
+            origen: data.origen,
+            fecha: new Date().toISOString(),
+        });
+
+        // Also create a CRM contact for visibility in Wix Contacts
+        // This uses the API key client which has elevated CRM permissions
+        try {
+            const crmClient = getWixApiKeyClient();
+            await crmClient.contacts.createContact({
+                name: {
+                    first: data.nombre.split(" ")[0],
+                    last: data.nombre.split(" ").slice(1).join(" ") || "",
+                },
+                emails: {
+                    items: [{ tag: "MAIN", email: data.email }],
+                },
+                phones: data.telefono
+                    ? { items: [{ tag: "MOBILE", phone: data.telefono, countryCode: "MX" }] }
+                    : undefined,
+                extendedFields: {
+                    items: {
+                        "custom.origen": data.origen,
+                        "custom.ciudad": data.ciudad || "",
+                    },
+                },
+            });
+        } catch {
+            // CRM contact creation may fail (duplicate, etc.) — not critical
+        }
+
+        return { success: true };
+    } catch (err: any) {
+        console.error(`[Leads] submitLead (${data.origen}) error:`, err?.message || err);
+        return {
+            success: false,
+            error: "No se pudo enviar el formulario. Por favor intenta de nuevo.",
         };
     }
 }

@@ -133,10 +133,19 @@ export default function ConciergeCTA({ content = {} }: ConciergeCTAProps) {
 
         setIsSubmitting(true);
 
-        // TODO: Conectar con API real (Wix Forms, SendGrid, etc.)
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        try {
+            const { submitLead } = await import("@/lib/wixFormActions");
+            await submitLead({
+                nombre: formData.name,
+                email: formData.email,
+                telefono: formData.phone,
+                cantidad: formData.quantity,
+                origen: "concierge",
+            });
+        } catch (error) {
+            console.error("Error submitting concierge form:", error);
+        }
 
-        console.log("Form Data:", formData);
         setIsSubmitting(false);
         setIsSubmitted(true);
     };

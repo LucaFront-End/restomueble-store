@@ -5,7 +5,6 @@ import { ProductGallery } from "@/components/catalogue/ProductGallery";
 import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import AddToCart from "./AddToCart";
 import ColorSelector from "./ColorSelector";
-import ShippingCalculator from "@/components/ShippingCalculator";
 import type { ColorCombination } from "@/lib/wixCmsColores";
 
 interface ProductPageClientProps {
@@ -58,8 +57,6 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         variantSelections={variantSelections}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
                     />
-
-                    <ShippingCalculator />
 
                 </ProductInfo>
             </div>

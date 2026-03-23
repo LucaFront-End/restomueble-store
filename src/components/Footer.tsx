@@ -29,6 +29,7 @@ const Footer = () => {
         { name: "Sillas de Diseño", href: "/tienda/sillas" },
         { name: "Mesas para Restaurante", href: "/tienda/mesas" },
         { name: "Conjuntos", href: "/tienda/conjuntos" },
+        { name: "Salas Lounge", href: "/tienda/salas-lounge" },
     ];
 
     return (
@@ -120,10 +121,15 @@ const Footer = () => {
                         <div>
                         <h4 className="text-xs uppercase tracking-[0.3em] mb-8 font-bold" style={{ color: '#FFFFFF' }}>Contacto</h4>
                         <div className="space-y-4 text-gray-400 text-sm">
-                            <p className="leading-relaxed hover:text-white transition-colors cursor-default">
+                            <a
+                                href="https://maps.app.goo.gl/4uSM4tF3kak689x97"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="leading-relaxed hover:text-white transition-colors cursor-pointer block"
+                            >
                                 C. 7, Codice Mendocino,<br />
                                 55236 Ecatepec de Morelos, Méx.
-                            </p>
+                            </a>
                             <p className="pt-2">
                                 <a href="mailto:ventas@josepja.com" className="text-white hover:text-[var(--accent)] transition-colors border-b border-white/10 italic">
                                     ventas@josepja.com
@@ -135,13 +141,19 @@ const Footer = () => {
 
                         {/* Redes Sociales - Glassmorphism discreto */}
                         <div className="flex gap-4 pt-4">
-                            {["IG", "LI", "FB", "PI"].map((social) => (
+                            {[
+                                { label: "FB", href: "https://www.facebook.com/mueblessebja/?locale=es_LA" },
+                                { label: "IG", href: "https://www.instagram.com/explore/locations/1827513847547206/muebles-josepja/" },
+                                { label: "TK", href: "https://www.tiktok.com/@josepja.com" },
+                            ].map((social) => (
                                 <a
-                                    key={social}
-                                    href="#"
+                                    key={social.label}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="w-11 h-11 rounded-full border border-white/5 bg-white/5 flex items-center justify-center text-[10px] font-bold hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-500"
                                 >
-                                    {social}
+                                    {social.label}
                                 </a>
                             ))}
                         </div>
@@ -203,6 +215,18 @@ const Footer = () => {
                             <div className="w-2.5 h-4 bg-[#C8102E]" />
                         </div>
                     </div>
+                </div>
+
+                {/* Dilo Digital MX Credit */}
+                <div className="pt-6 text-center">
+                    <a
+                        href="https://www.dilodigitalmx.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-gray-600 hover:text-white transition-colors tracking-wide"
+                    >
+                        Sitio web realizado por <span className="font-semibold">Dilo Digital MX</span>
+                    </a>
                 </div>
             </div>
         </footer>

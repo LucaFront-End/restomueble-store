@@ -1,13 +1,20 @@
 "use client";
 
+interface MarcaCms {
+  nombre: string;
+  fila: number;
+  orden: number;
+}
+
 interface LogoCarouselProps {
   content?: {
     logo_names_row_1?: string;
     logo_names_row_2?: string;
   };
+  marcas?: MarcaCms[];
 }
 
-export default function LogoCarousel({ content = {} }: LogoCarouselProps) {
+export default function LogoCarousel({ content = {}, marcas = [] }: LogoCarouselProps) {
   const defaultClientsRow1 = [
     "Hilton Resorts",
     "Hyatt Regency",
@@ -30,14 +37,28 @@ export default function LogoCarousel({ content = {} }: LogoCarouselProps) {
     "Entremar",
   ];
 
-  // Parse CMS comma-separated strings
-  const clients = content.logo_names_row_1
-    ? content.logo_names_row_1.split(",").map(s => s.trim())
-    : defaultClientsRow1;
+  // Priority: CMS collection > CMS Homepage strings > hardcoded defaults
+  let clients: string[];
+  let clients2: string[];
 
-  const clients2 = content.logo_names_row_2
-    ? content.logo_names_row_2.split(",").map(s => s.trim())
-    : defaultClientsRow2;
+  if (marcas.length > 0) {
+    // Use CMS Marcas collection data
+    clients = marcas.filter(m => m.fila === 1).map(m => m.nombre);
+    clients2 = marcas.filter(m => m.fila === 2).map(m => m.nombre);
+    // Fallback if all are in one row
+    if (clients.length === 0 && clients2.length === 0) {
+      clients = marcas.map(m => m.nombre);
+      clients2 = [];
+    }
+  } else if (content.logo_names_row_1) {
+    clients = content.logo_names_row_1.split(",").map(s => s.trim());
+    clients2 = content.logo_names_row_2
+      ? content.logo_names_row_2.split(",").map(s => s.trim())
+      : defaultClientsRow2;
+  } else {
+    clients = defaultClientsRow1;
+    clients2 = defaultClientsRow2;
+  }
 
   return (
     <section className="py-10 md:py-16 bg-white overflow-hidden">

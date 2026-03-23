@@ -6,6 +6,14 @@ import { useEffect, useRef, useState } from "react";
 
 import { getWixImageUrl } from "@/lib/wixImageUrl";
 
+interface EspacioCms {
+    titulo: string;
+    subtitulo: string;
+    imagen: string;
+    enlace: string;
+    orden: number;
+}
+
 interface CategoryBentoProps {
     content?: {
         bento_overline?: string;
@@ -27,13 +35,17 @@ interface CategoryBentoProps {
         cat_evento_subtitle?: string;
         cat_evento_image?: string;
     };
+    espacios?: EspacioCms[];
 }
 
-const CategoryBento = ({ content = {} }: CategoryBentoProps) => {
+const sizePattern = ["large", "medium", "medium", "small", "small"];
+
+const CategoryBento = ({ content = {}, espacios = [] }: CategoryBentoProps) => {
     const sectionRef = useRef<HTMLElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
-    const productLines = [
+    // Hardcoded defaults (used when CMS is empty)
+    const defaultLines = [
         {
             id: "firme",
             title: content.cat_firme_title || "FIRME",
@@ -80,6 +92,19 @@ const CategoryBento = ({ content = {} }: CategoryBentoProps) => {
             overlay: "from-black/70 via-black/50 to-black/60",
         },
     ];
+
+    // Use CMS data if available, otherwise fall back to defaults
+    const productLines = espacios.length > 0
+        ? espacios.map((e, i) => ({
+            id: `espacio-${i}`,
+            title: e.titulo,
+            subtitle: e.subtitulo,
+            href: e.enlace || "#",
+            image: getWixImageUrl(e.imagen) || "/category-firme.png",
+            size: sizePattern[i] || "small",
+            overlay: "from-black/70 via-black/50 to-black/60",
+        }))
+        : defaultLines;
 
     useEffect(() => {
         const observer = new IntersectionObserver(

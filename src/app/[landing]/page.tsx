@@ -294,7 +294,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {[
                             { icon: <IconTruck />, title: "Envío a Todo México", desc: `Llegamos a ${landing.estado}` },
-                            { icon: <IconShield />, title: "Garantía 5 Años", desc: "Uso rudo garantizado" },
+                            { icon: <IconShield />, title: "Garantía 12 Meses", desc: "Uso rudo garantizado" },
                             { icon: <IconClock />, title: "+30 Años", desc: "Experiencia comprobada" },
                             { icon: <IconWrench />, title: "Personalización", desc: "Medidas y acabados" },
                         ].map((benefit, i) => (
@@ -513,7 +513,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                             },
                             {
                                 q: "¿Qué garantía tienen los muebles?",
-                                a: "Todos nuestros muebles tienen garantía de 5 años contra defectos de fabricación. Utilizamos materiales de primera calidad: acero calibre 16, soldadura MIG y acabados resistentes a la corrosión."
+                                a: "Todos nuestros muebles tienen garantía de 12 meses contra defectos de fabricación. Utilizamos materiales de primera calidad: acero calibre 16, soldadura MIG y acabados resistentes a la corrosión."
                             },
                             {
                                 q: "¿Puedo personalizar los muebles?",

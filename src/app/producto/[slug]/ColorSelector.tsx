@@ -136,7 +136,7 @@ export default function ColorSelector({ colorData, variantSelections = {}, onIma
                 <div>
                     <div className="flex items-baseline gap-2 mb-3">
                         <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400">
-                            Color del Vinil:
+                            Color de asientos:
                         </span>
                         <span className="text-[11px] text-gray-900 font-medium">
                             — {selectedVinil || "Seleccioná"}

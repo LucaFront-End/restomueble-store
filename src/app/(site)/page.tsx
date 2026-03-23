@@ -15,6 +15,8 @@ export default async function Home() {
     const wixClient = getWixServerClient();
     let initialProducts: products.Product[] = [];
     let cmsContent: any = {};
+    let espaciosCms: any[] = [];
+    let marcasCms: any[] = [];
 
     // Fetch products
     try {
@@ -35,13 +37,59 @@ export default async function Home() {
         // Collection doesn't exist yet in Wix CMS — components use their default content
     }
 
+    // Fetch Espacios from CMS (filtered by principal = true, sorted by orden, limit 4)
+    try {
+        const espaciosResult = await wixClient.items
+            .query("Espacios")
+            .eq("principal", true)
+            .ascending("orden")
+            .limit(4)
+            .find();
+        espaciosCms = espaciosResult.items.map((item: any) => {
+            const d = item.data || item;
+            return {
+                titulo: d.titulo || "",
+                subtitulo: d.subtitulo || "",
+                imagen: d.imagen || "",
+                enlace: d.enlace || "",
+                orden: d.orden || 0,
+            };
+        });
+    } catch {
+        // Collection doesn't exist yet — CategoryBento uses hardcoded defaults
+    }
+
+    // Fetch client names from existing "Negocios ( Clientes)" CMS for the logo/brand carousel
+    try {
+        const negociosResult = await wixClient.items
+            .query("NegociosClientes")
+            .limit(50)
+            .find();
+        if (negociosResult.items.length > 0) {
+            const allNames = negociosResult.items.map((item: any) => {
+                const d = item.data || item;
+                return d.title_fld || d.title || "";
+            }).filter((n: string) => n.trim() !== "");
+
+            // Split into two rows automatically
+            const half = Math.ceil(allNames.length / 2);
+            marcasCms = allNames.map((nombre: string, i: number) => ({
+                nombre,
+                fila: i < half ? 1 : 2,
+                orden: i,
+            }));
+        }
+    } catch {
+        // Collection doesn't exist yet — LogoCarousel uses hardcoded defaults
+    }
+
     return (
         <main className="bg-white min-h-screen">
             {/* Hero Section */}
             <HeroCarousel />
 
             {/* Líneas de Producto - Bento Grid */}
-            <CategoryBento content={cmsContent} />
+            <CategoryBento content={cmsContent} espacios={espaciosCms} />
 
             {/* Product Discovery - Masonry Grid con filtros */}
             <ProductDiscovery initialProducts={initialProducts} content={cmsContent} />
@@ -50,7 +98,7 @@ export default async function Home() {
             <BentoBenefits content={cmsContent} />
 
             {/* Logo Carousel - Clientes */}
-            <LogoCarousel content={cmsContent} />
+            <LogoCarousel content={cmsContent} marcas={marcasCms} />
 
             {/* Project Showcase - Espacios que transformamos */}
             <ProjectShowcase content={cmsContent} />
@@ -63,3 +111,4 @@ export default async function Home() {
         </main>
     );
 }
+

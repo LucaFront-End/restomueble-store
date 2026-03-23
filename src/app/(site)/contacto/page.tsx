@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SectionHero from "@/components/SectionHero";
 import Image from "next/image";
 import { submitContact } from "@/lib/wixFormActions";
+import { submitLead } from "@/lib/wixFormActions";
 
 const contactInfo = [
     {
@@ -16,6 +17,7 @@ const contactInfo = [
         ),
         label: "Ubicación",
         value: "C. 7, Codice Mendocino, 55236 Ecatepec de Morelos, Méx.",
+        href: "https://maps.app.goo.gl/4uSM4tF3kak689x97",
         desc: "Visitas bajo previa cita para atención personalizada."
     },
     {
@@ -59,6 +61,15 @@ export default function ContactoPage() {
         setIsLoading(true);
         setErrorMsg(null);
         const result = await submitContact(formData);
+        // Also save as lead to CMS for unified tracking
+        try {
+            await submitLead({
+                nombre: formData.nombre,
+                email: formData.email,
+                telefono: formData.telefono || "",
+                origen: "contacto",
+            });
+        } catch { /* lead save is non-critical */ }
         setIsLoading(false);
         if (result.success) {
             setIsSubmitted(true);
@@ -123,9 +134,9 @@ export default function ContactoPage() {
                             <div className="relative pt-12">
                                 <div className="absolute top-0 left-0 w-12 h-px bg-gray-100" />
                                 <div className="flex items-center gap-12 opacity-20 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700 cursor-default">
-                                    <span className="font-serif text-4xl text-gray-900">JOSE</span>
+                                    <span className="font-serif text-4xl text-gray-900">JOSEPJA</span>
                                     <div className="w-2 h-2 rounded-full bg-[var(--accent)]" />
-                                    <span className="font-serif text-4xl text-gray-900">PJA</span>
+                                    <span className="font-serif text-4xl text-gray-900">MUEBLES</span>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +275,7 @@ export default function ContactoPage() {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="text-center px-6">
                                 <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-gray-900 mb-4 block">Logística Garantizada</span>
-                                <p className="text-4xl md:text-6xl font-serif text-gray-900 opacity-20">COBERTURA NACIONAL</p>
+                                <p className="text-4xl md:text-6xl font-serif text-gray-900 opacity-20">JOSEPJA ° MUEBLES</p>
                             </div>
                         </div>
                     </div>

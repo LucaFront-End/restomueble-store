@@ -27,7 +27,7 @@ const sections = [
             "Nuestra misión es diseñar y fabricar mobiliario de alta calidad que transforme restaurantes y hoteles en espacios memorables. Buscamos que cada pieza cuente una historia de excelencia y artesanía.",
         stats: [
             { value: "100%", label: "NACIONAL" },
-            { value: "5", label: "AÑOS GARANTÍA" },
+            { value: "12", label: "MESES GARANTÍA" },
             { value: "24/7", label: "SOPORTE" },
         ],
         image: "/images/about-craft-new.png", // Updated
@@ -39,8 +39,8 @@ const sections = [
         description:
             "Nos guiamos por valores inquebrantables: excelencia en cada detalle, innovación en el diseño, compromiso con nuestros clientes y orgullo por nuestras raíces artesanas.",
         stats: [
-            { value: "50+", label: "ARTESANOS" },
-            { value: "10K+", label: "PIEZAS ANUALES" },
+            { value: "+50", label: "MIEMBROS EN EL EQUIPO" },
+            { value: "200K", label: "PIEZAS ANUALES" },
             { value: "100%", label: "CALIDAD" },
         ],
         image: "/images/about-legacy-new.png", // Updated

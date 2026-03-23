@@ -26,7 +26,7 @@ const BentoBenefits = ({ content = {} }: BentoBenefitsProps) => {
         {
             id: "garantia",
             icon: <LuShieldCheck strokeWidth={1} />,
-            title: content.benefit_1_title || "5 Años de Garantía",
+            title: content.benefit_1_title || "Hasta 12 Meses de Garantía",
         },
         {
             id: "envio",

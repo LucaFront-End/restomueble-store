@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCataloguePopup } from "@/context/cataloguePopupContext";
-import { WixContext } from "@/context/wixContext";
+import { submitLead } from "@/lib/wixFormActions";
 
 const CataloguePopup = () => {
     const { isOpen, closePopup } = useCataloguePopup();
-    const { wixClient } = useContext(WixContext);
-    const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
+    const [formData, setFormData] = useState({ name: "", email: "", phone: "", ciudad: "", cantidad: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -46,6 +45,7 @@ const CataloguePopup = () => {
         if (!formData.phone.trim()) {
             newErrors.phone = "Ingresa tu teléfono";
         }
+        if (!formData.cantidad) newErrors.cantidad = "Selecciona la cantidad";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -57,17 +57,17 @@ const CataloguePopup = () => {
         setIsSubmitting(true);
 
         try {
-            // Save lead to Wix CMS
-            await wixClient.items.insert("NewsletterSuscripciones", {
-                email: formData.email,
+            // Save lead to Wix CMS via server action
+            await submitLead({
                 nombre: formData.name,
+                email: formData.email,
                 telefono: formData.phone,
-                fecha: new Date().toISOString(),
-                origen: "catalogo-popup",
+                ciudad: formData.ciudad,
+                cantidad: formData.cantidad,
+                origen: "popup",
             });
 
             // Trigger PDF download
-            // Replace with real catalogue PDF URL when available
             const pdfUrl = "/catalogo-josepja.pdf";
             const link = document.createElement("a");
             link.href = pdfUrl;
@@ -78,7 +78,7 @@ const CataloguePopup = () => {
             setTimeout(() => {
                 closePopup();
                 setIsSuccess(false);
-                setFormData({ name: "", email: "", phone: "" });
+                setFormData({ name: "", email: "", phone: "", ciudad: "", cantidad: "" });
             }, 3000);
         } catch (error) {
             console.error("Error submitting catalogue form:", error);
@@ -311,6 +311,65 @@ const CataloguePopup = () => {
                                             {errors.phone && (
                                                 <p className="text-xs text-red-500 mt-1">
                                                     {errors.phone}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Ciudad */}
+                                        <div>
+                                            <label
+                                                htmlFor="popup-ciudad"
+                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
+                                                style={{ color: "var(--text-secondary)" }}
+                                            >
+                                                Ciudad
+                                            </label>
+                                            <input
+                                                id="popup-ciudad"
+                                                type="text"
+                                                value={formData.ciudad}
+                                                onChange={(e) =>
+                                                    handleChange("ciudad", e.target.value)
+                                                }
+                                                placeholder="Ej: Ciudad de México"
+                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)] text-sm transition-all duration-300 outline-none"
+                                                style={{
+                                                    fontFamily: "var(--font-body)",
+                                                }}
+                                            />
+                                        </div>
+
+                                        {/* Cantidad de conjuntos */}
+                                        <div>
+                                            <label
+                                                htmlFor="popup-cantidad"
+                                                className="block text-xs font-semibold uppercase tracking-widest mb-2"
+                                                style={{ color: "var(--text-secondary)" }}
+                                            >
+                                                Cantidad de conjuntos
+                                            </label>
+                                            <select
+                                                id="popup-cantidad"
+                                                value={formData.cantidad}
+                                                onChange={(e) =>
+                                                    handleChange("cantidad", e.target.value)
+                                                }
+                                                className={`w-full px-4 py-3 rounded-lg border text-sm transition-all duration-300 outline-none appearance-none bg-white ${errors.cantidad
+                                                        ? "border-red-400 bg-red-50/50"
+                                                        : "border-gray-200 hover:border-gray-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-light)]"
+                                                    }`}
+                                                style={{
+                                                    fontFamily: "var(--font-body)",
+                                                }}
+                                            >
+                                                <option value="">Selecciona una opción</option>
+                                                <option value="1-8">1 - 8 conjuntos</option>
+                                                <option value="8-20">8 - 20 conjuntos</option>
+                                                <option value="20+">20 o más conjuntos</option>
+                                            </select>
+                                            {errors.cantidad && (
+                                                <p className="text-xs text-red-500 mt-1">
+                                                    {errors.cantidad}
                                                 </p>
                                             )}
                                         </div>
