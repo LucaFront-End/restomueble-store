@@ -124,7 +124,7 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                     {/* Modal */}
                     <motion.div
                         ref={modalRef}
-                        className="relative w-full max-w-lg overflow-hidden rounded-2xl"
+                        className="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl"
                         initial={{ scale: 0.9, opacity: 0, y: 30 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -171,7 +171,7 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                             </svg>
                         </button>
 
-                        <div className="p-8 md:p-10">
+                        <div className="p-6 md:p-8">
                             {!isSuccess ? (
                                 <>
                                     {/* Header */}

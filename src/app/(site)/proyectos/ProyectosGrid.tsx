@@ -127,7 +127,7 @@ export default function ProyectosGrid({ projects }: { projects: ProjectData[] })
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 40 }}
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                            className="relative bg-white rounded-[2rem] overflow-hidden max-w-3xl w-full max-h-[90vh] shadow-2xl"
+                            className="relative bg-white rounded-[2rem] overflow-hidden max-w-2xl w-full max-h-[85vh] shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Close Button */}
