@@ -70,6 +70,17 @@ export default function ContactoPage() {
                 origen: "contacto",
             });
         } catch { /* lead save is non-critical */ }
+        // Send email notification to sales team
+        try {
+            await fetch("/api/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...formData,
+                    origen: "contacto",
+                }),
+            });
+        } catch { /* email send is non-critical */ }
         setIsLoading(false);
         if (result.success) {
             setIsSubmitted(true);

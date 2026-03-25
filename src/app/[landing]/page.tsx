@@ -13,7 +13,7 @@ import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
 import { ProductCard } from "@/components/catalogue/ProductCard";
 import { COLLECTIONS } from "@/lib/wixCollections";
 
-export const revalidate = 3600;
+export const revalidate = 60; // Revalidate every 60s for faster CMS updates
 
 // Generar rutas estáticas para AMBOS tipos de páginas
 export async function generateStaticParams() {
@@ -94,6 +94,8 @@ interface LandingDataDisplay {
     descripcion: string;
     ciudad: string;
     estado: string;
+    whatsapp?: string;
+    faqs?: string;
 }
 
 // Iconos SVG inline para beneficios
@@ -194,6 +196,8 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                 descripcion: fallback.descripcion,
                 ciudad: fallback.ciudad,
                 estado: fallback.estado,
+                whatsapp: "",
+                faqs: "",
             };
         }
     }
@@ -203,6 +207,42 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
     }
 
     const fetchedProducts = await getProductsForLanding();
+
+    // WhatsApp link — use CMS value or default
+    const whatsappNumber = landing.whatsapp || "525551147772";
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hola,%20me%20interesa%20cotizar%20mobiliario`;
+
+    // FAQ — parse CMS JSON or use defaults
+    const defaultFaqs = [
+        {
+            q: `¿Hacen envíos a ${landing.ciudad}?`,
+            a: `Sí, realizamos envíos a ${landing.ciudad} y todo ${landing.estado}. El tiempo de entrega aproximado es de 5-10 días hábiles dependiendo del volumen del pedido.`
+        },
+        {
+            q: "¿Qué garantía tienen los muebles?",
+            a: "Todos nuestros muebles tienen garantía de 12 meses contra defectos de fabricación. Utilizamos materiales de primera calidad: acero calibre 16, soldadura MIG y acabados resistentes a la corrosión."
+        },
+        {
+            q: "¿Puedo personalizar los muebles?",
+            a: "Absolutamente. Ofrecemos personalización de colores, medidas y acabados. Contáctanos para discutir tu proyecto y te enviaremos un presupuesto detallado."
+        },
+        {
+            q: "¿Cuál es el pedido mínimo?",
+            a: "No tenemos pedido mínimo para compras de catálogo. Para proyectos personalizados, el mínimo depende del tipo de producto (generalmente 10 piezas)."
+        }
+    ];
+
+    let parsedFaqs = defaultFaqs;
+    if (landing.faqs) {
+        try {
+            const cmsFaqs = JSON.parse(landing.faqs);
+            if (Array.isArray(cmsFaqs) && cmsFaqs.length > 0) {
+                parsedFaqs = cmsFaqs;
+            }
+        } catch {
+            // If JSON parsing fails, use defaults
+        }
+    }
 
     return (
         <main className="min-h-screen bg-white">
@@ -271,7 +311,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                                 </svg>
                             </Link>
                             <a
-                                href="https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario"
+                                href={whatsappLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white border border-white/40 px-8 py-4 font-semibold transition-all shadow-lg text-shadow-sm"
@@ -477,7 +517,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                             Explorar Catálogo
                         </Link>
                         <a
-                            href="https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario%20para%20mi%20restaurante"
+                            href={`${whatsappLink.replace('cotizar%20mobiliario', 'cotizar%20mobiliario%20para%20mi%20restaurante')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-10 py-5 font-bold text-lg transition-all hover:scale-105 shadow-xl"
@@ -506,24 +546,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                     </div>
 
                     <div className="space-y-4">
-                        {[
-                            {
-                                q: `¿Hacen envíos a ${landing.ciudad}?`,
-                                a: `Sí, realizamos envíos a ${landing.ciudad} y todo ${landing.estado}. El tiempo de entrega aproximado es de 5-10 días hábiles dependiendo del volumen del pedido.`
-                            },
-                            {
-                                q: "¿Qué garantía tienen los muebles?",
-                                a: "Todos nuestros muebles tienen garantía de 12 meses contra defectos de fabricación. Utilizamos materiales de primera calidad: acero calibre 16, soldadura MIG y acabados resistentes a la corrosión."
-                            },
-                            {
-                                q: "¿Puedo personalizar los muebles?",
-                                a: "Absolutamente. Ofrecemos personalización de colores, medidas y acabados. Contáctanos para discutir tu proyecto y te enviaremos un presupuesto detallado."
-                            },
-                            {
-                                q: "¿Cuál es el pedido mínimo?",
-                                a: "No tenemos pedido mínimo para compras de catálogo. Para proyectos personalizados, el mínimo depende del tipo de producto (generalmente 10 piezas)."
-                            }
-                        ].map((faq, i) => (
+                        {parsedFaqs.map((faq, i) => (
                             <details key={i} className="group bg-white rounded-xl shadow-sm">
                                 <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
                                     <h3 className="font-semibold text-gray-900 pr-4">{faq.q}</h3>

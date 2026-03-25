@@ -17,7 +17,7 @@ const sections = [
             { value: "500+", label: "PROYECTOS" },
             { value: "100%", label: "MÉXICO" },
         ],
-        image: "/images/about-workshop-new.png", // Updated
+        image: "/images/nosotros-1.jpeg", // Metal cutting worker
     },
     {
         id: "mision",
@@ -30,7 +30,7 @@ const sections = [
             { value: "12", label: "MESES GARANTÍA" },
             { value: "24/7", label: "SOPORTE" },
         ],
-        image: "/images/about-craft-new.png", // Updated
+        image: "/images/nosotros-2.jpeg", // Welder with chair framesrks closeup
     },
     {
         id: "valores",
@@ -43,7 +43,7 @@ const sections = [
             { value: "200K", label: "PIEZAS ANUALES" },
             { value: "100%", label: "CALIDAD" },
         ],
-        image: "/images/about-legacy-new.png", // Updated
+        image: "/images/nosotros-4.jpeg", // Welder closeup with sparks
     },
 ];
 

@@ -9,6 +9,8 @@ export interface LandingData {
     ciudad: string;
     estado: string;
     keywords: string;
+    whatsapp?: string;
+    faqs?: string; // JSON string: [{"q":"...","a":"..."}]
 }
 
 // Los items de Wix pueden tener los datos directamente o en .data
@@ -22,6 +24,8 @@ interface WixDataItem {
     ciudad?: string;
     estado?: string;
     keywords?: string;
+    whatsapp?: string;
+    faqs?: string;
     // O anidados en data (vieja API)
     data?: {
         slug?: string;
@@ -31,6 +35,8 @@ interface WixDataItem {
         ciudad?: string;
         estado?: string;
         keywords?: string;
+        whatsapp?: string;
+        faqs?: string;
     };
 }
 
@@ -54,6 +60,8 @@ export async function getAllLandings(): Promise<LandingData[]> {
             ciudad: item.ciudad || item.data?.ciudad || "",
             estado: item.estado || item.data?.estado || "",
             keywords: item.keywords || item.data?.keywords || "",
+            whatsapp: item.whatsapp || item.data?.whatsapp || "",
+            faqs: item.faqs || item.data?.faqs || "",
         }));
     } catch (error) {
         console.error("Error fetching landings from Wix CMS:", error);
@@ -87,6 +95,8 @@ export async function getLandingBySlug(slug: string): Promise<LandingData | null
             ciudad: item.ciudad || item.data?.ciudad || "",
             estado: item.estado || item.data?.estado || "",
             keywords: item.keywords || item.data?.keywords || "",
+            whatsapp: item.whatsapp || item.data?.whatsapp || "",
+            faqs: item.faqs || item.data?.faqs || "",
         };
     } catch (error) {
         console.error("Error fetching landing by slug:", error);

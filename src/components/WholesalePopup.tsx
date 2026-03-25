@@ -75,6 +75,21 @@ const WholesalePopup = ({ isOpen, onClose, productName }: WholesalePopupProps) =
                 origen: "mayoreo",
             });
 
+            // Send email notification to sales team
+            try {
+                await fetch("/api/send-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: formData.name,
+                        email: formData.email,
+                        telefono: formData.phone,
+                        mensaje: `Producto: ${productName}, Ciudad: ${formData.ciudad}, Cantidad: ${formData.cantidad}`,
+                        origen: "mayoreo",
+                    }),
+                });
+            } catch { /* non-critical */ }
+
             setIsSuccess(true);
             setTimeout(() => {
                 onClose();

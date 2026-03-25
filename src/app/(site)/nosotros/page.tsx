@@ -50,7 +50,7 @@ export default function NosotrosPage() {
                 overline="Nuestra Historia"
                 title={<>Más de <em className="text-[var(--accent)] not-italic">30 años</em> creando espacios memorables</>}
                 subtitle="Desde nuestros inicios, hemos dedicado cada jornada a fabricar mobiliario que resiste al paso del tiempo y define la personalidad de los mejores restaurantes de México."
-                backgroundImage="/images/about-hero-new.png" // Updated to New Image
+                backgroundImage="/images/nosotros-7.jpeg" // Hecho en Josepja branding worker
             />
 
             {/* Misión & Visión Editorial */}
@@ -63,7 +63,7 @@ export default function NosotrosPage() {
                         >
                             <div className="aspect-[3/4] relative rounded-lg overflow-hidden shadow-2xl">
                                 <Image
-                                    src="/images/about-craft-new.png" // Updated to New Image
+                                    src="/images/nosotros-6.jpeg" // Drill press machining base
                                     alt="Artesanía Josepja"
                                     fill
                                     className="object-cover hover:scale-105 transition-transform duration-[1.5s]"
@@ -201,7 +201,7 @@ export default function NosotrosPage() {
             <section className="min-h-[60vh] relative flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/images/about-workshop-new.png" // Updated to New Image
+                        src="/images/nosotros-5.jpeg" // Welder sparks on base
                         alt="Taller Josepja"
                         fill
                         className="object-cover"

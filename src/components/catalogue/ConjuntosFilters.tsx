@@ -24,6 +24,11 @@ const MODELS = [
     { key: "panda", label: "PANDA" },
     { key: "italia", label: "ITALIA" },
     { key: "roma", label: "ROMA" },
+    { key: "hit", label: "HIT" },
+    { key: "tulum", label: "TULUM" },
+    { key: "nova", label: "NOVA" },
+    { key: "tolix", label: "TOLIX" },
+    { key: "tiffany", label: "TIFFANY" },
 ] as const;
 
 const TYPES = [
@@ -239,12 +244,12 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                                         >
                                             <Link href={`/producto/${normalizeSlug(product.slug)}`} className="group block">
                                                 {/* Image Container */}
-                                                <div className="relative aspect-[4/5] bg-[#F5F5F7] overflow-hidden mb-4 rounded-sm">
+                                                <div className="relative aspect-square bg-white overflow-hidden mb-4 rounded-sm">
                                                     <Image
                                                         src={product.imageUrl}
                                                         alt={product.name}
                                                         fill
-                                                        className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                                                        className="object-contain p-4 transition-all duration-700 ease-out group-hover:scale-105"
                                                     />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

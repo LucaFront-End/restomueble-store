@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCataloguePopup } from "@/context/cataloguePopupContext";
 import { motion, AnimatePresence } from "framer-motion";
+import NavbarSearch from "@/components/NavbarSearch";
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -93,6 +94,9 @@ const Navbar = () => {
 
                     {/* Actions */}
                     <div className="flex items-center gap-4 md:gap-5 relative z-50">
+                        {/* Search */}
+                        <NavbarSearch />
+
                         {/* User Account */}
                         <Link href="/cuenta" className="relative group">
                             <span className="p-2 rounded-full hover:bg-gray-100 transition-colors block">

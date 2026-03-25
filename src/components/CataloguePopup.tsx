@@ -67,6 +67,21 @@ const CataloguePopup = () => {
                 origen: "popup",
             });
 
+            // Send email notification to sales team
+            try {
+                await fetch("/api/send-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: formData.name,
+                        email: formData.email,
+                        telefono: formData.phone,
+                        mensaje: `Ciudad: ${formData.ciudad}, Cantidad: ${formData.cantidad}`,
+                        origen: "catalogo-popup",
+                    }),
+                });
+            } catch { /* non-critical */ }
+
             // Trigger PDF download
             const pdfUrl = "/catalogo-josepja.pdf";
             const link = document.createElement("a");

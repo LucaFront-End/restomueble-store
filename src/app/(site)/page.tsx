@@ -20,7 +20,7 @@ export default async function Home() {
 
     // Fetch products
     try {
-        const result = await wixClient.products.queryProducts().limit(50).find();
+        const result = await wixClient.products.queryProducts().limit(100).find();
         initialProducts = result.items;
     } catch (e) {
         console.error("[Home] Failed to fetch products", e);

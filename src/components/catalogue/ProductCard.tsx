@@ -21,12 +21,12 @@ export const ProductCard = ({ product, index = 0 }: { product: products.Product,
         >
             <Link href={`/producto/${normalizeSlug(product.slug || "")}`} className="group block">
                 {/* Image Container */}
-                <div className="relative aspect-[4/5] bg-[#F5F5F7] overflow-hidden mb-4 rounded-sm">
+                <div className="relative aspect-square bg-white overflow-hidden mb-4 rounded-sm">
                     <Image
                         src={imageUrl}
                         alt={productName}
                         fill
-                        className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                        className="object-contain p-4 transition-all duration-700 ease-out group-hover:scale-105"
                     />
 
                     {/* Gradient Overlay on Hover */}
