@@ -19,13 +19,10 @@ async function getProducts() {
     }
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-    const content = await getStorePageContent();
-    return {
-        title: content.titulo ? `${content.titulo} | Josepja` : "Tienda Josepja | Mesas y sillas para restaurante en CDMX | Mobiliario para restaurantes",
-        description: content.descripcion || "Compra en Josepja Mobiliario para restaurantes: Mesas para restaurantes, mesas para cafetería y Mesas y Sillas para restaurante de alta resistencia en CDMX. Envíos a toda la República.",
-    };
-}
+export const metadata: Metadata = {
+    title: "Tienda Josepja | Mesas y sillas para restaurante en CDMX | Mobiliario para restaurantes",
+    description: "Compra en Josepja Mobiliario para restaurantes: Mesas para restaurantes, mesas para cafetería y Mesas y Sillas para restaurante de alta resistencia en CDMX. Envíos a toda la República.",
+};
 
 export default async function TiendaPage() {
     const [products, content] = await Promise.all([
