@@ -8,8 +8,8 @@ import NewsletterForm from "@/components/NewsletterForm";
 export const revalidate = 300; // Refresh every 5 minutes
 
 export const metadata: Metadata = {
-    title: "Blog | Josepja — Diseño y tendencias para hospitalidad",
-    description: "Artículos sobre diseño de interiores, tendencias en la industria gastronómica y consejos para optimizar tu espacio.",
+    title: "Blog Josepja | Mobiliario para restaurantes | Mesas y sillas para restaurante",
+    description: "Aprende sobre Mobiliario para restaurantes, Mesas para restaurantes, mesas para cafetería y Mesas y Sillas para restaurante con consejos y tendencias de Josepja.",
 };
 
 export default async function BlogPage() {

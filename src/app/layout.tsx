@@ -16,8 +16,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Josepja Muebles para Restaurantes | Mesas para Restaurantes y Cafeterías | Mesas y sillas",
-  description: "Diseño y fabricación de mobiliario a medida para restaurantes, hoteles y oficinas. Más de 30 años de experiencia. Garantía de calidad.",
+  title: "Josepja | Muebles para restaurantes en CDMX | Mesas y sillas para restaurante",
+  description: "En Josepja fabricamos Muebles para restaurantes en CDMX, incluyendo Mesas para restaurantes, mesas para cafetería y Mesas y Sillas para restaurante de uso rudo. Envíos a toda la República.",
   keywords: ["muebles restaurante", "sillas restaurante", "mesas restaurante", "mesas cafetería", "mobiliario", "fabricación México", "Josepja"],
 };
 
