@@ -40,45 +40,60 @@ export default function NavbarSearch() {
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
 
+    // Cache all products so searches are instant after first load
+    const allProductsRef = useRef<any[]>([]);
+    const loadingProductsRef = useRef(false);
+
+    const loadAllProducts = useCallback(async () => {
+        if (allProductsRef.current.length > 0 || loadingProductsRef.current || !isReady) return;
+        loadingProductsRef.current = true;
+        try {
+            // Paginate through all products
+            let allItems: any[] = [];
+            let skip = 0;
+            const pageSize = 100;
+            while (true) {
+                const res = await wixClient.products
+                    .queryProducts()
+                    .limit(pageSize)
+                    .skip(skip)
+                    .find();
+                allItems = allItems.concat(res.items);
+                if (res.items.length < pageSize) break;
+                skip += pageSize;
+            }
+            allProductsRef.current = allItems;
+        } catch (err) {
+            console.error("[Search] Error loading products:", err);
+        }
+        loadingProductsRef.current = false;
+    }, [wixClient, isReady]);
+
+    // Preload products when search panel opens
+    useEffect(() => {
+        if (isOpen && isReady) loadAllProducts();
+    }, [isOpen, isReady, loadAllProducts]);
+
     const searchProducts = useCallback(async (searchQuery: string) => {
-        if (!isReady || searchQuery.length < 2) {
+        if (searchQuery.length < 2) {
             setResults([]);
             return;
         }
 
         setIsSearching(true);
         try {
-            // Wix SDK only supports startsWith for name queries,
-            // so we fetch a larger set and filter client-side for broader matches
-            const res = await wixClient.products
-                .queryProducts()
-                .startsWith("name", searchQuery)
-                .limit(8)
-                .find();
-
-            let items = res.items;
-
-            // If few results, also fetch all and filter client-side
-            if (items.length < 4) {
-                const res2 = await wixClient.products
-                    .queryProducts()
-                    .limit(50)
-                    .find();
-                const lowerQuery = searchQuery.toLowerCase();
-                const filtered = res2.items.filter(p =>
-                    p.name?.toLowerCase().includes(lowerQuery)
-                );
-                // Merge, deduplicate by _id
-                const ids = new Set(items.map(i => i._id));
-                for (const item of filtered) {
-                    if (!ids.has(item._id)) {
-                        items.push(item);
-                        ids.add(item._id);
-                    }
-                }
+            // Wait for products to load if not yet ready
+            if (allProductsRef.current.length === 0) {
+                await loadAllProducts();
             }
 
-            setResults(items.slice(0, 8).map(p => ({
+            const lowerQuery = searchQuery.toLowerCase();
+            const filtered = allProductsRef.current.filter(p =>
+                p.name?.toLowerCase().includes(lowerQuery) ||
+                p.slug?.toLowerCase().includes(lowerQuery)
+            );
+
+            setResults(filtered.slice(0, 8).map(p => ({
                 _id: p._id || "",
                 name: p.name || "Producto",
                 slug: normalizeSlug(p.slug || ""),
@@ -91,7 +106,7 @@ export default function NavbarSearch() {
         } finally {
             setIsSearching(false);
         }
-    }, [wixClient, isReady]);
+    }, [loadAllProducts]);
 
     const handleInputChange = (value: string) => {
         setQuery(value);
