@@ -44,11 +44,14 @@ export default function NavbarSearch() {
     const allProductsRef = useRef<any[]>([]);
     const loadingProductsRef = useRef(false);
 
+    /** Strip accents/diacritics and lowercase for Spanish-friendly matching */
+    const normalize = (s: string) =>
+        s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
     const loadAllProducts = useCallback(async () => {
         if (allProductsRef.current.length > 0 || loadingProductsRef.current || !isReady) return;
         loadingProductsRef.current = true;
         try {
-            // Paginate through all products
             let allItems: any[] = [];
             let skip = 0;
             const pageSize = 100;
@@ -82,18 +85,45 @@ export default function NavbarSearch() {
 
         setIsSearching(true);
         try {
-            // Wait for products to load if not yet ready
             if (allProductsRef.current.length === 0) {
                 await loadAllProducts();
             }
 
-            const lowerQuery = searchQuery.toLowerCase();
-            const filtered = allProductsRef.current.filter(p =>
-                p.name?.toLowerCase().includes(lowerQuery) ||
-                p.slug?.toLowerCase().includes(lowerQuery)
-            );
+            // Split query into individual words for AND matching
+            const queryWords = normalize(searchQuery).split(/\s+/).filter(w => w.length > 0);
 
-            setResults(filtered.slice(0, 8).map(p => ({
+            // Score each product
+            const scored = allProductsRef.current.map(p => {
+                const nameNorm = normalize(p.name || "");
+                const slugNorm = normalize(p.slug || "");
+                // Strip HTML from description
+                const rawDesc = (p.description || "").replace(/<[^>]*>/g, "");
+                const descNorm = normalize(rawDesc);
+                const searchable = `${nameNorm} ${slugNorm} ${descNorm}`;
+
+                // All query words must appear somewhere (AND logic)
+                const allMatch = queryWords.every(word => searchable.includes(word));
+                if (!allMatch) return { p, score: 0 };
+
+                // Relevance scoring
+                let score = 0;
+                for (const word of queryWords) {
+                    if (nameNorm.includes(word)) score += 10; // Name match = highest
+                    if (slugNorm.includes(word)) score += 5;  // Slug match
+                    if (descNorm.includes(word)) score += 2;  // Description match
+                }
+                // Bonus: exact name match
+                if (nameNorm.includes(normalize(searchQuery))) score += 20;
+
+                return { p, score };
+            });
+
+            const filtered = scored
+                .filter(item => item.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 8);
+
+            setResults(filtered.map(({ p }) => ({
                 _id: p._id || "",
                 name: p.name || "Producto",
                 slug: normalizeSlug(p.slug || ""),
@@ -111,7 +141,7 @@ export default function NavbarSearch() {
     const handleInputChange = (value: string) => {
         setQuery(value);
         if (debounceRef.current) clearTimeout(debounceRef.current);
-        debounceRef.current = setTimeout(() => searchProducts(value), 300);
+        debounceRef.current = setTimeout(() => searchProducts(value), 150);
     };
 
     return (
