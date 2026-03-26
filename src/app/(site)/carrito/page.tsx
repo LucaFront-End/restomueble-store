@@ -68,11 +68,9 @@ export default function CartPage() {
                 throw new Error("No se recibió checkoutId");
             }
 
-            // Redirect to checkout through our own domain.
-            // Next.js rewrite in next.config.ts proxies /__ecom/* to Wix backend,
-            // keeping the user on josepja.com so session cookies persist.
+            // Redirect to Wix checkout directly
             const thankYouUrl = encodeURIComponent(window.location.origin + "/gracias");
-            window.location.href = `${window.location.origin}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+            window.location.href = `https://websitegddmx.wixsite.com/josepja/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
         } catch (error) {
             console.error("Error creating checkout:", error);
             alert("Error al procesar. Intenta de nuevo.");
