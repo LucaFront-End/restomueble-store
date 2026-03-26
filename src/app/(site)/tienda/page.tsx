@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getAllProducts } from "@/lib/wixProducts";
 import { getStorePageContent } from "@/lib/wixCmsStore";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
@@ -36,8 +37,9 @@ export default async function TiendaPage() {
             />
 
             {/* 2. Category Navigation + Search + Product Grid */}
-            <TiendaProductGrid products={products} />
+            <Suspense fallback={null}>
+                <TiendaProductGrid products={products} />
+            </Suspense>
         </main>
     );
 }
-
