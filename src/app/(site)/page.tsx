@@ -7,7 +7,9 @@ import LogoCarousel from "@/components/LogoCarousel";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import AboutSticky from "@/components/AboutSticky";
 import ConciergeCTA from "@/components/ConciergeCTA";
+import { getAllProducts } from "@/lib/wixProducts";
 import { products } from "@wix/stores";
+
 
 export const revalidate = 60; // Revalidar cada 60 segundos para reflejar cambios del CMS rápidamente
 
@@ -18,10 +20,9 @@ export default async function Home() {
     let espaciosCms: any[] = [];
     let marcasCms: any[] = [];
 
-    // Fetch products
+    // Fetch ALL products (paginated — store has 150+ products)
     try {
-        const result = await wixClient.products.queryProducts().limit(100).find();
-        initialProducts = result.items;
+        initialProducts = await getAllProducts();
     } catch (e) {
         console.error("[Home] Failed to fetch products", e);
     }

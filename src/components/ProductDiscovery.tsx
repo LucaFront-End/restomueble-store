@@ -20,7 +20,7 @@ const ProductDiscovery = ({ initialProducts, content = {} }: ProductDiscoveryPro
 
     const activeCollection = COLLECTIONS[activeIdx];
 
-    // Filter products by the real Wix collection ID — single source of truth
+    // Filter products by the real Wix collection ID
     const filteredProducts = useMemo(() => {
         if (!activeCollection.wixId) return initialProducts;
         return initialProducts.filter((p) =>

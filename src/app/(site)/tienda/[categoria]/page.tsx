@@ -1,5 +1,6 @@
 import { getWixServerClient } from "@/lib/wixClientServer";
 import { getCollectionBySlug, getAllCollectionSlugs, COLLECTIONS } from "@/lib/wixCollections";
+import { getAllProducts } from "@/lib/wixProducts";
 import { notFound } from "next/navigation";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
 import { ProductCard } from "@/components/catalogue/ProductCard";
@@ -15,11 +16,9 @@ interface PageProps {
 
 async function getProducts(collectionId?: string) {
     try {
-        const wixClient = getWixServerClient();
-        const allProducts = await wixClient.products.queryProducts().limit(100).find();
-        let items = allProducts.items || [];
+        const items = await getAllProducts();
         if (collectionId) {
-            items = items.filter((p) => p.collectionIds?.includes(collectionId));
+            return items.filter((p) => p.collectionIds?.includes(collectionId));
         }
         return items;
     } catch (error) {

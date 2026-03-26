@@ -417,21 +417,27 @@
     }
 
     .hero-carousel__inner {
-        padding-top: 2.5vh;
+        padding-top: 1vh;
     }
 
     .hero-carousel__bg-title {
-        font-size: clamp(2rem, 10.5vw, 3.5rem);
+        font-size: clamp(2.2rem, 11vw, 3.5rem);
         padding: 0 1rem;
     }
 
+    .hero-carousel__pre-title {
+        font-size: clamp(0.6rem, 2.2vw, 0.75rem);
+        letter-spacing: 0.25em;
+        margin-bottom: 0.3em;
+    }
+
     .hero-carousel__stage {
-        margin-top: -0.5rem;
+        margin-top: -3rem;
     }
 
     .hero-carousel__product-img {
-        max-height: 46vh;
-        max-width: 88vw;
+        max-height: 38vh;
+        max-width: 80vw;
     }
 
     /* On mobile: bottom is relative flowing after stage, not absolute */
@@ -440,7 +446,7 @@
         bottom: auto;
         left: auto;
         width: 100%;
-        padding: 1rem 1.25rem 0.5rem;
+        padding: 1.25rem 1.25rem 0.75rem;
         flex-direction: row;
         align-items: flex-end;
         justify-content: space-between;
@@ -456,12 +462,12 @@
     }
 
     .hero-carousel__bottom-left {
-        max-width: 58%;
+        max-width: 55%;
         gap: 0;
     }
 
     .hero-carousel__desc {
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         line-height: 1.5;
     }
 
@@ -471,8 +477,9 @@
     }
 
     .hero-carousel__cta-pill {
-        padding: 8px 16px;
-        font-size: 0.7rem;
+        padding: 10px 20px;
+        font-size: 0.72rem;
+        font-weight: 600;
     }
 
     /* Dots: below content, centered */
@@ -482,7 +489,7 @@
         left: auto;
         transform: none;
         justify-content: center;
-        margin: 0.5rem 0 0.75rem;
+        margin: 0.75rem 0 1rem;
         opacity: 1;
         transition: none;
     }

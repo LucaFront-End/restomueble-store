@@ -21,9 +21,6 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     const [currentPrice, setCurrentPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
 
-    // Track variant selections (Estilo, Terminado, etc.) for conditional color filtering
-    const [variantSelections, setVariantSelections] = useState<Record<string, string>>({});
-
     return (
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
             {/* Left: Gallery */}
@@ -48,13 +45,11 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         variants={product.variants || []}
                         onPriceChange={(formattedPrice) => setCurrentPrice(formattedPrice)}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
-                        onSelectedOptionsChange={(options) => setVariantSelections(options)}
                     />
 
-                    {/* Color/Material selectors — filtered by current variant selections */}
+                    {/* Color/Material selectors — cascading Medidas → Estilo → Color del Vinil */}
                     <ColorSelector
                         colorData={colorData}
-                        variantSelections={variantSelections}
                         onImageChange={(imageUrl) => setExternalImage(imageUrl)}
                     />
 

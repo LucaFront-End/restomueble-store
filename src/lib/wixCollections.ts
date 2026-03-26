@@ -73,4 +73,3 @@ export function normalizeSlug(slug: string): string {
         .replace(/[\u0300-\u036f]/g, "") // strip combining diacritics
         .toLowerCase();
 }
-

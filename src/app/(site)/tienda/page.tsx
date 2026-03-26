@@ -1,4 +1,4 @@
-import { getWixServerClient } from "@/lib/wixClientServer";
+import { getAllProducts } from "@/lib/wixProducts";
 import { COLLECTIONS } from "@/lib/wixCollections";
 import { getStorePageContent } from "@/lib/wixCmsStore";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
@@ -10,9 +10,7 @@ export const revalidate = 60;
 
 async function getProducts() {
     try {
-        const wixClient = getWixServerClient();
-        const result = await wixClient.products.queryProducts().limit(100).find();
-        return result.items || [];
+        return await getAllProducts();
     } catch (error) {
         console.error("❌ Error fetching products:", error);
         return [];

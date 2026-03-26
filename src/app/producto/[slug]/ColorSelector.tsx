@@ -6,85 +6,82 @@ import { getDistinctValues, findImageForCombination } from "@/lib/wixCmsColores"
 
 interface ColorSelectorProps {
     colorData: ColorCombination[];
-    /** Currently selected variant options from AddToCart (e.g. {"Estilo:": "Pintura", "Terminados:": "Terminado rústico"}) */
-    variantSelections?: Record<string, string>;
     onImageChange: (imageUrl: string) => void;
-}
-
-/**
- * Normalize a variant option name for fuzzy matching.
- * Wix options have trailing colons: "Terminados:" → "terminados"
- */
-function normalizeKey(key: string): string {
-    return key.replace(/:$/, "").trim().toLowerCase();
-}
-
-/**
- * Check if a CMS terminado value matches the selected variant terminado.
- * E.g. CMS has "Terminado rústico brillante", variant has "Terminado rústico brillante"
- * Uses case-insensitive comparison.
- */
-function matchesTerminado(cmsValue: string, variantValue: string): boolean {
-    if (!cmsValue || !variantValue) return true; // No filter if either is empty
-    return cmsValue.toLowerCase().trim() === variantValue.toLowerCase().trim();
 }
 
 /**
  * Color/material selector driven by Wix CMS "CMS Colores" data.
  *
- * Shows selectors for Fórmica and Color del Vinil, filtered by the
- * currently selected variant options (Estilo, Terminado).
+ * Shows cascading selectors: Medidas → Estilo → Color del Vinil → Image
  *
- * Chain: Estilo → Terminado → Fórmica → Vinil → Image
+ * When the user selects a combination, the product image updates
+ * to match that specific variant photo from the CMS.
  */
-export default function ColorSelector({ colorData, variantSelections = {}, onImageChange }: ColorSelectorProps) {
-    // Find relevant variant selections by normalizing keys
-    const selectedTerminado = useMemo(() => {
-        for (const [key, value] of Object.entries(variantSelections)) {
-            if (normalizeKey(key).includes("terminado")) return value;
+export default function ColorSelector({ colorData, onImageChange }: ColorSelectorProps) {
+    // === Step 1: Medidas (e.g. "Mesa de 60x60cm", "Sin terminado adicional") ===
+    const allMedidas = useMemo(() => getDistinctValues(colorData, "medidas"), [colorData]);
+
+    const [selectedMedidas, setSelectedMedidas] = useState<string | null>(null);
+
+    // Auto-select first medida on load
+    useEffect(() => {
+        if (allMedidas.length > 0 && !selectedMedidas) {
+            setSelectedMedidas(allMedidas[0]);
         }
-        return null;
-    }, [variantSelections]);
+    }, [allMedidas, selectedMedidas]);
 
-    // Filter CMS data based on the selected terminado
-    const filteredData = useMemo(() => {
-        if (!selectedTerminado) return colorData;
+    // === Step 2: Estilo (filtered by selected Medidas) ===
+    const filteredByMedidas = useMemo(() => {
+        if (!selectedMedidas) return colorData;
         return colorData.filter(item =>
-            matchesTerminado(item.terminado, selectedTerminado)
+            item.medidas.toLowerCase() === selectedMedidas.toLowerCase()
         );
-    }, [colorData, selectedTerminado]);
+    }, [colorData, selectedMedidas]);
 
-    const formicas = useMemo(() => getDistinctValues(filteredData, "formica"), [filteredData]);
-    const vinilos = useMemo(() => getDistinctValues(filteredData, "colorVinil"), [filteredData]);
+    const estilos = useMemo(() => getDistinctValues(filteredByMedidas, "estilo"), [filteredByMedidas]);
 
-    const [selectedFormica, setSelectedFormica] = useState<string | null>(null);
+    const [selectedEstilo, setSelectedEstilo] = useState<string | null>(null);
+
+    // Auto-select first estilo when options change
+    useEffect(() => {
+        if (estilos.length > 0) {
+            setSelectedEstilo(estilos[0]);
+        } else {
+            setSelectedEstilo(null);
+        }
+    }, [estilos]);
+
+    // === Step 3: Color del Vinil (filtered by Medidas + Estilo) ===
+    const filteredByEstilo = useMemo(() => {
+        if (!selectedEstilo) return filteredByMedidas;
+        return filteredByMedidas.filter(item =>
+            item.estilo.toLowerCase() === selectedEstilo.toLowerCase()
+        );
+    }, [filteredByMedidas, selectedEstilo]);
+
+    const vinilos = useMemo(() => getDistinctValues(filteredByEstilo, "colorVinil"), [filteredByEstilo]);
+
     const [selectedVinil, setSelectedVinil] = useState<string | null>(null);
 
-    // Reset selections when filtered options change (e.g. user changed Terminado)
+    // Auto-select first vinil when options change
     useEffect(() => {
-        setSelectedFormica(formicas.length > 0 ? formicas[0] : null);
-        setSelectedVinil(vinilos.length > 0 ? vinilos[0] : null);
-    }, [formicas, vinilos]);
+        if (vinilos.length > 0) {
+            setSelectedVinil(vinilos[0]);
+        } else {
+            setSelectedVinil(null);
+        }
+    }, [vinilos]);
 
-    // When selections change, find and emit the matching image
+    // === Image Update: find matching image for current combination ===
     useEffect(() => {
-        if (selectedFormica || selectedVinil) {
-            const imageUrl = findImageForCombination(filteredData, selectedFormica, selectedVinil);
+        if (selectedMedidas || selectedEstilo || selectedVinil) {
+            const imageUrl = findImageForCombination(colorData, selectedMedidas, selectedEstilo, selectedVinil);
             if (imageUrl) onImageChange(imageUrl);
         }
-    }, [selectedFormica, selectedVinil, filteredData, onImageChange]);
+    }, [selectedMedidas, selectedEstilo, selectedVinil, colorData, onImageChange]);
 
-    // Don't render anything if there's no color data after filtering
-    if (filteredData.length === 0) return null;
-    if (formicas.length === 0 && vinilos.length === 0) return null;
-
-    const handleFormicaChange = (value: string) => {
-        setSelectedFormica(value);
-    };
-
-    const handleVinilChange = (value: string) => {
-        setSelectedVinil(value);
-    };
+    // Don't render if no data
+    if (colorData.length === 0) return null;
 
     return (
         <div className="space-y-5 pt-2 pb-2">
@@ -96,24 +93,24 @@ export default function ColorSelector({ colorData, variantSelections = {}, onIma
                 <span className="flex-1 h-px bg-gray-100" />
             </div>
 
-            {/* Fórmica selector */}
-            {formicas.length > 0 && (
+            {/* Medidas selector */}
+            {allMedidas.length > 0 && (
                 <div>
                     <div className="flex items-baseline gap-2 mb-3">
                         <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400">
-                            Fórmica:
+                            Medidas:
                         </span>
                         <span className="text-[11px] text-gray-900 font-medium">
-                            — {selectedFormica || "Seleccioná"}
+                            — {selectedMedidas || "Seleccioná"}
                         </span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {formicas.map((formica) => {
-                            const isSelected = selectedFormica === formica;
+                        {allMedidas.map((m) => {
+                            const isSelected = selectedMedidas === m;
                             return (
                                 <button
-                                    key={formica}
-                                    onClick={() => handleFormicaChange(formica)}
+                                    key={m}
+                                    onClick={() => setSelectedMedidas(m)}
                                     className={`
                                         px-5 py-2.5 text-xs font-semibold tracking-wide
                                         border transition-all duration-200
@@ -123,7 +120,42 @@ export default function ColorSelector({ colorData, variantSelections = {}, onIma
                                         }
                                     `}
                                 >
-                                    {formica}
+                                    {m}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
+            {/* Estilo selector */}
+            {estilos.length > 0 && (
+                <div>
+                    <div className="flex items-baseline gap-2 mb-3">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400">
+                            Estilo:
+                        </span>
+                        <span className="text-[11px] text-gray-900 font-medium">
+                            — {selectedEstilo || "Seleccioná"}
+                        </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {estilos.map((e) => {
+                            const isSelected = selectedEstilo === e;
+                            return (
+                                <button
+                                    key={e}
+                                    onClick={() => setSelectedEstilo(e)}
+                                    className={`
+                                        px-5 py-2.5 text-xs font-semibold tracking-wide
+                                        border transition-all duration-200
+                                        ${isSelected
+                                            ? "border-gray-900 bg-gray-900 text-white"
+                                            : "border-gray-200 text-gray-600 bg-white hover:border-gray-900 hover:text-gray-900"
+                                        }
+                                    `}
+                                >
+                                    {e}
                                 </button>
                             );
                         })}
@@ -143,12 +175,12 @@ export default function ColorSelector({ colorData, variantSelections = {}, onIma
                         </span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {vinilos.map((vinil) => {
-                            const isSelected = selectedVinil === vinil;
+                        {vinilos.map((v) => {
+                            const isSelected = selectedVinil === v;
                             return (
                                 <button
-                                    key={vinil}
-                                    onClick={() => handleVinilChange(vinil)}
+                                    key={v}
+                                    onClick={() => setSelectedVinil(v)}
                                     className={`
                                         px-5 py-2.5 text-xs font-semibold tracking-wide
                                         border transition-all duration-200
@@ -158,7 +190,7 @@ export default function ColorSelector({ colorData, variantSelections = {}, onIma
                                         }
                                     `}
                                 >
-                                    {vinil}
+                                    {v}
                                 </button>
                             );
                         })}

@@ -43,10 +43,12 @@ export async function generateMetadata({ params }: { params: Promise<{ landing: 
     // 1. Check TiendasSEO first
     const tienda = await getStoreLandingBySlug(slug);
     if (tienda) {
+        const seoTitle = tienda.tituloSeo || tienda.titulo;
+        const seoDesc = tienda.metadescripcion || tienda.descripcion;
         return {
-            title: `${tienda.titulo} | Josepja`,
-            description: tienda.descripcion,
-            openGraph: { title: tienda.titulo, description: tienda.descripcion, locale: "es_MX" },
+            title: `${seoTitle} | Josepja`,
+            description: seoDesc,
+            openGraph: { title: seoTitle, description: seoDesc, locale: "es_MX" },
         };
     }
 
@@ -59,11 +61,13 @@ export async function generateMetadata({ params }: { params: Promise<{ landing: 
         }
     }
     if (!landing) return { title: "Página no encontrada" };
+    const landingSeoTitle = landing.tituloSeo || landing.titulo;
+    const landingSeoDesc = landing.tituloMetadescripcion || landing.descripcion;
     return {
-        title: `${landing.titulo} | Josepja`,
-        description: landing.descripcion,
+        title: `${landingSeoTitle} | Josepja`,
+        description: landingSeoDesc,
         keywords: landing.keywords,
-        openGraph: { title: landing.titulo, description: landing.descripcion, locale: "es_MX" },
+        openGraph: { title: landingSeoTitle, description: landingSeoDesc, locale: "es_MX" },
     };
 }
 

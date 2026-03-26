@@ -15,12 +15,12 @@ export interface ColorCombination {
     slug: string;
     /** HTTP URL to the product image for this combination */
     imageUrl: string | null;
-    /** Fórmica color/material (e.g. "Verde Limon") */
-    formica: string;
-    /** Vinil color (e.g. "naranja") */
+    /** Medidas (e.g. "Mesa de 60x60cm", "Sin terminado adicional") */
+    medidas: string;
+    /** Estilo (e.g. "Negro", "Cromo", "Chocolate") */
+    estilo: string;
+    /** Vinil color (e.g. "Naranja", "Azul Marino") */
     colorVinil: string;
-    /** Terminado / finish (e.g. "Rústico brillante") */
-    terminado: string;
 }
 
 /**
@@ -48,26 +48,26 @@ export async function getColorsByProduct(productSlug: string): Promise<ColorComb
         // First try exact match on the "reference" field
         let result = await wixClient.items
             .query("CMSColores")
-            .eq("reference", productSlug)
+            .eq("referencia", productSlug)
             .find();
 
         // If no exact match, try with normalized (accent-stripped) slug
         if (result.items.length === 0 && normalizedSlug !== productSlug) {
             result = await wixClient.items
                 .query("CMSColores")
-                .eq("reference", normalizedSlug)
+                .eq("referencia", normalizedSlug)
                 .find();
         }
 
         if (result.items.length === 0) return [];
 
         return result.items.map((item: any) => ({
-            title: item.title_fld || "",
-            slug: item.reference || "",
+            title: item.title || "",
+            slug: item.referencia || "",
             imageUrl: getWixImageUrl(item.fotoDeProducto || ""),
-            formica: item.formaica1 || "",
+            medidas: item.medidas || "",
+            estilo: item.estilo || "",
             colorVinil: item.colorDelVinil || "",
-            terminado: item.terminado || "",
         }));
     } catch (error) {
         console.warn("[CMS Colores] Could not fetch color data:", error);
@@ -95,13 +95,15 @@ export function getDistinctValues(items: ColorCombination[], field: keyof ColorC
  */
 export function findImageForCombination(
     items: ColorCombination[],
-    formica: string | null,
+    medidas: string | null,
+    estilo: string | null,
     colorVinil: string | null,
 ): string | null {
     const match = items.find((item) => {
-        const formicaMatch = !formica || item.formica.toLowerCase() === formica.toLowerCase();
+        const medidasMatch = !medidas || item.medidas.toLowerCase() === medidas.toLowerCase();
+        const estiloMatch = !estilo || item.estilo.toLowerCase() === estilo.toLowerCase();
         const vinilMatch = !colorVinil || item.colorVinil.toLowerCase() === colorVinil.toLowerCase();
-        return formicaMatch && vinilMatch;
+        return medidasMatch && estiloMatch && vinilMatch;
     });
     return match?.imageUrl ?? null;
 }
