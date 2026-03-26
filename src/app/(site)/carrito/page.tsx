@@ -68,36 +68,11 @@ export default function CartPage() {
                 throw new Error("No se recibió checkoutId");
             }
 
-            // Try server-side createRedirectSession (uses API key + member identity)
-            try {
-                // Get the user's access token to pass member identity to checkout
-                let accessToken = "";
-                try {
-                    const stored = localStorage.getItem("wix_session");
-                    if (stored) {
-                        const parsed = JSON.parse(stored);
-                        accessToken = parsed?.accessToken?.value || "";
-                    }
-                } catch {}
-
-                const res = await fetch("/api/checkout-redirect", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ checkoutId, origin: window.location.origin, accessToken }),
-                });
-                const data = await res.json();
-                if (data.url) {
-                    window.location.href = data.url;
-                    return;
-                }
-            } catch (err) {
-                console.warn("[Checkout] Server redirect failed, using fallback:", err);
-            }
-
-            // Fallback: direct Wix checkout URL (no session transfer)
-            const WIX_SITE = "websitegddmx.wixsite.com/josepja";
+            // Redirect to checkout through our own domain.
+            // Next.js rewrite in next.config.ts proxies /__ecom/* to Wix backend,
+            // keeping the user on josepja.com so session cookies persist.
             const thankYouUrl = encodeURIComponent(window.location.origin + "/gracias");
-            window.location.href = `https://${WIX_SITE}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+            window.location.href = `${window.location.origin}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
         } catch (error) {
             console.error("Error creating checkout:", error);
             alert("Error al procesar. Intenta de nuevo.");
