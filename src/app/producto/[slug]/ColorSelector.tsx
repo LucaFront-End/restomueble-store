@@ -120,13 +120,12 @@ function ColorSelectorInner({ colorData, onImageChange, onVariantOptionsChange }
             );
             if (imageUrl) onImageChange(imageUrl);
 
-            // Map CMS Colores selections → Wix variant option names
-            // CMS "terminado" maps to Wix "Tamaño"
-            // CMS "estilo" maps to Wix "Estilo"
+            // Map CMS Colores selections → Wix variant options
+            // AddToCart matches by VALUE (not by key name), so keys are just identifiers
             if (onVariantOptionsChange) {
                 const mapped: Record<string, string> = {};
-                if (selectedMedidas) mapped["Tamaño"] = selectedMedidas;
-                if (selectedEstilo) mapped["Estilo"] = selectedEstilo;
+                if (selectedMedidas) mapped["terminado"] = selectedMedidas;
+                if (selectedEstilo) mapped["estilo"] = selectedEstilo;
                 onVariantOptionsChange(mapped);
             }
         }

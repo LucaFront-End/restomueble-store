@@ -96,28 +96,42 @@ export default function AddToCart({
     });
 
     // Sync external option selections (from CMS Colores) into variant matching
+    // Uses VALUE-BASED matching: for each CMS value, find which Wix option has that choice
     useEffect(() => {
-        if (externalSelectedOptions && Object.keys(externalSelectedOptions).length > 0) {
-            setSelectedOptions(prev => {
-                const merged = { ...prev };
-                // For each external option, find the matching Wix option name (case-insensitive)
-                for (const [extKey, extValue] of Object.entries(externalSelectedOptions)) {
-                    const matchingOption = normalizedOptions.find(opt =>
-                        opt.name.toLowerCase() === extKey.toLowerCase()
+        if (!externalSelectedOptions || Object.keys(externalSelectedOptions).length === 0) return;
+
+        /** Strip accents and lowercase for fuzzy matching */
+        const norm = (s: string) =>
+            s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+        setSelectedOptions(prev => {
+            const merged = { ...prev };
+            const cmsValues = Object.values(externalSelectedOptions);
+
+            for (const cmsValue of cmsValues) {
+                if (!cmsValue) continue;
+                const cmsNorm = norm(cmsValue);
+
+                // Try to find a Wix option that has a choice matching this CMS value
+                for (const opt of normalizedOptions) {
+                    // Exact normalized match
+                    const exactMatch = opt.choices.find(c => norm(c.value) === cmsNorm);
+                    if (exactMatch) {
+                        merged[opt.name] = exactMatch.value;
+                        break;
+                    }
+                    // Substring match (e.g. "Mesa de 60x60cm" ↔ "Mesa de 60x60")
+                    const subMatch = opt.choices.find(c =>
+                        cmsNorm.includes(norm(c.value)) || norm(c.value).includes(cmsNorm)
                     );
-                    if (matchingOption) {
-                        // Find the matching choice value (case-insensitive)
-                        const matchingChoice = matchingOption.choices.find(c =>
-                            c.value.toLowerCase() === extValue.toLowerCase()
-                        );
-                        if (matchingChoice) {
-                            merged[matchingOption.name] = matchingChoice.value;
-                        }
+                    if (subMatch) {
+                        merged[opt.name] = subMatch.value;
+                        break;
                     }
                 }
-                return merged;
-            });
-        }
+            }
+            return merged;
+        });
     }, [externalSelectedOptions, normalizedOptions]);
 
     const allOptionsSelected = hasOptions
