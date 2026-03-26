@@ -25,7 +25,7 @@ export default function CuentaPage() {
     const [authError, setAuthError] = useState("");
     const [authLoading, setAuthLoading] = useState(false);
 
-    // Check if user is already logged in
+    // Check if user is already logged in and fetch their data
     useEffect(() => {
         if (!isReady) return;
 
@@ -33,6 +33,52 @@ export default function CuentaPage() {
             try {
                 const hasMemberSession = isMemberSession();
                 setIsLoggedIn(hasMemberSession);
+
+                if (hasMemberSession) {
+                    // Extract memberId from JWT access token
+                    let memberId = "";
+                    try {
+                        const stored = localStorage.getItem("wix_session");
+                        if (stored) {
+                            const parsed = JSON.parse(stored);
+                            const accessToken = parsed?.accessToken?.value || "";
+                            if (accessToken) {
+                                const parts = accessToken.split(".");
+                                if (parts.length >= 2) {
+                                    const payload = JSON.parse(atob(parts[1]));
+                                    const data = typeof payload.data === "string" ? JSON.parse(payload.data) : payload.data;
+                                    memberId = data?.id || data?.memberId || "";
+                                }
+                            }
+                        }
+                    } catch {}
+
+                    // Fetch profile + orders from server (uses API key, no 403)
+                    if (memberId) {
+                        setOrdersLoading(true);
+                        try {
+                            const res = await fetch("/api/member-data", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ memberId }),
+                            });
+                            const data = await res.json();
+                            if (data.profile) {
+                                setMemberEmail(data.profile.email || "");
+                                // Use name from profile if available
+                                if (data.profile.name) {
+                                    setMemberEmail(data.profile.name + (data.profile.lastName ? " " + data.profile.lastName : ""));
+                                }
+                            }
+                            if (data.orders) {
+                                setOrders(data.orders);
+                            }
+                        } catch (err) {
+                            console.warn("[Cuenta] Error fetching member data:", err);
+                        }
+                        setOrdersLoading(false);
+                    }
+                }
             } catch {
                 setIsLoggedIn(false);
             }
@@ -40,24 +86,6 @@ export default function CuentaPage() {
         };
         checkAuth();
     }, [wixClient, isReady]);
-
-    // Fetch orders when logged in
-    useEffect(() => {
-        if (!isLoggedIn || !isReady) return;
-
-        const fetchOrders = async () => {
-            setOrdersLoading(true);
-            try {
-                const result = await wixClient.orders.searchOrders({});
-                setOrders(result.orders || []);
-            } catch (err) {
-                console.error("[Cuenta] Error fetching orders:", err);
-                setOrders([]);
-            }
-            setOrdersLoading(false);
-        };
-        fetchOrders();
-    }, [isLoggedIn, isReady, wixClient]);
 
     // Handle login
     const handleLogin = async (e: FormEvent) => {
