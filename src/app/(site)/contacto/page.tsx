@@ -67,6 +67,7 @@ export default function ContactoPage() {
                 nombre: formData.nombre,
                 email: formData.email,
                 telefono: formData.telefono || "",
+                tipodeproyecto: formData.servicio || "",
                 origen: "contacto",
             });
         } catch { /* lead save is non-critical */ }

@@ -17,6 +17,7 @@ export interface LeadFormData {
     ciudad?: string;
     cantidad?: string;
     producto?: string;
+    tipodeproyecto?: string;
     origen: string; // "popup", "mayoreo", "concierge", "contacto"
 }
 
@@ -151,6 +152,7 @@ export async function submitLead(data: LeadFormData): Promise<ActionResult> {
             ciudad: data.ciudad || "",
             cantidad: data.cantidad || "",
             producto: data.producto || "",
+            tipodeproyecto: data.tipodeproyecto || "",
             origen: data.origen,
             fecha: new Date().toISOString(),
         });

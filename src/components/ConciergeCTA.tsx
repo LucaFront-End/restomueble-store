@@ -140,6 +140,7 @@ export default function ConciergeCTA({ content = {} }: ConciergeCTAProps) {
                 email: formData.email,
                 telefono: formData.phone,
                 cantidad: formData.quantity,
+                tipodeproyecto: formData.projectType,
                 origen: "concierge",
             });
         } catch (error) {
