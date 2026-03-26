@@ -20,22 +20,12 @@ export const CataloguePopupProvider = ({ children }: { children: ReactNode }) =>
     const [isOpen, setIsOpen] = useState(false);
 
     const openPopup = () => setIsOpen(true);
-    const closePopup = () => {
-        setIsOpen(false);
-        // Mark as shown so it doesn't reappear in the same session
-        try { sessionStorage.setItem("josepja_popup_shown", "1"); } catch {}
-    };
+    const closePopup = () => setIsOpen(false);
 
-    // Auto-open popup on first visit (per session)
+    // Auto-open popup every time the page loads (after a short delay)
     useEffect(() => {
-        try {
-            const alreadyShown = sessionStorage.getItem("josepja_popup_shown");
-            if (!alreadyShown) {
-                // Show after a short delay so the page loads first
-                const timer = setTimeout(() => setIsOpen(true), 3000);
-                return () => clearTimeout(timer);
-            }
-        } catch {}
+        const timer = setTimeout(() => setIsOpen(true), 3000);
+        return () => clearTimeout(timer);
     }, []);
 
     return (
