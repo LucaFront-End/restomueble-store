@@ -71,11 +71,32 @@ export async function generateMetadata({ params }: PageProps) {
 
     if (!product) return { title: "Producto no encontrado | Josepja" };
 
+    const name = product.name || "Producto";
+
+    // Strip HTML tags from Wix rich-text description
+    const rawDesc = product.description || "";
+    const plainDesc = rawDesc.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+    const descSnippet = plainDesc.substring(0, 140);
+
+    const title = `Mesas para restaurantes | ${name} | Josepja Muebles | Mobiliario para Restaurantes`;
+    const description = descSnippet
+        ? `Tienda de mobiliario para restaurantes | ${descSnippet}`
+        : "Tienda de mobiliario para restaurantes | Josepja — Mesas y sillas de diseño para restaurantes, cafeterías y hoteles.";
+
     return {
-        title: `${product.name} | Josepja`,
-        description: product.description?.substring(0, 160) || "Mobiliario premium para hospitalidad.",
+        title,
+        description,
         openGraph: {
-            images: [product.media?.mainMedia?.image?.url || ""],
+            title,
+            description,
+            images: product.media?.mainMedia?.image?.url
+                ? [{ url: product.media.mainMedia.image.url, width: 1200, height: 630, alt: name }]
+                : [],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
         },
     };
 }
