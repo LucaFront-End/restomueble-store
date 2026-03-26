@@ -21,14 +21,28 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     const [currentPrice, setCurrentPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
 
-    // CMS Colores mapped to Wix variant option names (e.g. { "Tamaño": "Mesa de 60x60cm", "Estilo": "Negro" })
+    // CMS Colores mapped to Wix variant option names
     const [cmsVariantOptions, setCmsVariantOptions] = useState<Record<string, string>>({});
 
     const hasCmsColorData = colorData.length > 0;
 
-    // Memoized callback for CMS Colores → variant options mapping
+    // ─── Stable callbacks (useCallback prevents infinite re-render loops) ────────
+
     const handleVariantOptionsChange = useCallback((options: Record<string, string>) => {
         setCmsVariantOptions(options);
+    }, []);
+
+    const handlePriceChange = useCallback((formattedPrice: string) => {
+        setCurrentPrice(formattedPrice);
+    }, []);
+
+    const handleCmsImageChange = useCallback((imageUrl: string) => {
+        setExternalImage(imageUrl);
+    }, []);
+
+    const handleVariantImageChange = useCallback((imageUrl: string) => {
+        // Only use variant image if CMS Colores is NOT active
+        // (CMS Colores handles images when present)
     }, []);
 
     return (
@@ -51,7 +65,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                     {/* CMS Colores selectors ABOVE the Add to Cart — these replace the variant UI */}
                     <ColorSelector
                         colorData={colorData}
-                        onImageChange={(imageUrl) => setExternalImage(imageUrl)}
+                        onImageChange={handleCmsImageChange}
                         onVariantOptionsChange={handleVariantOptionsChange}
                     />
 
@@ -60,11 +74,8 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         productName={product.name || ""}
                         productOptions={product.productOptions || []}
                         variants={product.variants || []}
-                        onPriceChange={(formattedPrice) => setCurrentPrice(formattedPrice)}
-                        onImageChange={(imageUrl) => {
-                            // Only use variant image if CMS Colores is NOT active
-                            if (!hasCmsColorData) setExternalImage(imageUrl);
-                        }}
+                        onPriceChange={handlePriceChange}
+                        onImageChange={hasCmsColorData ? handleVariantImageChange : handleCmsImageChange}
                         hideOptionSelectors={hasCmsColorData}
                         externalSelectedOptions={hasCmsColorData ? cmsVariantOptions : undefined}
                     />

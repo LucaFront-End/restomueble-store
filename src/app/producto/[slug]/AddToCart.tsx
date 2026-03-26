@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion } from "framer-motion";
 import type { products } from "@wix/stores";
@@ -102,11 +102,12 @@ export default function AddToCart({
 
         /** Strip accents and lowercase for fuzzy matching */
         const norm = (s: string) =>
-            s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 
         setSelectedOptions(prev => {
             const merged = { ...prev };
             const cmsValues = Object.values(externalSelectedOptions);
+            let changed = false;
 
             for (const cmsValue of cmsValues) {
                 if (!cmsValue) continue;
@@ -117,7 +118,10 @@ export default function AddToCart({
                     // Exact normalized match
                     const exactMatch = opt.choices.find(c => norm(c.value) === cmsNorm);
                     if (exactMatch) {
-                        merged[opt.name] = exactMatch.value;
+                        if (merged[opt.name] !== exactMatch.value) {
+                            merged[opt.name] = exactMatch.value;
+                            changed = true;
+                        }
                         break;
                     }
                     // Substring match (e.g. "Mesa de 60x60cm" ↔ "Mesa de 60x60")
@@ -125,12 +129,16 @@ export default function AddToCart({
                         cmsNorm.includes(norm(c.value)) || norm(c.value).includes(cmsNorm)
                     );
                     if (subMatch) {
-                        merged[opt.name] = subMatch.value;
+                        if (merged[opt.name] !== subMatch.value) {
+                            merged[opt.name] = subMatch.value;
+                            changed = true;
+                        }
                         break;
                     }
                 }
             }
-            return merged;
+            // Only return new object if something actually changed
+            return changed ? merged : prev;
         });
     }, [externalSelectedOptions, normalizedOptions]);
 
@@ -150,15 +158,21 @@ export default function AddToCart({
         ? (matchedVariant ? matchedVariant.inStock : true)
         : true;
 
+    // Refs for callbacks — prevents infinite re-render when parent passes inline functions
+    const onPriceChangeRef = useRef(onPriceChange);
+    const onImageChangeRef = useRef(onImageChange);
+    onPriceChangeRef.current = onPriceChange;
+    onImageChangeRef.current = onImageChange;
+
     // Fire callbacks when selected variant changes
     useEffect(() => {
-        if (matchedVariant?.formattedPrice && onPriceChange) {
-            onPriceChange(matchedVariant.formattedPrice);
+        if (matchedVariant?.formattedPrice && onPriceChangeRef.current) {
+            onPriceChangeRef.current(matchedVariant.formattedPrice);
         }
-        if (matchedVariant?.imageUrl && onImageChange) {
-            onImageChange(matchedVariant.imageUrl);
+        if (matchedVariant?.imageUrl && onImageChangeRef.current) {
+            onImageChangeRef.current(matchedVariant.imageUrl);
         }
-    }, [matchedVariant, onPriceChange, onImageChange]);
+    }, [matchedVariant]);
 
     // Notify parent of selected variant options (for conditional color filtering)
     useEffect(() => {
