@@ -71,17 +71,14 @@ export default function ContactoPage() {
                 origen: "contacto",
             });
         } catch { /* lead save is non-critical */ }
-        // Send email notification to sales team
+        // Send email directly from browser via Formsubmit.co
         try {
-            await fetch("/api/send-email", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...formData,
-                    origen: "contacto",
-                }),
+            const { sendFormEmail } = await import("@/lib/sendFormEmail");
+            await sendFormEmail({
+                ...formData,
+                origen: "contacto",
             });
-        } catch { /* email send is non-critical */ }
+        } catch { /* email is non-critical */ }
         setIsLoading(false);
         if (result.success) {
             setIsSubmitted(true);
