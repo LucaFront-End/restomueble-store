@@ -77,7 +77,6 @@ const Navbar = () => {
                         {[
                             { label: "Tienda", href: "/tienda" },
                             { label: "Nosotros", href: "/nosotros" },
-                            { label: "Proyectos", href: "/proyectos" },
                             { label: "Blog", href: "/blog" },
                             { label: "Contacto", href: "/contacto" }
                         ].map((item) => (
@@ -181,7 +180,6 @@ const Navbar = () => {
                             {[
                                 { label: "Tienda", href: "/tienda" },
                                 { label: "Nosotros", href: "/nosotros" },
-                                { label: "Proyectos", href: "/proyectos" },
                                 { label: "Blog", href: "/blog" },
                                 { label: "Contacto", href: "/contacto" }
                             ].map((item, index) => (

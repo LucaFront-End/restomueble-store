@@ -169,12 +169,20 @@ export default function CuentaPage() {
 
     // Handle logout
     const handleLogout = async () => {
+        // 1. Clear local state immediately so UI reflects logged-out
+        setIsLoggedIn(false);
+        setMemberEmail("");
+        setMemberName("");
+        setOrders([]);
+        // 2. Clear stored session
         setMemberFlag(false);
+        try { localStorage.removeItem("wix_session"); } catch {}
+        // 3. Attempt Wix server-side logout (may redirect, ignore errors)
         try {
-            await wixClient.auth.logout(window.location.href);
+            await wixClient.auth.logout(window.location.origin + "/cuenta");
         } catch {
-            setIsLoggedIn(false);
-            window.location.reload();
+            // If logout doesn't redirect, reload manually
+            window.location.href = "/cuenta";
         }
     };
 

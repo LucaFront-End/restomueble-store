@@ -101,8 +101,8 @@ export default async function Home() {
             {/* Logo Carousel - Clientes */}
             <LogoCarousel content={cmsContent} marcas={marcasCms} />
 
-            {/* Project Showcase - Espacios que transformamos */}
-            <ProjectShowcase content={cmsContent} />
+            {/* Project Showcase - Espacios que transformamos (hidden temporarily) */}
+            {/* <ProjectShowcase content={cmsContent} /> */}
 
             {/* About Sticky - Historia/Misión/Valores */}
             <AboutSticky content={cmsContent} />

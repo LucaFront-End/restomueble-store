@@ -19,7 +19,6 @@ const Footer = () => {
     // Enlaces de navegación organizados
     const navLinks = [
         { name: "Tienda", href: "/tienda" },
-        { name: "Proyectos", href: "/proyectos" },
         { name: "Nosotros", href: "/nosotros" },
         { name: "Blog", href: "/blog" },
         { name: "Contacto", href: "/contacto" },
