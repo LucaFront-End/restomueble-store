@@ -70,7 +70,7 @@ export default function CartPage() {
 
             // Build Wix checkout URL directly — bypasses createRedirectSession
             // which has redirect URL validation issues with custom domains.
-            const WIX_SITE = "lobomercadologomx.wixsite.com/josepja";
+            const WIX_SITE = "websitegddmx.wixsite.com/josepja";
             const thankYouUrl = encodeURIComponent(window.location.origin + "/gracias");
             const checkoutUrl = `https://${WIX_SITE}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
 

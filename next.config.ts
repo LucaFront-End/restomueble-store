@@ -24,12 +24,12 @@ const nextConfig: NextConfig = {
         {
           source: "/_api/:path*",
           destination:
-            "https://lobomercadologomx.wixsite.com/josepja/_api/:path*",
+            "https://websitegddmx.wixsite.com/josepja/_api/:path*",
         },
         {
           source: "/__ecom/:path*",
           destination:
-            "https://lobomercadologomx.wixsite.com/josepja/__ecom/:path*",
+            "https://websitegddmx.wixsite.com/josepja/__ecom/:path*",
         },
       ],
       afterFiles: [],

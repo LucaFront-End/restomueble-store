@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWixClient } from "@/hooks/useWixClient";
+import { isMemberSession, setMemberFlag } from "@/context/wixContext";
 import Link from "next/link";
 import SectionHero from "@/components/SectionHero";
 
@@ -30,17 +31,8 @@ export default function CuentaPage() {
 
         const checkAuth = async () => {
             try {
-                const loggedIn = wixClient.auth.loggedIn();
-                setIsLoggedIn(loggedIn);
-                if (loggedIn) {
-                    // Try to get member details
-                    try {
-                        const member = await wixClient.auth.getMemberTokensForDirectLogin("");
-                        // If we got here, we have a valid session
-                    } catch {
-                        // That method isn't straightforward; just use loggedIn()
-                    }
-                }
+                const hasMemberSession = isMemberSession();
+                setIsLoggedIn(hasMemberSession);
             } catch {
                 setIsLoggedIn(false);
             }
@@ -80,7 +72,10 @@ export default function CuentaPage() {
             });
 
             if (response.loginState === "SUCCESS" && response.data) {
-                wixClient.auth.setTokens(response.data as any);
+                const sessionToken = (response.data as any).sessionToken;
+                const memberTokens = await wixClient.auth.getMemberTokensForDirectLogin(sessionToken);
+                setMemberFlag(true);
+                wixClient.auth.setTokens(memberTokens);
                 setIsLoggedIn(true);
                 setMemberEmail(loginEmail);
             } else if (response.loginState === "FAILURE") {
@@ -119,7 +114,10 @@ export default function CuentaPage() {
             });
 
             if (response.loginState === "SUCCESS" && response.data) {
-                wixClient.auth.setTokens(response.data as any);
+                const sessionToken = (response.data as any).sessionToken;
+                const memberTokens = await wixClient.auth.getMemberTokensForDirectLogin(sessionToken);
+                setMemberFlag(true);
+                wixClient.auth.setTokens(memberTokens);
                 setIsLoggedIn(true);
                 setMemberEmail(loginEmail);
             } else if (response.loginState === "FAILURE") {
@@ -143,14 +141,10 @@ export default function CuentaPage() {
 
     // Handle logout
     const handleLogout = async () => {
+        setMemberFlag(false);
         try {
             await wixClient.auth.logout(window.location.href);
         } catch {
-            // Force token clear
-            wixClient.auth.setTokens({
-                accessToken: { value: "", expiresAt: 0 },
-                refreshToken: { value: "", role: "" },
-            } as any);
             setIsLoggedIn(false);
             window.location.reload();
         }
