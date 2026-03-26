@@ -179,15 +179,15 @@ export default function NavbarSearch() {
                             onClick={() => setIsOpen(false)}
                         />
 
-                        {/* Search Panel — fullWidth, no scroll */}
+                        {/* Search Panel — fullWidth, generous padding */}
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                            className="fixed top-0 left-0 right-0 z-[70] bg-white shadow-2xl"
+                            className="fixed top-0 left-0 right-0 z-[70] bg-white shadow-2xl rounded-b-2xl"
                         >
-                            <div className="container mx-auto max-w-5xl px-6 pt-8 pb-8">
+                            <div className="container mx-auto max-w-5xl px-6 pt-10 pb-10">
                                 {/* Search Input */}
                                 <div className="flex items-center gap-4 mb-6">
                                     <svg className="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
@@ -263,9 +263,9 @@ export default function NavbarSearch() {
 
                                             {/* "Ver más" button when there are more results */}
                                             {totalMatches > MAX_VISIBLE && (
-                                                <div className="mt-6 text-center">
+                                                <div className="mt-8 text-center pb-2">
                                                     <Link
-                                                        href={`/tienda`}
+                                                        href={`/tienda?q=${encodeURIComponent(query)}`}
                                                         onClick={() => setIsOpen(false)}
                                                         className="inline-flex items-center gap-2 px-8 py-3 border-2 border-gray-900 text-gray-900 rounded-full text-sm font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300"
                                                     >

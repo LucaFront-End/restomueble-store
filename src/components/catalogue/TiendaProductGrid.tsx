@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/catalogue/ProductCard";
 import Link from "next/link";
 import { COLLECTIONS } from "@/lib/wixCollections";
@@ -10,7 +11,15 @@ interface TiendaProductGridProps {
 }
 
 export default function TiendaProductGrid({ products }: TiendaProductGridProps) {
-    const [searchQuery, setSearchQuery] = useState("");
+    const searchParams = useSearchParams();
+    const initialQuery = searchParams.get("q") || "";
+    const [searchQuery, setSearchQuery] = useState(initialQuery);
+
+    // Sync with URL changes (e.g., from navbar search "Ver todos")
+    useEffect(() => {
+        const q = searchParams.get("q") || "";
+        if (q) setSearchQuery(q);
+    }, [searchParams]);
 
     /** Strip accents/diacritics and lowercase for Spanish-friendly matching */
     const normalize = (s: string) =>
