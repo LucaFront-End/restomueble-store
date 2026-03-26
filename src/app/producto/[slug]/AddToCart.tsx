@@ -57,6 +57,10 @@ interface AddToCartProps {
     onPriceChange?: (formattedPrice: string) => void;
     onImageChange?: (imageUrl: string) => void;
     onSelectedOptionsChange?: (options: Record<string, string>) => void;
+    /** When true, the built-in variant option buttons are hidden (CMS Colores replaces them) */
+    hideOptionSelectors?: boolean;
+    /** External option selections from CMS Colores — auto-maps to variant options */
+    externalSelectedOptions?: Record<string, string>;
 }
 
 export default function AddToCart({
@@ -66,6 +70,8 @@ export default function AddToCart({
     onPriceChange,
     onImageChange,
     onSelectedOptionsChange,
+    hideOptionSelectors = false,
+    externalSelectedOptions,
 }: AddToCartProps) {
     const [quantity, setQuantity] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -88,6 +94,31 @@ export default function AddToCart({
         });
         return defaults;
     });
+
+    // Sync external option selections (from CMS Colores) into variant matching
+    useEffect(() => {
+        if (externalSelectedOptions && Object.keys(externalSelectedOptions).length > 0) {
+            setSelectedOptions(prev => {
+                const merged = { ...prev };
+                // For each external option, find the matching Wix option name (case-insensitive)
+                for (const [extKey, extValue] of Object.entries(externalSelectedOptions)) {
+                    const matchingOption = normalizedOptions.find(opt =>
+                        opt.name.toLowerCase() === extKey.toLowerCase()
+                    );
+                    if (matchingOption) {
+                        // Find the matching choice value (case-insensitive)
+                        const matchingChoice = matchingOption.choices.find(c =>
+                            c.value.toLowerCase() === extValue.toLowerCase()
+                        );
+                        if (matchingChoice) {
+                            merged[matchingOption.name] = matchingChoice.value;
+                        }
+                    }
+                }
+                return merged;
+            });
+        }
+    }, [externalSelectedOptions, normalizedOptions]);
 
     const allOptionsSelected = hasOptions
         ? normalizedOptions.every(opt => !!selectedOptions[opt.name])
@@ -174,8 +205,8 @@ export default function AddToCart({
 
     return (
         <div className="space-y-4">
-            {/* Option Selectors — shown above quantity when product has variants */}
-            {normalizedOptions.length > 0 && (
+            {/* Option Selectors — hidden when CMS Colores replaces them */}
+            {normalizedOptions.length > 0 && !hideOptionSelectors && (
                 <div className="space-y-5 pb-2">
                     {normalizedOptions.map(option => (
                         <div key={option.name}>

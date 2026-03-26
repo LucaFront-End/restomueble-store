@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ProductGallery } from "@/components/catalogue/ProductGallery";
 import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import AddToCart from "./AddToCart";
@@ -21,6 +21,16 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     const [currentPrice, setCurrentPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
 
+    // CMS Colores mapped to Wix variant option names (e.g. { "Tamaño": "Mesa de 60x60cm", "Estilo": "Negro" })
+    const [cmsVariantOptions, setCmsVariantOptions] = useState<Record<string, string>>({});
+
+    const hasCmsColorData = colorData.length > 0;
+
+    // Memoized callback for CMS Colores → variant options mapping
+    const handleVariantOptionsChange = useCallback((options: Record<string, string>) => {
+        setCmsVariantOptions(options);
+    }, []);
+
     return (
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
             {/* Left: Gallery */}
@@ -38,19 +48,25 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                     price={currentPrice}
                     description={product.description || ""}
                 >
+                    {/* CMS Colores selectors ABOVE the Add to Cart — these replace the variant UI */}
+                    <ColorSelector
+                        colorData={colorData}
+                        onImageChange={(imageUrl) => setExternalImage(imageUrl)}
+                        onVariantOptionsChange={handleVariantOptionsChange}
+                    />
+
                     <AddToCart
                         productId={product._id || ""}
                         productName={product.name || ""}
                         productOptions={product.productOptions || []}
                         variants={product.variants || []}
                         onPriceChange={(formattedPrice) => setCurrentPrice(formattedPrice)}
-                        onImageChange={(imageUrl) => setExternalImage(imageUrl)}
-                    />
-
-                    {/* Color/Material selectors — cascading Medidas → Estilo → Color del Vinil */}
-                    <ColorSelector
-                        colorData={colorData}
-                        onImageChange={(imageUrl) => setExternalImage(imageUrl)}
+                        onImageChange={(imageUrl) => {
+                            // Only use variant image if CMS Colores is NOT active
+                            if (!hasCmsColorData) setExternalImage(imageUrl);
+                        }}
+                        hideOptionSelectors={hasCmsColorData}
+                        externalSelectedOptions={hasCmsColorData ? cmsVariantOptions : undefined}
                     />
 
                 </ProductInfo>
@@ -58,4 +74,3 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
         </div>
     );
 }
-

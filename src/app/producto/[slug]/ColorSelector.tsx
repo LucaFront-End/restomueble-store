@@ -7,6 +7,8 @@ import { getDistinctValues, findImageForCombination } from "@/lib/wixCmsColores"
 interface ColorSelectorProps {
     colorData: ColorCombination[];
     onImageChange: (imageUrl: string) => void;
+    /** Emit mapped variant options for Wix pricing (e.g. { "Tamaño": "Mesa de 60x60cm", "Estilo": "Negro" }) */
+    onVariantOptionsChange?: (options: Record<string, string>) => void;
 }
 
 /**
@@ -21,14 +23,14 @@ interface ColorSelectorProps {
  * When the user selects a combination, the product image updates
  * to match that specific variant photo from the CMS.
  */
-export default function ColorSelector({ colorData, onImageChange }: ColorSelectorProps) {
+export default function ColorSelector({ colorData, onImageChange, onVariantOptionsChange }: ColorSelectorProps) {
     // Don't render if no data
     if (colorData.length === 0) return null;
 
-    return <ColorSelectorInner colorData={colorData} onImageChange={onImageChange} />;
+    return <ColorSelectorInner colorData={colorData} onImageChange={onImageChange} onVariantOptionsChange={onVariantOptionsChange} />;
 }
 
-function ColorSelectorInner({ colorData, onImageChange }: ColorSelectorProps) {
+function ColorSelectorInner({ colorData, onImageChange, onVariantOptionsChange }: ColorSelectorProps) {
     // === Level 0: Tipo de Mesa (only for mesas — shown if ANY row has tipoDeMesa) ===
     const allTiposMesa = useMemo(() => getDistinctValues(colorData, "tipoDeMesa"), [colorData]);
     const hasTipoDeMesa = allTiposMesa.length > 0;
@@ -106,7 +108,7 @@ function ColorSelectorInner({ colorData, onImageChange }: ColorSelectorProps) {
         }
     }, [vinilos]);
 
-    // === Image Update: find matching image for current combination ===
+    // === Image Update + Variant Mapping ===
     useEffect(() => {
         if (selectedMedidas || selectedEstilo || selectedVinil || selectedTipoDeMesa) {
             const imageUrl = findImageForCombination(
@@ -117,8 +119,18 @@ function ColorSelectorInner({ colorData, onImageChange }: ColorSelectorProps) {
                 hasTipoDeMesa ? selectedTipoDeMesa : null,
             );
             if (imageUrl) onImageChange(imageUrl);
+
+            // Map CMS Colores selections → Wix variant option names
+            // CMS "terminado" maps to Wix "Tamaño"
+            // CMS "estilo" maps to Wix "Estilo"
+            if (onVariantOptionsChange) {
+                const mapped: Record<string, string> = {};
+                if (selectedMedidas) mapped["Tamaño"] = selectedMedidas;
+                if (selectedEstilo) mapped["Estilo"] = selectedEstilo;
+                onVariantOptionsChange(mapped);
+            }
         }
-    }, [selectedMedidas, selectedEstilo, selectedVinil, selectedTipoDeMesa, colorData, hasTipoDeMesa, onImageChange]);
+    }, [selectedMedidas, selectedEstilo, selectedVinil, selectedTipoDeMesa, colorData, hasTipoDeMesa, onImageChange, onVariantOptionsChange]);
 
     return (
         <div className="space-y-5 pt-2 pb-2">
