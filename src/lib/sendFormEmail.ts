@@ -1,16 +1,13 @@
 /**
  * Send form data as email via Formsubmit.co (client-side, free, no API keys).
  * 
- * Primary: ventas@josepja.com
- * CC: dessenaluca53@gmail.com
+ * Recipient: ventas@josepja.com
  * 
- * ACTIVATION: The first submission triggers a confirmation email.
- * Click the link in that email to activate. After that, all submissions 
- * are forwarded automatically.
+ * NOTE: The intro text ("Someone just submitted...") is from Formsubmit's 
+ * template and cannot be changed. We minimize it by using _template: "box".
  */
 
 const PRIMARY_EMAIL = "ventas@josepja.com";
-const CC_EMAIL = "dessenaluca53@gmail.com";
 
 interface EmailData {
     nombre: string;
@@ -25,22 +22,27 @@ interface EmailData {
 
 export async function sendFormEmail(data: EmailData): Promise<boolean> {
     try {
+        const origen = data.origen || "web";
+        const tipo = data.servicio || data.tipodeproyecto || "";
+
+        // Build a single formatted Spanish message body
+        let detalles = `📋 NUEVO LEAD — ${origen.toUpperCase()}\n\n`;
+        detalles += `👤 Nombre: ${data.nombre || "—"}\n`;
+        detalles += `📧 Email: ${data.email || "—"}\n`;
+        if (data.telefono) detalles += `📱 Teléfono: ${data.telefono}\n`;
+        if (tipo) detalles += `🏢 Tipo de Proyecto: ${tipo}\n`;
+        if (data.cantidad) detalles += `📦 Cantidad: ${data.cantidad}\n`;
+        if (data.mensaje) detalles += `💬 Mensaje: ${data.mensaje}\n`;
+        detalles += `🌐 Origen: ${origen}\n`;
+        detalles += `📅 Fecha: ${new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" })}`;
+
         const payload: Record<string, string> = {
-            Nombre: data.nombre || "—",
-            Email: data.email || "—",
+            "Detalle del Lead": detalles,
             _replyto: data.email || "",
-            _subject: `🪑 Nuevo lead — ${data.nombre} — desde ${data.origen || "web"}`,
-            _cc: CC_EMAIL,
-            _template: "table",
+            _subject: `🪑 Nuevo lead — ${data.nombre} — desde ${origen}`,
+            _template: "box",
             _captcha: "false",
         };
-
-        if (data.telefono) payload["Teléfono"] = data.telefono;
-        if (data.servicio || data.tipodeproyecto) payload["Tipo de Proyecto"] = data.servicio || data.tipodeproyecto || "";
-        if (data.cantidad) payload["Cantidad"] = data.cantidad;
-        if (data.mensaje) payload["Mensaje"] = data.mensaje;
-        if (data.origen) payload["Origen"] = data.origen;
-        payload["Fecha"] = new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" });
 
         const res = await fetch(`https://formsubmit.co/ajax/${PRIMARY_EMAIL}`, {
             method: "POST",
