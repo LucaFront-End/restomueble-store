@@ -68,12 +68,22 @@ export default function CartPage() {
                 throw new Error("No se recibió checkoutId");
             }
 
-            // Try server-side createRedirectSession (uses API key, bypasses domain issues)
+            // Try server-side createRedirectSession (uses API key + member identity)
             try {
+                // Get the user's access token to pass member identity to checkout
+                let accessToken = "";
+                try {
+                    const stored = localStorage.getItem("wix_session");
+                    if (stored) {
+                        const parsed = JSON.parse(stored);
+                        accessToken = parsed?.accessToken?.value || "";
+                    }
+                } catch {}
+
                 const res = await fetch("/api/checkout-redirect", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ checkoutId, origin: window.location.origin }),
+                    body: JSON.stringify({ checkoutId, origin: window.location.origin, accessToken }),
                 });
                 const data = await res.json();
                 if (data.url) {
