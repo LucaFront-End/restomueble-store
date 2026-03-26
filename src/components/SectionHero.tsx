@@ -61,7 +61,7 @@ const SectionHero = ({ title, subtitle, overline, backgroundImage }: SectionHero
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-5xl md:text-7xl lg:text-9xl font-serif !text-white mb-8 leading-[1]"
+                        className="text-5xl md:text-7xl lg:text-8xl font-serif !text-white mb-8 leading-[1.05]"
                     >
                         {title}
                     </motion.h1>

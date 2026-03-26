@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useWixClient } from "@/hooks/useWixClient";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SearchResult {
@@ -186,7 +187,7 @@ export default function NavbarSearch() {
                             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                             className="fixed top-0 left-0 right-0 z-[70] bg-white shadow-2xl"
                         >
-                            <div className="container mx-auto max-w-5xl px-6 py-6">
+                            <div className="container mx-auto max-w-5xl px-6 pt-8 pb-8">
                                 {/* Search Input */}
                                 <div className="flex items-center gap-4 mb-6">
                                     <svg className="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">

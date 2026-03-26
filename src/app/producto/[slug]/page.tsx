@@ -33,17 +33,25 @@ async function getProduct(slug: string) {
         if (exact.items[0]) return exact.items[0];
 
         // 2. Fallback: Wix may have stored the slug WITH accents (e.g. "estándar")
-        //    while the URL carries "estandar". Fetch all products and compare
+        //    while the URL carries "estandar". Paginate through ALL products and compare
         //    after stripping accents from both sides.
         const normalizedInput = normalizeForComparison(decodedSlug);
-        const all = await wixClient.products
-            .queryProducts()
-            .limit(100)
-            .find();
-        const match = all.items.find(
-            (p) => p.slug && normalizeForComparison(p.slug) === normalizedInput
-        );
-        return match || null;
+        let skip = 0;
+        const pageSize = 100;
+        while (true) {
+            const page = await wixClient.products
+                .queryProducts()
+                .limit(pageSize)
+                .skip(skip)
+                .find();
+            const match = page.items.find(
+                (p) => p.slug && normalizeForComparison(p.slug) === normalizedInput
+            );
+            if (match) return match;
+            if (page.items.length < pageSize) break;
+            skip += pageSize;
+        }
+        return null;
     } catch (error) {
         console.error("❌ Error fetching product:", error);
         return null;
