@@ -12,13 +12,8 @@ type Tab = "pedidos" | "perfil";
 export default function CuentaPage() {
     const { wixClient, isReady } = useWixClient();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // Initialise from localStorage cache so email/name show instantly on re-visit
-    const [memberEmail, setMemberEmail] = useState(() => {
-        try { return localStorage.getItem("josepja_member_email") || ""; } catch { return ""; }
-    });
-    const [memberName, setMemberName] = useState(() => {
-        try { return localStorage.getItem("josepja_member_name") || ""; } catch { return ""; }
-    });
+    const [memberEmail, setMemberEmail] = useState("");
+    const [memberName, setMemberName] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("pedidos");
     const [orders, setOrders] = useState<any[]>([]);
@@ -30,6 +25,18 @@ export default function CuentaPage() {
     const [authMode, setAuthMode] = useState<"login" | "register">("login");
     const [authError, setAuthError] = useState("");
     const [authLoading, setAuthLoading] = useState(false);
+
+    // Read cached profile from localStorage immediately on client mount
+    // (runs before the async checkAuth so email/name appear instantly on re-navigation)
+    useEffect(() => {
+        try {
+            const cachedEmail = localStorage.getItem("josepja_member_email");
+            const cachedName = localStorage.getItem("josepja_member_name");
+            if (cachedEmail) setMemberEmail(cachedEmail);
+            if (cachedName) setMemberName(cachedName);
+        } catch {}
+    }, []);
+
 
     // Check if user is already logged in and fetch their data
     useEffect(() => {
