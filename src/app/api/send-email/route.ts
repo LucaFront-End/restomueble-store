@@ -4,42 +4,76 @@ import { NextRequest, NextResponse } from "next/server";
  * POST /api/send-email
  * 
  * Sends a contact/lead notification email to Josepja's sales team.
- * Uses a simple SMTP-free approach via Wix Triggered Emails or a basic
- * email-forwarding approach through the contact form data.
+ * Uses Resend API (free tier: 100 emails/day, 3k/month).
  * 
- * For production, set up one of:
- * 1. Wix Automations: Trigger on "Contact Created" or "CMS Item Created" (Leads)
- * 2. SendGrid/Resend API: Add SENDGRID_API_KEY or RESEND_API_KEY to .env.local
- * 3. Nodemailer with SMTP credentials
+ * Required env vars on Vercel:
+ *   RESEND_API_KEY — Get from https://resend.com/api-keys
  * 
- * This endpoint currently uses the Resend API if available,
- * otherwise falls back to console logging (and a success response so the UX works).
+ * Recipients: ventas@josepja.com + dessenaluca53@gmail.com
  */
+
+const RECIPIENTS = [
+    "ventas@josepja.com",
+    "dessenaluca53@gmail.com",
+];
+
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { nombre, email, telefono, mensaje, servicio, origen } = body;
+        const { nombre, email, telefono, mensaje, servicio, origen, cantidad, tipodeproyecto } = body;
 
         // Build email content
-        const subject = `Nuevo lead desde ${origen || "formulario web"} — ${nombre}`;
+        const subject = `🪑 Nuevo lead — ${nombre} — ${origen || "web"}`;
         const htmlContent = `
-            <h2>Nuevo contacto desde josepja.com</h2>
-            <table style="border-collapse:collapse; width:100%; max-width:600px;">
-                <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Nombre</td><td style="padding:8px; border:1px solid #ddd;">${nombre}</td></tr>
-                <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Email</td><td style="padding:8px; border:1px solid #ddd;">${email}</td></tr>
-                ${telefono ? `<tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Teléfono</td><td style="padding:8px; border:1px solid #ddd;">${telefono}</td></tr>` : ""}
-                ${servicio ? `<tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Tipo de Proyecto</td><td style="padding:8px; border:1px solid #ddd;">${servicio}</td></tr>` : ""}
-                ${mensaje ? `<tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Mensaje</td><td style="padding:8px; border:1px solid #ddd;">${mensaje}</td></tr>` : ""}
-                <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Origen</td><td style="padding:8px; border:1px solid #ddd;">${origen || "web"}</td></tr>
-                <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">Fecha</td><td style="padding:8px; border:1px solid #ddd;">${new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" })}</td></tr>
-            </table>
+            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+                <div style="background: #1a1a2e; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0;">
+                    <h1 style="margin: 0; font-size: 20px; font-weight: 600;">Josepja — Nuevo Contacto</h1>
+                    <p style="margin: 8px 0 0; color: #a0a0b0; font-size: 14px;">Recibido desde ${origen || "formulario web"}</p>
+                </div>
+                <table style="border-collapse: collapse; width: 100%; border: 1px solid #e5e5e5; border-top: none;">
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; width: 140px; border-bottom: 1px solid #e5e5e5;">Nombre</td>
+                        <td style="padding: 12px 16px; color: #555; border-bottom: 1px solid #e5e5e5;">${nombre || "—"}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; border-bottom: 1px solid #e5e5e5;">Email</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e5e5e5;"><a href="mailto:${email}" style="color: #2563eb;">${email || "—"}</a></td>
+                    </tr>
+                    ${telefono ? `
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; border-bottom: 1px solid #e5e5e5;">Teléfono</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e5e5e5;"><a href="tel:${telefono}" style="color: #2563eb;">${telefono}</a></td>
+                    </tr>` : ""}
+                    ${servicio || tipodeproyecto ? `
+                    <tr>
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; border-bottom: 1px solid #e5e5e5;">Tipo de Proyecto</td>
+                        <td style="padding: 12px 16px; color: #555; border-bottom: 1px solid #e5e5e5;">${servicio || tipodeproyecto}</td>
+                    </tr>` : ""}
+                    ${cantidad ? `
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; border-bottom: 1px solid #e5e5e5;">Cantidad</td>
+                        <td style="padding: 12px 16px; color: #555; border-bottom: 1px solid #e5e5e5;">${cantidad}</td>
+                    </tr>` : ""}
+                    ${mensaje ? `
+                    <tr>
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333; border-bottom: 1px solid #e5e5e5;">Mensaje</td>
+                        <td style="padding: 12px 16px; color: #555; border-bottom: 1px solid #e5e5e5;">${mensaje}</td>
+                    </tr>` : ""}
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 12px 16px; font-weight: 600; color: #333;">Fecha</td>
+                        <td style="padding: 12px 16px; color: #888;">${new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" })}</td>
+                    </tr>
+                </table>
+                <div style="padding: 16px 32px; text-align: center; color: #999; font-size: 12px; border-top: 1px solid #e5e5e5;">
+                    Email enviado automáticamente desde josepja.com
+                </div>
+            </div>
         `;
 
         const RESEND_API_KEY = process.env.RESEND_API_KEY;
-        const SALES_EMAIL = process.env.SALES_EMAIL || "ventas@josepja.com";
 
         if (RESEND_API_KEY) {
-            // Send via Resend API
+            // Send via Resend API to ALL recipients
             const response = await fetch("https://api.resend.com/emails", {
                 method: "POST",
                 headers: {
@@ -47,26 +81,32 @@ export async function POST(req: NextRequest) {
                     Authorization: `Bearer ${RESEND_API_KEY}`,
                 },
                 body: JSON.stringify({
-                    from: "Josepja Web <noreply@josepja.com>",
-                    to: [SALES_EMAIL],
+                    from: "Josepja Web <onboarding@resend.dev>",
+                    to: RECIPIENTS,
                     subject,
                     html: htmlContent,
-                    reply_to: email,
+                    reply_to: email || undefined,
                 }),
             });
 
             if (!response.ok) {
                 const errorData = await response.text();
-                console.error("[Email] Resend API error:", errorData);
-                // Don't fail the form — still return success
-            } else {
-                console.log("[Email] ✅ Sent via Resend to", SALES_EMAIL);
+                console.error("[Email] Resend API error:", response.status, errorData);
+                return NextResponse.json({ 
+                    success: false, 
+                    error: `Resend API error: ${response.status}` 
+                }, { status: 502 });
             }
+
+            const resData = await response.json();
+            console.log("[Email] ✅ Sent via Resend to", RECIPIENTS.join(", "), "| ID:", resData.id);
         } else {
-            // Fallback: log the email for debugging
-            console.log("[Email] No RESEND_API_KEY configured. Would send to:", SALES_EMAIL);
+            // No API key — log warning
+            console.warn("[Email] ⚠️ RESEND_API_KEY not configured in environment variables.");
+            console.warn("[Email] Set it in Vercel: Settings → Environment Variables → RESEND_API_KEY");
+            console.log("[Email] Would have sent to:", RECIPIENTS.join(", "));
             console.log("[Email] Subject:", subject);
-            console.log("[Email] Body:", { nombre, email, telefono, servicio, mensaje, origen });
+            console.log("[Email] Data:", { nombre, email, telefono, servicio, mensaje, origen });
         }
 
         return NextResponse.json({ success: true });
