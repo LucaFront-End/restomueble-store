@@ -96,13 +96,10 @@ export default function CuentaPage() {
                         }
                         setOrdersLoading(false);
                     }
-                } else {
-                    // Not logged in — clear any stale cache
-                    try {
-                        localStorage.removeItem("josepja_member_email");
-                        localStorage.removeItem("josepja_member_name");
-                    } catch {}
                 }
+                // Note: do NOT clear cache here if not logged in —
+                // isMemberSession() can return false transiently while Wix
+                // restores the session. Cache is only cleared on explicit logout.
             } catch {
                 setIsLoggedIn(false);
             }
