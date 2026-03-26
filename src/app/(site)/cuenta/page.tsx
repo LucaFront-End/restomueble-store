@@ -12,8 +12,13 @@ type Tab = "pedidos" | "perfil";
 export default function CuentaPage() {
     const { wixClient, isReady } = useWixClient();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [memberEmail, setMemberEmail] = useState("");
-    const [memberName, setMemberName] = useState("");
+    // Initialise from localStorage cache so email/name show instantly on re-visit
+    const [memberEmail, setMemberEmail] = useState(() => {
+        try { return localStorage.getItem("josepja_member_email") || ""; } catch { return ""; }
+    });
+    const [memberName, setMemberName] = useState(() => {
+        try { return localStorage.getItem("josepja_member_name") || ""; } catch { return ""; }
+    });
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("pedidos");
     const [orders, setOrders] = useState<any[]>([]);
@@ -65,9 +70,16 @@ export default function CuentaPage() {
                             });
                             const data = await res.json();
                             if (data.profile) {
-                                setMemberEmail(data.profile.email || "");
+                                const email = data.profile.email || "";
                                 const fullName = [data.profile.name, data.profile.lastName].filter(Boolean).join(" ");
-                                setMemberName(fullName || data.profile.email || "");
+                                const name = fullName || email;
+                                setMemberEmail(email);
+                                setMemberName(name);
+                                // Cache so next navigation shows it instantly
+                                try {
+                                    localStorage.setItem("josepja_member_email", email);
+                                    localStorage.setItem("josepja_member_name", name);
+                                } catch {}
                             }
                             if (data.orders) {
                                 setOrders(data.orders);
@@ -77,6 +89,12 @@ export default function CuentaPage() {
                         }
                         setOrdersLoading(false);
                     }
+                } else {
+                    // Not logged in — clear any stale cache
+                    try {
+                        localStorage.removeItem("josepja_member_email");
+                        localStorage.removeItem("josepja_member_name");
+                    } catch {}
                 }
             } catch {
                 setIsLoggedIn(false);
@@ -85,6 +103,7 @@ export default function CuentaPage() {
         };
         checkAuth();
     }, [wixClient, isReady]);
+
 
     // Handle login
     const handleLogin = async (e: FormEvent) => {
@@ -174,9 +193,13 @@ export default function CuentaPage() {
         setMemberEmail("");
         setMemberName("");
         setOrders([]);
-        // 2. Clear stored session
+        // 2. Clear stored session and profile cache
         setMemberFlag(false);
-        try { localStorage.removeItem("wix_session"); } catch {}
+        try {
+            localStorage.removeItem("wix_session");
+            localStorage.removeItem("josepja_member_email");
+            localStorage.removeItem("josepja_member_name");
+        } catch {}
         // 3. Attempt Wix server-side logout (may redirect, ignore errors)
         try {
             await wixClient.auth.logout(window.location.origin + "/cuenta");
