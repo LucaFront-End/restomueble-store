@@ -13,6 +13,7 @@ export default function CuentaPage() {
     const { wixClient, isReady } = useWixClient();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [memberEmail, setMemberEmail] = useState("");
+    const [memberName, setMemberName] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("pedidos");
     const [orders, setOrders] = useState<any[]>([]);
@@ -65,10 +66,8 @@ export default function CuentaPage() {
                             const data = await res.json();
                             if (data.profile) {
                                 setMemberEmail(data.profile.email || "");
-                                // Use name from profile if available
-                                if (data.profile.name) {
-                                    setMemberEmail(data.profile.name + (data.profile.lastName ? " " + data.profile.lastName : ""));
-                                }
+                                const fullName = [data.profile.name, data.profile.lastName].filter(Boolean).join(" ");
+                                setMemberName(fullName || data.profile.email || "");
                             }
                             if (data.orders) {
                                 setOrders(data.orders);
@@ -148,6 +147,7 @@ export default function CuentaPage() {
                 wixClient.auth.setTokens(memberTokens);
                 setIsLoggedIn(true);
                 setMemberEmail(loginEmail);
+                setMemberName(loginEmail);
             } else if (response.loginState === "FAILURE") {
                 const errorCode = (response as any).errorCode;
                 if (errorCode === "emailAlreadyExists") {
@@ -404,10 +404,10 @@ export default function CuentaPage() {
                                         >
                                             <div className="flex items-center gap-6 mb-10">
                                                 <div className="w-16 h-16 rounded-full bg-[var(--brand-navy)] flex items-center justify-center text-white text-2xl font-serif">
-                                                    {memberEmail ? memberEmail[0].toUpperCase() : "U"}
+                                                    {memberName ? memberName[0].toUpperCase() : "U"}
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-xl font-serif text-gray-900">{memberEmail || "Usuario"}</h3>
+                                                    <h3 className="text-xl font-serif text-gray-900">{memberName || "Usuario"}</h3>
                                                     <span className="text-[10px] font-bold tracking-widest text-[var(--accent)] uppercase">Cliente Josepja</span>
                                                 </div>
                                             </div>
