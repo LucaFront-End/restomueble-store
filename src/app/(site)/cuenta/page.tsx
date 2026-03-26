@@ -128,6 +128,11 @@ export default function CuentaPage() {
                 wixClient.auth.setTokens(memberTokens);
                 setIsLoggedIn(true);
                 setMemberEmail(loginEmail);
+                // Cache email so it persists across F5
+                try {
+                    localStorage.setItem("josepja_member_email", loginEmail);
+                    localStorage.setItem("josepja_member_name", loginEmail);
+                } catch {}
             } else if (response.loginState === "FAILURE") {
                 const errorCode = (response as any).errorCode;
                 if (errorCode === "invalidEmail" || errorCode === "invalidPassword") {
@@ -171,6 +176,11 @@ export default function CuentaPage() {
                 setIsLoggedIn(true);
                 setMemberEmail(loginEmail);
                 setMemberName(loginEmail);
+                // Cache email so it persists across F5
+                try {
+                    localStorage.setItem("josepja_member_email", loginEmail);
+                    localStorage.setItem("josepja_member_name", loginEmail);
+                } catch {}
             } else if (response.loginState === "FAILURE") {
                 const errorCode = (response as any).errorCode;
                 if (errorCode === "emailAlreadyExists") {
