@@ -68,14 +68,26 @@ export default function CartPage() {
                 throw new Error("No se recibió checkoutId");
             }
 
-            // Build Wix checkout URL directly — bypasses createRedirectSession
-            // which has redirect URL validation issues with custom domains.
+            // Try server-side createRedirectSession (uses API key, bypasses domain issues)
+            try {
+                const res = await fetch("/api/checkout-redirect", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ checkoutId, origin: window.location.origin }),
+                });
+                const data = await res.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                    return;
+                }
+            } catch (err) {
+                console.warn("[Checkout] Server redirect failed, using fallback:", err);
+            }
+
+            // Fallback: direct Wix checkout URL (no session transfer)
             const WIX_SITE = "websitegddmx.wixsite.com/josepja";
             const thankYouUrl = encodeURIComponent(window.location.origin + "/gracias");
-            const checkoutUrl = `https://${WIX_SITE}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
-
-            console.log("[Checkout] Redirecting to:", checkoutUrl);
-            window.location.href = checkoutUrl;
+            window.location.href = `https://${WIX_SITE}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
         } catch (error) {
             console.error("Error creating checkout:", error);
             alert("Error al procesar. Intenta de nuevo.");
