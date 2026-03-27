@@ -124,7 +124,7 @@ export default async function ProductoPage({ params }: PageProps) {
 
     return (
         <main className="bg-white min-h-screen pt-[var(--header-height)]">
-            <div className="container mx-auto px-6 py-12 md:py-24">
+            <div className="container mx-auto px-4 md:px-6 py-6 md:py-24">
                 <ProductPageClient product={product} colorData={colorData} />
             </div>
 

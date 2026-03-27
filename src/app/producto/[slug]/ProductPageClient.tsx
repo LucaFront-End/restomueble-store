@@ -46,7 +46,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     }, []);
 
     return (
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-24 mb-12 lg:mb-24">
             {/* Left: Gallery */}
             <ProductGallery
                 mainImage={mainImage}
