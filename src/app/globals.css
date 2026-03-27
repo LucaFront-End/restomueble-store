@@ -2,6 +2,25 @@
 
 @import "tailwindcss";
 
+/* Disable Tailwind v4's auto-generated container breakpoint widths.
+   Without these, Tailwind won't generate min-width-based sizing for .container,
+   letting our custom .container class below take full control. */
+@theme inline {
+  --container-3xs: none;
+  --container-2xs: none;
+  --container-xs: none;
+  --container-sm: none;
+  --container-md: none;
+  --container-lg: none;
+  --container-xl: none;
+  --container-2xl: none;
+  --container-3xl: none;
+  --container-4xl: none;
+  --container-5xl: none;
+  --container-6xl: none;
+  --container-7xl: none;
+}
+
 /* ================================================
    LUXURY / HIGH-END DESIGN SYSTEM
    Restomueble Premium Edition

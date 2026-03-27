@@ -63,7 +63,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
             />
 
             {/* Breadcrumb */}
-            <div className="container mx-auto max-w-7xl px-6 pt-8">
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-6 pt-8" style={{ width: '100%' }}>
                 <nav className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-gray-400">
                     <Link href="/" className="hover:text-[var(--accent)] transition-colors">Inicio</Link>
                     <span>→</span>
@@ -75,7 +75,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
 
             {/* Category Navigation */}
             <div className="sticky top-[80px] z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 mt-6">
-                <div className="container mx-auto max-w-7xl px-6">
+                <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
                     <div className="flex items-center gap-2 py-4 overflow-x-auto no-scrollbar">
                         <Link
                             href="/tienda"
@@ -114,7 +114,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
                 />
             ) : (
                 <section className="py-12 md:py-20 px-6 bg-white">
-                    <div className="container mx-auto max-w-7xl">
+                    <div className="w-full max-w-7xl mx-auto" style={{ width: '100%' }}>
                         <div className="mb-12 flex justify-between items-center">
                             <span className="text-xs font-medium uppercase tracking-widest text-gray-400">
                                 Colección: {collection.name}

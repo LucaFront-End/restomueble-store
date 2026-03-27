@@ -89,7 +89,7 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
 
     return (
         <section className="py-8 md:py-12 px-6 bg-white">
-            <div className="container mx-auto max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto" style={{ width: '100%' }}>
                 {/* ── Model Subcategory Tabs ── */}
                 <div className="mb-8">
                     <div className="flex flex-wrap items-center gap-2">
@@ -129,8 +129,39 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                 </div>
 
                 {/* ── Layout: Sidebar + Grid ── */}
-                <div className="flex gap-8">
-                    {/* Sidebar Filter */}
+
+                {/* Mobile Filter Bar (MUST be outside the flex row) */}
+                <div className="md:hidden w-full mb-4">
+                    <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                        <button
+                            onClick={() => setActiveType(null)}
+                            className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
+                                activeType === null
+                                    ? "bg-[var(--accent)] text-white"
+                                    : "bg-gray-100 text-gray-600"
+                            }`}
+                        >
+                            Todos
+                        </button>
+                        {TYPES.map((type) => (
+                            <button
+                                key={type.key}
+                                onClick={() => setActiveType(activeType === type.key ? null : type.key)}
+                                className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
+                                    activeType === type.key
+                                        ? "bg-[var(--accent)] text-white"
+                                        : "bg-gray-100 text-gray-600"
+                                }`}
+                            >
+                                {type.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex flex-col md:flex-row gap-8" style={{ width: '100%', maxWidth: '100%' }}>
+
+                    {/* Desktop Sidebar Filter */}
                     <aside className="hidden md:block w-56 shrink-0">
                         <div className="sticky top-[140px]">
                             <h4 className="text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-4">
@@ -182,35 +213,6 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                         </div>
                     </aside>
 
-                    {/* Mobile Filter Bar (visible on small screens) */}
-                    <div className="md:hidden w-full mb-4">
-                        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-                            <button
-                                onClick={() => setActiveType(null)}
-                                className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
-                                    activeType === null
-                                        ? "bg-[var(--accent)] text-white"
-                                        : "bg-gray-100 text-gray-600"
-                                }`}
-                            >
-                                Todos
-                            </button>
-                            {TYPES.map((type) => (
-                                <button
-                                    key={type.key}
-                                    onClick={() => setActiveType(activeType === type.key ? null : type.key)}
-                                    className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
-                                        activeType === type.key
-                                            ? "bg-[var(--accent)] text-white"
-                                            : "bg-gray-100 text-gray-600"
-                                    }`}
-                                >
-                                    {type.label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
                     {/* Products Grid */}
                     <div className="flex-1 min-w-0">
                         {/* Result count */}
@@ -228,7 +230,7 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                             {filtered.length > 0 ? (
                                 <motion.div
                                     key={`${activeModel}-${activeType}`}
-                                    initial={{ opacity: 0, y: 10 }}
+                                    initial={{ opacity: 1 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
                                     transition={{ duration: 0.3 }}
@@ -237,7 +239,7 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                                     {filtered.map((product, index) => (
                                         <motion.div
                                             key={product.id}
-                                            initial={{ opacity: 0, y: 30 }}
+                                            initial={{ opacity: 1 }}
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true, margin: "-50px" }}
                                             transition={{ duration: 0.6, delay: index * 0.05 }}
@@ -291,7 +293,7 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                                 </motion.div>
                             ) : (
                                 <motion.div
-                                    initial={{ opacity: 0 }}
+                                    initial={{ opacity: 1 }}
                                     animate={{ opacity: 1 }}
                                     className="text-center py-20 bg-gray-50 rounded-2xl"
                                 >
