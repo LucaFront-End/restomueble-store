@@ -33,10 +33,10 @@ export const ProductGallery = ({ mainImage, gallery, productName, externalSelect
         <div className="space-y-6">
             {/* Main Canvas - Sticky/Fixed Aspect Ratio */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="relative aspect-[4/5] w-full overflow-hidden bg-white rounded-sm group"
+                className="relative aspect-square lg:aspect-[4/5] w-full overflow-hidden bg-[#f5f5f5] rounded-sm group"
             >
                 <Image
                     src={selectedImage}
@@ -52,7 +52,7 @@ export const ProductGallery = ({ mainImage, gallery, productName, externalSelect
             {/* Thumbnail Strip (Scrollable) */}
             {allImages.length > 1 && (
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 1 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.6 }}
                     className="flex gap-4 overflow-x-auto pb-2 scrollbar-none"

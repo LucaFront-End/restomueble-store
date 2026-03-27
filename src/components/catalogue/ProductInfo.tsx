@@ -71,7 +71,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
     const [showWholesale, setShowWholesale] = useState(false);
 
     return (
-        <div className="sticky top-32 space-y-8 px-4 md:px-0 font-sans">
+        <div className="lg:sticky lg:top-32 space-y-6 md:space-y-8 px-0 font-sans">
             {/* Header */}
             <div className="space-y-4 border-b border-gray-100 pb-6">
                 <div className="flex items-center gap-2 mb-2">
@@ -86,16 +86,16 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                 </div>
 
                 <motion.h1
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 1 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="text-4xl md:text-5xl font-heading font-bold text-gray-900 leading-[1.1] tracking-tight"
+                    className="text-2xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 leading-[1.1] tracking-tight"
                 >
                     {title}
                 </motion.h1>
 
                 <motion.div
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 1 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1, duration: 0.5 }}
                     className="flex items-baseline gap-3"
@@ -109,7 +109,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
 
             {/* Main Action Block */}
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="space-y-4"
@@ -154,7 +154,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
 
             {/* Description & Details Accordion */}
             <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="pt-4"
@@ -180,7 +180,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
 
             {/* Trust Indicators */}
             <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="grid grid-cols-2 gap-6 pt-8"

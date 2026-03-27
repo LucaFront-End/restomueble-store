@@ -205,7 +205,8 @@ h5 {
 
 /* === COMPONENTES BASE === */
 .container {
-  max-width: var(--container-width);
+  width: 100% !important;
+  max-width: var(--container-width) !important;
   margin: 0 auto;
   padding: 0 1.25rem;
 }

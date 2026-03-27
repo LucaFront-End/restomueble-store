@@ -123,8 +123,8 @@ export default async function ProductoPage({ params }: PageProps) {
     const colorData = await getColorsByProduct(product.slug || "");
 
     return (
-        <main className="bg-white min-h-screen pt-[var(--header-height)]">
-            <div className="container mx-auto px-4 md:px-6 py-6 md:py-24">
+        <main className="bg-white min-h-screen pt-[var(--header-height)]" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
+            <div className="w-full mx-auto px-4 md:px-6 py-6 md:py-12 lg:py-24" style={{ width: '100%', maxWidth: '1440px' }}>
                 <ProductPageClient product={product} colorData={colorData} />
             </div>
 

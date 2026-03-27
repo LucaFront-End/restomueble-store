@@ -119,7 +119,7 @@ export const ReviewsSection = ({ productName }: ReviewsSectionProps) => {
 
     return (
         <section className="border-t border-gray-100 py-20">
-            <div className="container mx-auto px-6">
+            <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
