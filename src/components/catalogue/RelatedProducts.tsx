@@ -53,7 +53,7 @@ export const RelatedProducts = ({ currentProductId, products }: RelatedProductsP
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                             >
-                                <div className="relative aspect-square overflow-hidden bg-[#f5f5f5] mb-6 rounded-sm">
+                                <div className="relative aspect-square overflow-hidden bg-white mb-6 rounded-sm">
                                     {product.media?.mainMedia?.image?.url ? (
                                         <Image
                                             src={product.media.mainMedia.image.url}

@@ -250,7 +250,9 @@ export default function AddToCart({
 
                             {/* Choice buttons */}
                             <div className="flex flex-wrap gap-2">
-                                {option.choices.map(choice => {
+                                {option.choices
+                                    .filter(choice => !choice.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("diametro"))
+                                    .map(choice => {
                                     const isSelected = selectedOptions[option.name] === choice.value;
                                     const testSelections = { ...selectedOptions, [option.name]: choice.value };
                                     const hasStock = normalizedVariants.length === 0 || normalizedVariants.some(v =>
