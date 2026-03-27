@@ -86,7 +86,7 @@ body {
   background: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
   line-height: 1.7;
-  /* Leading generoso para lectura cómoda */
+  overflow-x: hidden;
 }
 
 /* === TIPOGRAFÍA === */
@@ -203,7 +203,13 @@ h5 {
 .container {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2.5rem;
+  }
 }
 
 .section {

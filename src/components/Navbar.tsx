@@ -63,12 +63,7 @@ const Navbar = () => {
                         <img
                             src="/logo-header.png"
                             alt="Josepja"
-                            style={{
-                                width: '200px',
-                                height: '50px',
-                                objectFit: 'cover',
-                                objectPosition: 'center center',
-                            }}
+                            className="w-[140px] md:w-[200px] h-[35px] md:h-[50px] object-cover object-center"
                         />
                     </Link>
 
@@ -92,12 +87,12 @@ const Navbar = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-4 md:gap-5 relative z-50">
+                    <div className="flex items-center gap-2 md:gap-5 relative z-50">
                         {/* Search */}
                         <NavbarSearch />
 
-                        {/* User Account */}
-                        <Link href="/cuenta" className="relative group">
+                        {/* User Account - Hid on mobile to save space */}
+                        <Link href="/cuenta" className="relative group hidden md:block">
                             <span className="p-2 rounded-full hover:bg-gray-100 transition-colors block">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
