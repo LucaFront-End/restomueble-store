@@ -26,6 +26,10 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
 
     const hasCmsColorData = colorData.length > 0;
 
+    // Auto-hide variant selectors for conjunto products (e.g. "estándar 4 sillas")
+    const productNameLower = (product.name || "").toLowerCase();
+    const isConjuntoProduct = productNameLower.includes("estándar") && productNameLower.includes("sillas");
+
     // ─── Stable callbacks (useCallback prevents infinite re-render loops) ────────
 
     const handleVariantOptionsChange = useCallback((options: Record<string, string>) => {
@@ -79,7 +83,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         variants={product.variants || []}
                         onPriceChange={handlePriceChange}
                         onImageChange={hasCmsColorData ? handleVariantImageChange : handleCmsImageChange}
-                        hideOptionSelectors={hasCmsColorData}
+                        hideOptionSelectors={hasCmsColorData || isConjuntoProduct}
                         externalSelectedOptions={hasCmsColorData ? cmsVariantOptions : undefined}
                     />
 

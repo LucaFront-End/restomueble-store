@@ -88,7 +88,7 @@ export default function NavbarSearch() {
     }, [isOpen, isReady, loadAllProducts]);
 
     const searchProducts = useCallback(async (searchQuery: string) => {
-        if (searchQuery.length < 2) {
+        if (searchQuery.length < 1) {
             setResults([]);
             setTotalMatches(0);
             return;

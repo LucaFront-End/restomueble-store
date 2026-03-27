@@ -29,7 +29,7 @@ export const RelatedProducts = ({ currentProductId, products }: RelatedProductsP
 
     return (
         <section className="border-t border-gray-100 py-24 mt-24">
-            <div className="container mx-auto px-6">
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12">
                     <div className="space-y-4">
                         <h2 className="text-3xl font-heading font-bold text-gray-900">
@@ -48,18 +48,18 @@ export const RelatedProducts = ({ currentProductId, products }: RelatedProductsP
                     {related.map((product, idx) => (
                         <Link href={`/producto/${normalizeSlug(product.slug || "")}`} key={product._id} className="group block">
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 1 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                             >
-                                <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6">
+                                <div className="relative aspect-square overflow-hidden bg-[#f5f5f5] mb-6 rounded-sm">
                                     {product.media?.mainMedia?.image?.url ? (
                                         <Image
                                             src={product.media.mainMedia.image.url}
                                             alt={product.name}
                                             fill
-                                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                                            className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-300">No Image</div>

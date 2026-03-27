@@ -102,7 +102,7 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                 >
                     <span className="text-3xl font-light text-gray-900">{price}</span>
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">
-                        IVA Incluido
+                        SIN IVA INCLUIDO
                     </span>
                 </motion.div>
             </div>

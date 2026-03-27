@@ -51,8 +51,8 @@ const Footer = () => {
                                     className="h-24 md:h-32 w-auto object-contain"
                                 />
                             </motion.div>
-                            <p className="text-base md:text-xl text-gray-400 font-light leading-relaxed italic font-[var(--font-heading)]">
-                                "Definiendo el carácter de los mejores espacios gastronómicos de México."
+                            <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed font-[var(--font-body)]">
+                                Josepja ofrece Mobiliario para restaurantes, Mesas para restaurantes, mesas para cafetería y Mesas y Sillas para restaurante de uso rudo, con envíos a toda la República.
                             </p>
                         </div>
 
