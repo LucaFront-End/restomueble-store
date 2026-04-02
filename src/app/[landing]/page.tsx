@@ -251,9 +251,18 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
 
     const fetchedProducts = await getProductsForLanding();
 
-    // WhatsApp link — use CMS value or default
-    const whatsappNumber = landing.whatsapp || "525551147772";
-    const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hola,%20me%20interesa%20cotizar%20mobiliario`;
+    // WhatsApp link — CMS may have a full URL or just a number
+    const defaultWhatsappLink = "https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario";
+    let whatsappLink = defaultWhatsappLink;
+    if (landing.whatsapp) {
+        if (landing.whatsapp.startsWith("http")) {
+            // Full URL from CMS (e.g. https://wa.link/pr71lq)
+            whatsappLink = landing.whatsapp;
+        } else {
+            // Just a phone number
+            whatsappLink = `https://wa.me/${landing.whatsapp}?text=Hola,%20me%20interesa%20cotizar%20mobiliario`;
+        }
+    }
 
     // FAQ — parse CMS JSON or use defaults
     const defaultFaqs = [
