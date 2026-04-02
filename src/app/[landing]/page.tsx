@@ -84,30 +84,34 @@ async function getAllProducts(): Promise<products.Product[]> {
 async function getProductsForLanding(): Promise<products.Product[]> {
     const wixClient = getWixServerClient();
     try {
-        // Fetch one product from each main category for diversity
-        const collectionIds = [
+        // Load all products and pick one from each main category
+        const result = await wixClient.products.queryProducts().limit(100).find();
+        const allItems = result.items;
+
+        const targetCollections = [
             "10312fa4-6afc-4258-bf01-d24bb61122a5", // Conjuntos
             "b61ed7ad-b30c-4c7e-a3ae-177f0a2994a7", // Mesas
             "1e6161fd-cfbc-4a34-b826-a0d4782faa23", // Sillas
             "8a850e35-ab0f-41f4-9e4b-6dc957337ddb", // Salas Lounge / Booths
         ];
 
-        const results = await Promise.all(
-            collectionIds.map(async (collId) => {
-                try {
-                    const res = await wixClient.products
-                        .queryProducts()
-                        .hasSome("collectionIds", [collId])
-                        .limit(1)
-                        .find();
-                    return res.items[0] || null;
-                } catch {
-                    return null;
-                }
-            })
-        );
+        const picked: products.Product[] = [];
+        for (const collId of targetCollections) {
+            const match = allItems.find(
+                (p) => p.collectionIds?.includes(collId) && !picked.some((x) => x._id === p._id)
+            );
+            if (match) picked.push(match);
+        }
 
-        return results.filter((p): p is products.Product => p !== null);
+        // Fallback: if we couldn't pick 4, fill with first available
+        if (picked.length < 4) {
+            for (const p of allItems) {
+                if (picked.length >= 4) break;
+                if (!picked.some((x) => x._id === p._id)) picked.push(p);
+            }
+        }
+
+        return picked;
     } catch {
         return [];
     }

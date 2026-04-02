@@ -128,7 +128,7 @@ const CataloguePopup = () => {
                     {/* Modal */}
                     <motion.div
                         ref={modalRef}
-                        className="relative w-[calc(100%-2rem)] sm:w-full max-w-lg sm:max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
+                        className="relative max-h-[85vh] overflow-y-auto rounded-2xl"
                         initial={{ scale: 0.9, opacity: 0, y: 30 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -138,6 +138,8 @@ const CataloguePopup = () => {
                             stiffness: 300,
                         }}
                         style={{
+                            width: 'min(calc(100vw - 2rem), 42rem)',
+                            margin: '0 auto',
                             background:
                                 "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,250,245,0.98) 100%)",
                             backdropFilter: "blur(20px)",
