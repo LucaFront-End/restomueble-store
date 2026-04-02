@@ -97,7 +97,7 @@ async function getProductsForLanding(): Promise<products.Product[]> {
             "mesa-pedestal-para-restaurante-de-80x80cm-estandar",
             "conjunto-modelo-italia-rojo-liso-brillante-estandar-4-sillas",
             "booth-sencillo-capitonado-para-sala-lounge",
-            "silla-modelo-italia",
+            "banco-modelo-italia-con-rodete",
         ];
 
         const picked: products.Product[] = [];
