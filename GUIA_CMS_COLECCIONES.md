@@ -58,3 +58,33 @@ Para encontrarlo: ve a **Wix Dashboard → CMS → Negocios ( Clientes)** → la
 Debería ser algo como `Negocios-(-Clientes)` o `Negocios`. Si es diferente, actualizar en:
 - `src/app/(site)/proyectos/page.tsx` (línea del query)
 - `src/app/(site)/page.tsx` (línea del query de negociosResult)
+
+---
+
+## Colección: LandingsSEO — Campo FAQs
+
+> Las landings dinámicas (`/mesas-para-restaurantes-en-monterrey`, etc.) soportan FAQs personalizadas.
+
+### Cómo agregar FAQs a una landing:
+
+1. Ve a **Wix Dashboard → CMS → LandingsSEO**
+2. Si no existe el campo `faqs`, crealo:
+   - Click **"+ Agregar campo"** → Tipo: **Texto largo (multiline)**
+   - Nombre del campo: `faqs`
+3. En cada landing, pegá un JSON con el formato:
+
+```json
+[
+  {"q": "¿Hacen envíos a Monterrey?", "a": "Sí, realizamos envíos a Monterrey y todo Nuevo León. El tiempo de entrega es de 5-10 días hábiles."},
+  {"q": "¿Qué garantía tienen los muebles?", "a": "Garantía de 12 meses contra defectos de fabricación. Acero calibre 16, soldadura MIG y acabados resistentes."},
+  {"q": "¿Puedo personalizar los muebles?", "a": "Sí. Ofrecemos personalización de colores, medidas y acabados."},
+  {"q": "¿Cuál es el pedido mínimo?", "a": "No hay pedido mínimo para catálogo. Para proyectos personalizados, mínimo 10 piezas."}
+]
+```
+
+### Reglas:
+- Cada FAQ es un objeto con `"q"` (pregunta) y `"a"` (respuesta)
+- El campo acepta cualquier cantidad de FAQs
+- Si el campo está vacío, se usan FAQs por defecto automáticamente
+- **El JSON debe ser válido** — usá un validador como jsonlint.com si tenés dudas
+
