@@ -84,34 +84,30 @@ async function getAllProducts(): Promise<products.Product[]> {
 async function getProductsForLanding(): Promise<products.Product[]> {
     const wixClient = getWixServerClient();
     try {
-        // Load all products and pick one from each main category
-        const result = await wixClient.products.queryProducts().limit(100).find();
-        const allItems = result.items;
-
-        const targetCollections = [
-            "10312fa4-6afc-4258-bf01-d24bb61122a5", // Conjuntos
-            "b61ed7ad-b30c-4c7e-a3ae-177f0a2994a7", // Mesas
-            "1e6161fd-cfbc-4a34-b826-a0d4782faa23", // Sillas
-            "8a850e35-ab0f-41f4-9e4b-6dc957337ddb", // Salas Lounge / Booths
+        // Hardcoded slugs: one mesa, one conjunto, one booth, one silla
+        const targetSlugs = [
+            "mesa-pedestal-para-restaurante-de-80x80cm-estandar",
+            "conjunto-modelo-italia-rojo-liso-brillante-estandar-4-sillas",
+            "booth-sencillo-capitonado-para-sala-lounge",
+            "silla-modelo-italia",
         ];
 
-        const picked: products.Product[] = [];
-        for (const collId of targetCollections) {
-            const match = allItems.find(
-                (p) => p.collectionIds?.includes(collId) && !picked.some((x) => x._id === p._id)
-            );
-            if (match) picked.push(match);
-        }
+        const results = await Promise.all(
+            targetSlugs.map(async (slug) => {
+                try {
+                    const res = await wixClient.products
+                        .queryProducts()
+                        .eq("slug", slug)
+                        .limit(1)
+                        .find();
+                    return res.items[0] || null;
+                } catch {
+                    return null;
+                }
+            })
+        );
 
-        // Fallback: if we couldn't pick 4, fill with first available
-        if (picked.length < 4) {
-            for (const p of allItems) {
-                if (picked.length >= 4) break;
-                if (!picked.some((x) => x._id === p._id)) picked.push(p);
-            }
-        }
-
-        return picked;
+        return results.filter((p): p is products.Product => p !== null);
     } catch {
         return [];
     }
@@ -463,15 +459,15 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                             {fetchedProducts.map((product: products.Product) => (
                                 <Link
                                     key={product._id}
-                                    href="/productos"
+                                    href={`/producto/${product.slug}`}
                                     className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                                 >
-                                    <div className="relative aspect-square bg-gray-100 overflow-hidden">
+                                    <div className="relative aspect-square bg-white overflow-hidden">
                                         <Image
                                             src={product.media?.mainMedia?.image?.url || "/hero-product.png"}
                                             alt={product.name || "Producto"}
                                             fill
-                                            className="object-contain p-6 group-hover:scale-110 transition-transform duration-500"
+                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                     </div>
                                     <div className="p-6">
