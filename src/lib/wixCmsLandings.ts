@@ -92,6 +92,7 @@ export async function getLandingBySlug(slug: string): Promise<LandingData | null
         }
 
         const item: WixDataItem = result.items[0];
+
         return {
             _id: item._id || "",
             slug: item.slug || item.data?.slug || "",

@@ -278,7 +278,9 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
     let parsedFaqs = defaultFaqs;
     if (landing.faqs) {
         try {
-            const cmsFaqs = JSON.parse(landing.faqs);
+            // Wix Rich Text wraps content in HTML tags — strip them
+            const rawFaqs = landing.faqs.replace(/<[^>]*>/g, "").trim();
+            const cmsFaqs = JSON.parse(rawFaqs);
             if (Array.isArray(cmsFaqs) && cmsFaqs.length > 0) {
                 parsedFaqs = cmsFaqs;
             }
