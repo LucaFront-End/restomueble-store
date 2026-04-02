@@ -128,7 +128,7 @@ const CataloguePopup = () => {
                     {/* Modal */}
                     <motion.div
                         ref={modalRef}
-                        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
+                        className="relative w-[calc(100%-2rem)] sm:w-full max-w-lg sm:max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
                         initial={{ scale: 0.9, opacity: 0, y: 30 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 30 }}

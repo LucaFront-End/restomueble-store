@@ -84,8 +84,30 @@ async function getAllProducts(): Promise<products.Product[]> {
 async function getProductsForLanding(): Promise<products.Product[]> {
     const wixClient = getWixServerClient();
     try {
-        const result = await wixClient.products.queryProducts().limit(4).find();
-        return result.items;
+        // Fetch one product from each main category for diversity
+        const collectionIds = [
+            "10312fa4-6afc-4258-bf01-d24bb61122a5", // Conjuntos
+            "b61ed7ad-b30c-4c7e-a3ae-177f0a2994a7", // Mesas
+            "1e6161fd-cfbc-4a34-b826-a0d4782faa23", // Sillas
+            "8a850e35-ab0f-41f4-9e4b-6dc957337ddb", // Salas Lounge / Booths
+        ];
+
+        const results = await Promise.all(
+            collectionIds.map(async (collId) => {
+                try {
+                    const res = await wixClient.products
+                        .queryProducts()
+                        .hasSome("collectionIds", [collId])
+                        .limit(1)
+                        .find();
+                    return res.items[0] || null;
+                } catch {
+                    return null;
+                }
+            })
+        );
+
+        return results.filter((p): p is products.Product => p !== null);
     } catch {
         return [];
     }
