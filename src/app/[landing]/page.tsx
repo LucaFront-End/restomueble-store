@@ -84,6 +84,14 @@ async function getAllProducts(): Promise<products.Product[]> {
 async function getProductsForLanding(): Promise<products.Product[]> {
     const wixClient = getWixServerClient();
     try {
+        // Load all products
+        const result = await wixClient.products.queryProducts().limit(100).find();
+        const allItems = result.items;
+
+        // Normalize for matching (strip accents + lowercase)
+        const normalize = (s: string) =>
+            s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
         // Hardcoded slugs: one mesa, one conjunto, one booth, one silla
         const targetSlugs = [
             "mesa-pedestal-para-restaurante-de-80x80cm-estandar",
@@ -92,22 +100,16 @@ async function getProductsForLanding(): Promise<products.Product[]> {
             "silla-modelo-italia",
         ];
 
-        const results = await Promise.all(
-            targetSlugs.map(async (slug) => {
-                try {
-                    const res = await wixClient.products
-                        .queryProducts()
-                        .eq("slug", slug)
-                        .limit(1)
-                        .find();
-                    return res.items[0] || null;
-                } catch {
-                    return null;
-                }
-            })
-        );
+        const picked: products.Product[] = [];
+        for (const targetSlug of targetSlugs) {
+            const normalizedTarget = normalize(targetSlug);
+            const match = allItems.find(
+                (p) => p.slug && normalize(p.slug) === normalizedTarget
+            );
+            if (match) picked.push(match);
+        }
 
-        return results.filter((p): p is products.Product => p !== null);
+        return picked;
     } catch {
         return [];
     }
