@@ -13,7 +13,7 @@ import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
 import { ProductCard } from "@/components/catalogue/ProductCard";
 import { COLLECTIONS } from "@/lib/wixCollections";
 
-export const revalidate = 60; // Revalidate every 60s for faster CMS updates
+export const revalidate = 10; // Revalidate every 10s for near-instant CMS updates
 
 // Generar rutas estáticas para AMBOS tipos de páginas
 export async function generateStaticParams() {
