@@ -18,6 +18,7 @@ export async function GET() {
         { loc: `${baseUrl}/contacto`, changefreq: "monthly", priority: "0.5" },
         { loc: `${baseUrl}/proyectos`, changefreq: "weekly", priority: "0.6" },
         { loc: `${baseUrl}/blog`, changefreq: "weekly", priority: "0.7" },
+        { loc: `${baseUrl}/zonas`, changefreq: "weekly", priority: "0.6" },
     ];
 
     const categoryPages = COLLECTIONS.map((cat) => ({
