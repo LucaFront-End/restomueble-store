@@ -9,11 +9,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: "/",
             disallow: ["/carrito", "/gracias", "/cuenta", "/api/", "/debug-collections"],
         },
-        sitemap: [
-            `${baseUrl}/sitemap.xml`,
-            `${baseUrl}/sitemap-products`,
-            `${baseUrl}/sitemap-landings`,
-            `${baseUrl}/sitemap-tiendas`,
-        ],
+        sitemap: `${baseUrl}/sitemap.xml`,
     };
 }

@@ -18,9 +18,28 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        // Proxy Wix internal routes to the actual Wix backend.
-        // josepja.com DNS points to Vercel, so /_api and /__ecom paths
-        // need to be forwarded to Wix's servers for checkout to work.
+        // ── Sitemap XML rewrites ──
+        {
+          source: "/sitemap.xml",
+          destination: "/sitemap-index",
+        },
+        {
+          source: "/pages-sitemap.xml",
+          destination: "/sitemap-pages",
+        },
+        {
+          source: "/products-sitemap.xml",
+          destination: "/sitemap-products",
+        },
+        {
+          source: "/landings-sitemap.xml",
+          destination: "/sitemap-landings",
+        },
+        {
+          source: "/tiendas-sitemap.xml",
+          destination: "/sitemap-tiendas",
+        },
+        // ── Wix proxy rewrites ──
         {
           source: "/_api/:path*",
           destination:
