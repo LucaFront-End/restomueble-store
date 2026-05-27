@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/catalogue/ProductCard";
 import Link from "next/link";
-import { COLLECTIONS } from "@/lib/wixCollections";
+import { ALL_COLLECTIONS } from "@/lib/wixCollections";
 
 interface TiendaProductGridProps {
     products: any[];
@@ -55,7 +55,7 @@ export default function TiendaProductGrid({ products }: TiendaProductGridProps) 
                             >
                                 Todos
                             </Link>
-                            {COLLECTIONS.map((cat) => (
+                            {ALL_COLLECTIONS.map((cat) => (
                                 <Link
                                     key={cat.slug}
                                     href={`/tienda/${cat.slug}`}

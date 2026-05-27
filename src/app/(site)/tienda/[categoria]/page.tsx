@@ -1,5 +1,5 @@
 import { getWixServerClient } from "@/lib/wixClientServer";
-import { getCollectionBySlug, getAllCollectionSlugs, COLLECTIONS } from "@/lib/wixCollections";
+import { getCollectionBySlug, getAllCollectionSlugs, ALL_COLLECTIONS } from "@/lib/wixCollections";
 import { getAllProducts } from "@/lib/wixProducts";
 import { notFound } from "next/navigation";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
@@ -52,7 +52,14 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
 
     if (!collection) notFound();
 
-    const products = await getProducts(collection.wixId);
+    const products = collection.wixId
+        ? await getProducts(collection.wixId)
+        : categoria === "ofertas"
+            ? (await getProducts()).filter(p =>
+                p.priceData?.formatted?.discountedPrice &&
+                p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
+            )
+            : await getProducts();
 
     return (
         <main className="bg-white min-h-screen">
@@ -83,7 +90,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
                         >
                             Todos
                         </Link>
-                        {COLLECTIONS.map((cat) => (
+                        {ALL_COLLECTIONS.map((cat) => (
                             <Link
                                 key={cat.slug}
                                 href={`/tienda/${cat.slug}`}

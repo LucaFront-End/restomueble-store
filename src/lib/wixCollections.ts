@@ -44,10 +44,21 @@ export const COLLECTIONS: WixCollection[] = [
     },
 ];
 
+/** Special virtual collection for Hot Sale products (no wixId — filtered by discount) */
+export const OFERTAS_COLLECTION: WixCollection = {
+    slug: "ofertas",
+    name: "🔥 Ofertas",
+    description: "Productos en oferta — Hot Sale Josepja. Descuentos exclusivos por tiempo limitado.",
+};
+
+/** All collections including Ofertas (for navigation) */
+export const ALL_COLLECTIONS: WixCollection[] = [OFERTAS_COLLECTION, ...COLLECTIONS];
+
 /**
  * Get a collection by its URL slug
  */
 export function getCollectionBySlug(slug: string): WixCollection | undefined {
+    if (slug === OFERTAS_COLLECTION.slug) return OFERTAS_COLLECTION;
     return COLLECTIONS.find((c) => c.slug === slug);
 }
 
@@ -55,7 +66,7 @@ export function getCollectionBySlug(slug: string): WixCollection | undefined {
  * Get all collection slugs (for generateStaticParams)
  */
 export function getAllCollectionSlugs(): string[] {
-    return COLLECTIONS.map((c) => c.slug);
+    return [OFERTAS_COLLECTION.slug, ...COLLECTIONS.map((c) => c.slug)];
 }
 
 /**
