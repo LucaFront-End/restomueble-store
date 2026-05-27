@@ -234,7 +234,7 @@ export default function HeroCarousel() {
                             key={s.id}
                             className={`hero-carousel__dot${i === current ? " hero-carousel__dot--active" : ""}`}
                             onClick={() => goTo(i)}
-                            aria-label={`Diapositiva ${i + 1}: ${s.bgTitle}`}
+                            aria-label={`Diapositiva ${i + 1}: ${s.type === "banner" ? (s as BannerSlide).alt : (s as DefaultSlide).bgTitle}`}
                         >
                             <span
                                 className="hero-carousel__dot-progress"
