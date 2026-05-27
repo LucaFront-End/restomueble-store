@@ -52,7 +52,7 @@ export const OFERTAS_COLLECTION: WixCollection = {
 };
 
 /** All collections including Ofertas (for navigation) */
-export const ALL_COLLECTIONS: WixCollection[] = [OFERTAS_COLLECTION, ...COLLECTIONS];
+export const ALL_COLLECTIONS: WixCollection[] = [...COLLECTIONS, OFERTAS_COLLECTION];
 
 /**
  * Get a collection by its URL slug
