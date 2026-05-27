@@ -246,8 +246,8 @@ export default function HeroCarousel() {
                 </Link>
             )}
 
-            {/* ── Marquee / Bottom Bar (hidden during banner slides) ── */}
-            <div className="hero-carousel__marquee" style={slide.type === "banner" ? { display: "none" } : {}}>
+            {/* ── Marquee / Bottom Bar (hidden behind banner slides) ── */}
+            <div className="hero-carousel__marquee" style={slide.type === "banner" ? { visibility: "hidden" } : {}}>
                 <div className="hero-carousel__marquee-track">
                     {[...Array(2)].map((_, i) => (
                         <div className="hero-carousel__marquee-content" key={i}>
