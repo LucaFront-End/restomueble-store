@@ -226,7 +226,7 @@
 
     .hero-carousel__banner-img--mobile {
         display: block;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center center;
     }
 }
