@@ -128,8 +128,9 @@ export default async function CategoriaPage({ params }: PageProps) {
                         slug: p.slug || "",
                         imageUrl: p.media?.mainMedia?.image?.url || "/placeholder-product.png",
                         price: p.priceData?.formatted?.price || "$0",
+                        discountedPrice: p.priceData?.formatted?.discountedPrice || undefined,
                         inStock: p.stock?.inStock ?? true,
-                        isOnSale: p.discount?.type === "PERCENT" || p.discount?.type === "AMOUNT",
+                        isOnSale: !!(p.priceData?.formatted?.discountedPrice && p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price),
                     }))}
                 />
             ) : (

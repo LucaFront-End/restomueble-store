@@ -12,6 +12,7 @@ interface SearchResult {
     slug: string;
     imageUrl: string;
     price: string;
+    salePrice?: string;
 }
 
 /** Max results shown in the dropdown */
@@ -135,6 +136,7 @@ export default function NavbarSearch() {
                 slug: p.slug || "",
                 imageUrl: p.media?.mainMedia?.image?.url || "/placeholder-product.png",
                 price: p.priceData?.formatted?.price || "Consultar",
+                salePrice: p.priceData?.formatted?.discountedPrice || undefined,
             })));
         } catch (err) {
             console.error("[Search] Error:", err);
@@ -271,7 +273,14 @@ export default function NavbarSearch() {
                                                             <h4 className="text-sm font-medium text-gray-900 group-hover:text-[var(--accent)] transition-colors truncate">
                                                                 {product.name}
                                                             </h4>
-                                                            <p className="text-sm text-gray-400 mt-0.5">{product.price}</p>
+                                                            {product.salePrice && product.salePrice !== product.price ? (
+                                                                <div className="flex items-center gap-2 mt-0.5">
+                                                                    <span className="text-xs text-gray-400 line-through">{product.price}</span>
+                                                                    <span className="text-sm font-bold text-red-600">{product.salePrice}</span>
+                                                                </div>
+                                                            ) : (
+                                                                <p className="text-sm text-gray-400 mt-0.5">{product.price}</p>
+                                                            )}
                                                         </div>
                                                         <svg className="w-4 h-4 text-gray-300 group-hover:text-[var(--accent)] shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

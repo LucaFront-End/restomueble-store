@@ -16,9 +16,12 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     const mainImage = product.media?.mainMedia?.image?.url || "/placeholder-product.png";
     const gallery = product.media?.items || [];
     const basePrice = product.priceData?.formatted?.price || "$0";
+    const baseSalePrice = product.priceData?.formatted?.discountedPrice;
 
     // Reactive state: price & image change when a variant is selected
-    const [currentPrice, setCurrentPrice] = useState(basePrice);
+    // If the product has a sale, currentPrice starts as the sale price
+    const [currentPrice, setCurrentPrice] = useState(baseSalePrice || basePrice);
+    const [originalPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
 
     // CMS Colores mapped to Wix variant option names
@@ -63,6 +66,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                 <ProductInfo
                     title={product.name || "Producto"}
                     price={currentPrice}
+                    originalPrice={originalPrice}
                     description={product.description || ""}
                 >
                     {/* CMS Colores selectors ABOVE the Add to Cart — these replace the variant UI */}

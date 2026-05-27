@@ -502,9 +502,20 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
                                         <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[var(--accent)] transition-colors">
                                             {product.name}
                                         </h3>
-                                        <p className="text-lg font-semibold text-[var(--accent)]">
-                                            {product.priceData?.formatted?.price || "Consultar precio"}
-                                        </p>
+                                        {product.priceData?.formatted?.discountedPrice && product.priceData?.formatted?.discountedPrice !== product.priceData?.formatted?.price ? (
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-sm text-gray-400 line-through">
+                                                    {product.priceData?.formatted?.price}
+                                                </span>
+                                                <span className="text-lg font-bold text-red-600">
+                                                    {product.priceData?.formatted?.discountedPrice}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <p className="text-lg font-semibold text-[var(--accent)]">
+                                                {product.priceData?.formatted?.price || "Consultar precio"}
+                                            </p>
+                                        )}
                                     </div>
                                 </Link>
                             ))}

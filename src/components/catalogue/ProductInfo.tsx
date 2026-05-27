@@ -8,6 +8,7 @@ import WholesalePopup from "@/components/WholesalePopup";
 interface ProductInfoProps {
     title: string;
     price: string;
+    originalPrice?: string;
     description: string;
     children?: React.ReactNode; // For AddToCart button
     slug?: string; // Optional slug for sharing or reference
@@ -63,7 +64,7 @@ const AccordionItem = ({
     );
 };
 
-export const ProductInfo = ({ title, price, description, children, slug }: ProductInfoProps) => {
+export const ProductInfo = ({ title, price, originalPrice, description, children, slug }: ProductInfoProps) => {
     const whatsappNumber = "525551147772";
     const whatsappBuyMessage = `SW-Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
     const whatsappBuyUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappBuyMessage)}`;
@@ -98,9 +99,19 @@ export const ProductInfo = ({ title, price, description, children, slug }: Produ
                     initial={{ opacity: 1 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1, duration: 0.5 }}
-                    className="flex items-baseline gap-3"
+                    className="flex items-baseline gap-3 flex-wrap"
                 >
-                    <span className="text-3xl font-light text-gray-900">{price}</span>
+                    {originalPrice && originalPrice !== price ? (
+                        <>
+                            <span className="text-xl text-gray-400 line-through font-light">{originalPrice}</span>
+                            <span className="text-3xl font-bold text-red-600">{price}</span>
+                            <span className="px-2.5 py-1 bg-red-600 text-white text-[10px] font-bold tracking-widest uppercase rounded-sm animate-pulse">
+                                HOT SALE
+                            </span>
+                        </>
+                    ) : (
+                        <span className="text-3xl font-light text-gray-900">{price}</span>
+                    )}
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">
                         SIN IVA INCLUIDO
                     </span>

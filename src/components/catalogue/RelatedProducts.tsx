@@ -71,9 +71,20 @@ export const RelatedProducts = ({ currentProductId, products }: RelatedProductsP
                                     <h3 className="text-lg font-medium text-gray-900 group-hover:underline decoration-1 underline-offset-4">
                                         {product.name}
                                     </h3>
-                                    <p className="text-gray-500 font-light">
-                                        {product.priceData?.formatted?.price}
-                                    </p>
+                                    {product.priceData?.formatted?.discountedPrice && product.priceData?.formatted?.discountedPrice !== product.priceData?.formatted?.price ? (
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-gray-400 font-light line-through text-sm">
+                                                {product.priceData?.formatted?.price}
+                                            </p>
+                                            <p className="text-red-600 font-bold">
+                                                {product.priceData?.formatted?.discountedPrice}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <p className="text-gray-500 font-light">
+                                            {product.priceData?.formatted?.price}
+                                        </p>
+                                    )}
                                 </div>
                             </motion.div>
                         </Link>

@@ -151,9 +151,20 @@ const ProductDiscovery = ({ initialProducts, content = {} }: ProductDiscoveryPro
                                                         {activeCollection.name}
                                                     </p>
                                                     <span className="w-1 h-1 bg-[#E5E5E5] rounded-full" />
-                                                    <p className="text-[10px] md:text-xs font-bold text-[#1D1D1F] tracking-tight">
-                                                        {product.priceData?.formatted?.price || "Consultar"}
-                                                    </p>
+                                                    {product.priceData?.formatted?.discountedPrice && product.priceData?.formatted?.discountedPrice !== product.priceData?.formatted?.price ? (
+                                                        <div className="flex items-center gap-1.5">
+                                                            <p className="text-[9px] md:text-[10px] text-[#86868B] line-through">
+                                                                {product.priceData?.formatted?.price}
+                                                            </p>
+                                                            <p className="text-[10px] md:text-xs font-bold text-red-600 tracking-tight">
+                                                                {product.priceData?.formatted?.discountedPrice}
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-[10px] md:text-xs font-bold text-[#1D1D1F] tracking-tight">
+                                                            {product.priceData?.formatted?.price || "Consultar"}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </motion.div>

@@ -13,6 +13,7 @@ export interface ConjuntoProduct {
     slug: string;
     imageUrl: string;
     price: string;
+    discountedPrice?: string;
     inStock: boolean;
     isOnSale: boolean;
 }
@@ -276,9 +277,22 @@ export default function ConjuntosFilters({ products }: { products: ConjuntoProdu
                                                         <h3 className="text-sm md:text-base font-medium text-[var(--text-primary)] line-clamp-2 group-hover:text-[var(--accent)] transition-colors duration-300">
                                                             {product.name}
                                                         </h3>
-                                                        <span className="text-sm font-semibold text-[var(--text-primary)] whitespace-nowrap">
-                                                            {product.price}
-                                                        </span>
+                                                        <div className="flex flex-col items-end shrink-0">
+                                                            {product.isOnSale && product.discountedPrice ? (
+                                                                <>
+                                                                    <span className="text-[11px] text-gray-400 line-through">
+                                                                        {product.price}
+                                                                    </span>
+                                                                    <span className="text-sm font-bold text-red-600">
+                                                                        {product.discountedPrice}
+                                                                    </span>
+                                                                </>
+                                                            ) : (
+                                                                <span className="text-sm font-semibold text-[var(--text-primary)] whitespace-nowrap">
+                                                                    {product.price}
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                     <div className="flex items-center gap-2">
                                                         <span className={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-amber-500'}`} />

@@ -8,9 +8,15 @@ import { normalizeSlug } from "@/lib/wixCollections";
 
 export const ProductCard = ({ product, index = 0 }: { product: products.Product, index?: number }) => {
     const imageUrl = product.media?.mainMedia?.image?.url || "/placeholder-product.png";
-    const price = product.priceData?.formatted?.price || "$0";
+    const originalPrice = product.priceData?.formatted?.price || "$0";
+    const salePrice = product.priceData?.formatted?.discountedPrice;
     const productName = product.name || "Producto";
-    const isOnSale = product.discount?.type === "PERCENT" || product.discount?.type === "AMOUNT";
+    const isOnSale = !!salePrice && salePrice !== originalPrice;
+
+    // Calculate discount percentage for the badge
+    const discountPercent = isOnSale && product.priceData?.price && product.priceData?.discountedPrice
+        ? Math.round((1 - product.priceData.discountedPrice / product.priceData.price) * 100)
+        : 0;
 
     return (
         <motion.div
@@ -34,8 +40,8 @@ export const ProductCard = ({ product, index = 0 }: { product: products.Product,
 
                     {/* Sale Badge */}
                     {isOnSale && (
-                        <div className="absolute top-4 left-4 px-3 py-1 bg-[var(--accent)] text-white text-[10px] font-bold tracking-widest uppercase">
-                            Oferta
+                        <div className="absolute top-4 left-4 px-3 py-1 bg-red-600 text-white text-[10px] font-bold tracking-widest uppercase">
+                            {discountPercent > 0 ? `-${discountPercent}%` : "Oferta"}
                         </div>
                     )}
 
@@ -57,9 +63,22 @@ export const ProductCard = ({ product, index = 0 }: { product: products.Product,
                         <h3 className="text-sm md:text-base font-medium text-[var(--text-primary)] line-clamp-1 group-hover:text-[var(--accent)] transition-colors duration-300">
                             {productName}
                         </h3>
-                        <span className="text-sm font-semibold text-[var(--text-primary)] whitespace-nowrap">
-                            {price}
-                        </span>
+                        <div className="flex flex-col items-end shrink-0">
+                            {isOnSale ? (
+                                <>
+                                    <span className="text-[11px] text-gray-400 line-through">
+                                        {originalPrice}
+                                    </span>
+                                    <span className="text-sm font-bold text-red-600">
+                                        {salePrice}
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="text-sm font-semibold text-[var(--text-primary)] whitespace-nowrap">
+                                    {originalPrice}
+                                </span>
+                            )}
+                        </div>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className={`w-1.5 h-1.5 rounded-full ${product.stock?.inStock ? 'bg-green-500' : 'bg-amber-500'}`} />
