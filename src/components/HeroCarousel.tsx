@@ -5,9 +5,43 @@ import Link from "next/link";
 import "./HeroCarousel.css";
 
 /* ── Slides data ── */
-const SLIDES = [
+interface SlideBase {
+    id: number;
+    type?: "default" | "banner";
+}
+
+interface DefaultSlide extends SlideBase {
+    type?: "default";
+    preTitle: string;
+    bgTitle: string;
+    desc: string;
+    cta: string;
+    href: string;
+    image: string;
+    imageAlt: string;
+}
+
+interface BannerSlide extends SlideBase {
+    type: "banner";
+    desktopImage: string;
+    mobileImage: string;
+    alt: string;
+    href: string;
+}
+
+type Slide = DefaultSlide | BannerSlide;
+
+const SLIDES: Slide[] = [
     {
         id: 0,
+        type: "banner",
+        desktopImage: "/hero-hotsale-desktop.jpg",
+        mobileImage: "/hero-hotsale-mobile.jpg",
+        alt: "Hot Sale Josepja — Descuentos en mobiliario para restaurantes",
+        href: "/tienda",
+    },
+    {
+        id: 1,
         preTitle: "Mobiliario para restaurantes",
         bgTitle: "JOSEPJA",
         desc: "Fabricamos mobiliario industrial a medida para restaurantes, antros y hoteles. Diseño de autor, producción nacional.",
@@ -17,7 +51,7 @@ const SLIDES = [
         imageAlt: "Silla industrial madera y metal — Josepja",
     },
     {
-        id: 1,
+        id: 2,
         preTitle: "Mesas y sillas resistentes",
         bgTitle: "RESTAURANTES",
         desc: "Mesas y sillas fabricadas a medida para el ritmo de un restaurante. Resistentes, apilables y con diseño de autor.",
@@ -27,7 +61,7 @@ const SLIDES = [
         imageAlt: "Colección de sillas para restaurante — Josepja",
     },
     {
-        id: 2,
+        id: 3,
         preTitle: "Periqueras y bancos de barra",
         bgTitle: "ANTROS",
         desc: "Periqueras y bancos de barra con estructura de acero y madera. El statement que tu espacio nocturno necesita.",
@@ -37,7 +71,7 @@ const SLIDES = [
         imageAlt: "Periquera industrial para antro o bar — Josepja",
     },
     {
-        id: 3,
+        id: 4,
         preTitle: "Mobiliario de gala",
         bgTitle: "EVENTOS",
         desc: "Sillas Tiffany y mobiliario de gala para bodas, banquetes y eventos corporativos. Elegancia que se renta.",
@@ -92,76 +126,106 @@ export default function HeroCarousel() {
         <section className="hero-carousel" ref={heroRef}>
             <div className="hero-carousel__inner">
 
-                {/* ── Background Title (Huge) — exactly like Velvet ── */}
-                {/* Outgoing title */}
-                {prevSlide && (
-                    <h1
-                        key={`out-${prev}`}
-                        className="hero-carousel__bg-title hero-carousel__bg-title--out"
-                        aria-hidden="true"
-                    >
-                        <span className="hero-carousel__pre-title">{prevSlide.preTitle}</span>
-                        {prevSlide.bgTitle}
-                    </h1>
-                )}
-                {/* Incoming title */}
-                <h1
-                    key={`in-${current}`}
-                    className={`hero-carousel__bg-title${prevSlide ? " hero-carousel__bg-title--in" : ""}`}
-                >
-                    <span className="hero-carousel__pre-title">{slide.preTitle}</span>
-                    {slide.bgTitle}
-                </h1>
-
-                {/* ── Main Visual (Stage) — exactly like Velvet ── */}
-                <div className="hero-carousel__stage">
-                    {/* Outgoing image */}
-                    {prevSlide && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                            key={`img-out-${prev}`}
-                            src={prevSlide.image}
-                            alt={prevSlide.imageAlt}
-                            className="hero-carousel__product-img hero-carousel__img--out"
-                            draggable={false}
-                            style={{ position: "absolute" }}
-                        />
-                    )}
-                    {/* Incoming image */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        key={`img-in-${current}`}
-                        src={slide.image}
-                        alt={slide.imageAlt}
-                        className={`hero-carousel__product-img${prevSlide ? " hero-carousel__img--in" : ""}`}
-                        draggable={false}
-                    />
-                </div>
-
-                {/* ── Split Bottom Content — exactly like Velvet ── */}
-                <div className="hero-carousel__bottom">
-
-                    {/* Left Column: Description */}
-                    <div className="hero-carousel__bottom-left">
-                        <p
-                            key={`desc-${current}`}
-                            className="hero-carousel__desc hero-carousel__desc--in"
+                {/* ── Giant Background Title (only for default slides) ── */}
+                {slide.type !== "banner" && (
+                    <>
+                        {/* Outgoing title */}
+                        {prevSlide && prevSlide.type !== "banner" && (
+                            <h1
+                                key={`out-${prev}`}
+                                className="hero-carousel__bg-title hero-carousel__bg-title--out"
+                                aria-hidden="true"
+                            >
+                                <span className="hero-carousel__pre-title">{(prevSlide as DefaultSlide).preTitle}</span>
+                                {(prevSlide as DefaultSlide).bgTitle}
+                            </h1>
+                        )}
+                        {/* Incoming title */}
+                        <h1
+                            key={`in-${current}`}
+                            className={`hero-carousel__bg-title${prevSlide ? " hero-carousel__bg-title--in" : ""}`}
                         >
-                            {slide.desc}
-                        </p>
-                    </div>
+                            <span className="hero-carousel__pre-title">{(slide as DefaultSlide).preTitle}</span>
+                            {(slide as DefaultSlide).bgTitle}
+                        </h1>
+                    </>
+                )}
 
-                    {/* Right Column: CTA */}
-                    <div className="hero-carousel__bottom-right">
-                        <Link href={slide.href} className="hero-carousel__cta-pill">
-                            {slide.cta}
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <path d="M1 11L11 1M11 1H3M11 1V9" />
-                            </svg>
-                        </Link>
-                    </div>
+                {/* ── Banner Slide (full-bleed image) ── */}
+                {slide.type === "banner" && (
+                    <Link href={(slide as BannerSlide).href} className="hero-carousel__banner">
+                        {/* Desktop image */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            key={`banner-desktop-${current}`}
+                            src={(slide as BannerSlide).desktopImage}
+                            alt={(slide as BannerSlide).alt}
+                            className={`hero-carousel__banner-img hero-carousel__banner-img--desktop${prevSlide ? " hero-carousel__img--in" : ""}`}
+                            draggable={false}
+                        />
+                        {/* Mobile image */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            key={`banner-mobile-${current}`}
+                            src={(slide as BannerSlide).mobileImage}
+                            alt={(slide as BannerSlide).alt}
+                            className={`hero-carousel__banner-img hero-carousel__banner-img--mobile${prevSlide ? " hero-carousel__img--in" : ""}`}
+                            draggable={false}
+                        />
+                    </Link>
+                )}
 
-                </div>
+                {/* ── Main Visual (Stage) — only for default slides ── */}
+                {slide.type !== "banner" && (
+                    <div className="hero-carousel__stage">
+                        {/* Outgoing image */}
+                        {prevSlide && prevSlide.type !== "banner" && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                key={`img-out-${prev}`}
+                                src={(prevSlide as DefaultSlide).image}
+                                alt={(prevSlide as DefaultSlide).imageAlt}
+                                className="hero-carousel__product-img hero-carousel__img--out"
+                                draggable={false}
+                                style={{ position: "absolute" }}
+                            />
+                        )}
+                        {/* Incoming image */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            key={`img-in-${current}`}
+                            src={(slide as DefaultSlide).image}
+                            alt={(slide as DefaultSlide).imageAlt}
+                            className={`hero-carousel__product-img${prevSlide ? " hero-carousel__img--in" : ""}`}
+                            draggable={false}
+                        />
+                    </div>
+                )}
+
+                {/* ── Split Bottom Content — only for default slides ── */}
+                {slide.type !== "banner" && (
+                    <div className="hero-carousel__bottom">
+                        {/* Left Column: Description */}
+                        <div className="hero-carousel__bottom-left">
+                            <p
+                                key={`desc-${current}`}
+                                className="hero-carousel__desc hero-carousel__desc--in"
+                            >
+                                {(slide as DefaultSlide).desc}
+                            </p>
+                        </div>
+
+                        {/* Right Column: CTA */}
+                        <div className="hero-carousel__bottom-right">
+                            <Link href={(slide as DefaultSlide).href} className="hero-carousel__cta-pill">
+                                {(slide as DefaultSlide).cta}
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                    <path d="M1 11L11 1M11 1H3M11 1V9" />
+                                </svg>
+                            </Link>
+                        </div>
+                    </div>
+                )}
 
                 {/* ── Slide Dots ── */}
                 <div className="hero-carousel__dots">
