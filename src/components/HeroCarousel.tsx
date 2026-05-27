@@ -151,30 +151,6 @@ export default function HeroCarousel() {
                     </>
                 )}
 
-                {/* ── Banner Slide (full-bleed image) ── */}
-                {slide.type === "banner" && (
-                    <Link href={(slide as BannerSlide).href} className="hero-carousel__banner">
-                        {/* Desktop image */}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            key={`banner-desktop-${current}`}
-                            src={(slide as BannerSlide).desktopImage}
-                            alt={(slide as BannerSlide).alt}
-                            className={`hero-carousel__banner-img hero-carousel__banner-img--desktop${prevSlide ? " hero-carousel__img--in" : ""}`}
-                            draggable={false}
-                        />
-                        {/* Mobile image */}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            key={`banner-mobile-${current}`}
-                            src={(slide as BannerSlide).mobileImage}
-                            alt={(slide as BannerSlide).alt}
-                            className={`hero-carousel__banner-img hero-carousel__banner-img--mobile${prevSlide ? " hero-carousel__img--in" : ""}`}
-                            draggable={false}
-                        />
-                    </Link>
-                )}
-
                 {/* ── Main Visual (Stage) — only for default slides ── */}
                 {slide.type !== "banner" && (
                     <div className="hero-carousel__stage">
@@ -246,8 +222,32 @@ export default function HeroCarousel() {
 
             </div>
 
-            {/* ── Marquee / Bottom Bar — exactly like Velvet ── */}
-            <div className="hero-carousel__marquee">
+            {/* ── Banner Slide (full-bleed image — outside __inner to cover full section) ── */}
+            {slide.type === "banner" && (
+                <Link href={(slide as BannerSlide).href} className="hero-carousel__banner">
+                    {/* Desktop image */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        key={`banner-desktop-${current}`}
+                        src={(slide as BannerSlide).desktopImage}
+                        alt={(slide as BannerSlide).alt}
+                        className={`hero-carousel__banner-img hero-carousel__banner-img--desktop${prevSlide ? " hero-carousel__img--in" : ""}`}
+                        draggable={false}
+                    />
+                    {/* Mobile image */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        key={`banner-mobile-${current}`}
+                        src={(slide as BannerSlide).mobileImage}
+                        alt={(slide as BannerSlide).alt}
+                        className={`hero-carousel__banner-img hero-carousel__banner-img--mobile${prevSlide ? " hero-carousel__img--in" : ""}`}
+                        draggable={false}
+                    />
+                </Link>
+            )}
+
+            {/* ── Marquee / Bottom Bar (hidden during banner slides) ── */}
+            <div className="hero-carousel__marquee" style={slide.type === "banner" ? { display: "none" } : {}}>
                 <div className="hero-carousel__marquee-track">
                     {[...Array(2)].map((_, i) => (
                         <div className="hero-carousel__marquee-content" key={i}>
