@@ -21,7 +21,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
     // Reactive state: price & image change when a variant is selected
     // If the product has a sale, currentPrice starts as the sale price
     const [currentPrice, setCurrentPrice] = useState(baseSalePrice || basePrice);
-    const [originalPrice] = useState(basePrice);
+    const [originalPrice, setOriginalPrice] = useState(basePrice);
     const [externalImage, setExternalImage] = useState<string | undefined>(undefined);
 
     // CMS Colores mapped to Wix variant option names
@@ -37,6 +37,10 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
 
     const handlePriceChange = useCallback((formattedPrice: string) => {
         setCurrentPrice(formattedPrice);
+    }, []);
+
+    const handleOriginalPriceChange = useCallback((formattedPrice: string) => {
+        setOriginalPrice(formattedPrice);
     }, []);
 
     const handleCmsImageChange = useCallback((imageUrl: string) => {
@@ -82,6 +86,7 @@ export default function ProductPageClient({ product, colorData = [] }: ProductPa
                         productOptions={product.productOptions || []}
                         variants={product.variants || []}
                         onPriceChange={handlePriceChange}
+                        onOriginalPriceChange={handleOriginalPriceChange}
                         onImageChange={hasCmsColorData ? handleVariantImageChange : handleCmsImageChange}
                         hideOptionSelectors={hasCmsColorData}
                         externalSelectedOptions={hasCmsColorData ? cmsVariantOptions : undefined}

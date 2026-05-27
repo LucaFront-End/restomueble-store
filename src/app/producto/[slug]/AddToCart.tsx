@@ -18,6 +18,7 @@ interface NormalizedVariant {
     choices: Record<string, string>;
     inStock: boolean;
     formattedPrice?: string;
+    formattedDiscountedPrice?: string;
     imageUrl?: string;
 }
 
@@ -44,6 +45,7 @@ function normalizeVariants(raw: products.Variant[]): NormalizedVariant[] {
                 choices: (v.choices as Record<string, string>) ?? {},
                 inStock: v.stock?.inStock !== false,
                 formattedPrice: variantData?.priceData?.formatted?.price || undefined,
+                formattedDiscountedPrice: variantData?.priceData?.formatted?.discountedPrice || undefined,
                 imageUrl: variantData?.media?.items?.[0]?.image?.url || undefined,
             };
         });
@@ -55,6 +57,7 @@ interface AddToCartProps {
     productOptions?: products.ProductOption[];
     variants?: products.Variant[];
     onPriceChange?: (formattedPrice: string) => void;
+    onOriginalPriceChange?: (formattedPrice: string) => void;
     onImageChange?: (imageUrl: string) => void;
     onSelectedOptionsChange?: (options: Record<string, string>) => void;
     /** When true, the built-in variant option buttons are hidden (CMS Colores replaces them) */
@@ -68,6 +71,7 @@ export default function AddToCart({
     productOptions = [],
     variants = [],
     onPriceChange,
+    onOriginalPriceChange,
     onImageChange,
     onSelectedOptionsChange,
     hideOptionSelectors = false,
@@ -160,14 +164,28 @@ export default function AddToCart({
 
     // Refs for callbacks — prevents infinite re-render when parent passes inline functions
     const onPriceChangeRef = useRef(onPriceChange);
+    const onOriginalPriceChangeRef = useRef(onOriginalPriceChange);
     const onImageChangeRef = useRef(onImageChange);
     onPriceChangeRef.current = onPriceChange;
+    onOriginalPriceChangeRef.current = onOriginalPriceChange;
     onImageChangeRef.current = onImageChange;
 
     // Fire callbacks when selected variant changes
     useEffect(() => {
         if (matchedVariant?.formattedPrice && onPriceChangeRef.current) {
-            onPriceChangeRef.current(matchedVariant.formattedPrice);
+            // If variant has a discounted price, show that as the current price
+            // and set the original price to the variant's regular price
+            if (matchedVariant.formattedDiscountedPrice) {
+                onPriceChangeRef.current(matchedVariant.formattedDiscountedPrice);
+                if (onOriginalPriceChangeRef.current) {
+                    onOriginalPriceChangeRef.current(matchedVariant.formattedPrice);
+                }
+            } else {
+                onPriceChangeRef.current(matchedVariant.formattedPrice);
+                if (onOriginalPriceChangeRef.current) {
+                    onOriginalPriceChangeRef.current(matchedVariant.formattedPrice);
+                }
+            }
         }
         if (matchedVariant?.imageUrl && onImageChangeRef.current) {
             onImageChangeRef.current(matchedVariant.imageUrl);
