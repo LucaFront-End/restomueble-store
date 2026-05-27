@@ -35,8 +35,8 @@ const SLIDES: Slide[] = [
     {
         id: 0,
         type: "banner",
-        desktopImage: "/hero-hotsale-desktop.png",
-        mobileImage: "/hero-hotsale-mobile.png",
+        desktopImage: "/hero-hotsale-desktop.jpg",
+        mobileImage: "/hero-hotsale-mobile.jpg",
         alt: "Hot Sale Josepja — Descuentos en mobiliario para restaurantes",
         href: "/tienda",
     },
