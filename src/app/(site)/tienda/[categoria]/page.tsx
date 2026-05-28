@@ -1,5 +1,5 @@
 import { getWixServerClient } from "@/lib/wixClientServer";
-import { getCollectionBySlug, getAllCollectionSlugs, ALL_COLLECTIONS } from "@/lib/wixCollections";
+import { getCollectionBySlug, getAllCollectionSlugs, COLLECTIONS, OFERTAS_COLLECTION } from "@/lib/wixCollections";
 import { getAllProducts } from "@/lib/wixProducts";
 import { notFound } from "next/navigation";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
@@ -52,14 +52,23 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
 
     if (!collection) notFound();
 
+    const allProducts = await getProducts();
     const products = collection.wixId
-        ? await getProducts(collection.wixId)
+        ? allProducts.filter((p) => p.collectionIds?.includes(collection.wixId!))
         : categoria === "ofertas"
-            ? (await getProducts()).filter(p =>
+            ? allProducts.filter(p =>
                 p.priceData?.formatted?.discountedPrice &&
                 p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
             )
-            : await getProducts();
+            : allProducts;
+
+    const hasOfertas = allProducts.some(p =>
+        p.priceData?.formatted?.discountedPrice &&
+        p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
+    );
+    const visibleCollections = hasOfertas
+        ? [...COLLECTIONS, OFERTAS_COLLECTION]
+        : COLLECTIONS;
 
     return (
         <main className="bg-white min-h-screen">
@@ -90,7 +99,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
                         >
                             Todos
                         </Link>
-                        {ALL_COLLECTIONS.map((cat) => (
+                        {visibleCollections.map((cat) => (
                             <Link
                                 key={cat.slug}
                                 href={`/tienda/${cat.slug}`}

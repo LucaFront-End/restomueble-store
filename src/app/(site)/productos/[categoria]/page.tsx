@@ -1,4 +1,4 @@
-import { getCollectionBySlug, getAllCollectionSlugs, ALL_COLLECTIONS } from "@/lib/wixCollections";
+import { getCollectionBySlug, getAllCollectionSlugs, COLLECTIONS, OFERTAS_COLLECTION } from "@/lib/wixCollections";
 import { getAllProducts } from "@/lib/wixProducts";
 import { notFound } from "next/navigation";
 import { CatalogueHero } from "@/components/catalogue/CatalogueHero";
@@ -67,14 +67,23 @@ export default async function CategoriaPage({ params }: PageProps) {
     }
 
     // If wixId is set, filter by it; ofertas filters by discount; otherwise show all
+    const allProducts = await getProducts();
     const products = collection.wixId
-        ? await getProducts(collection.wixId)
+        ? allProducts.filter((p) => p.collectionIds?.includes(collection.wixId!))
         : categoria === "ofertas"
-            ? (await getProducts()).filter(p =>
+            ? allProducts.filter(p =>
                 p.priceData?.formatted?.discountedPrice &&
                 p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
             )
-            : await getProducts();
+            : allProducts;
+
+    const hasOfertas = allProducts.some(p =>
+        p.priceData?.formatted?.discountedPrice &&
+        p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
+    );
+    const visibleCollections = hasOfertas
+        ? [...COLLECTIONS, OFERTAS_COLLECTION]
+        : COLLECTIONS;
 
     return (
         <main className="bg-white min-h-screen">
@@ -110,7 +119,7 @@ export default async function CategoriaPage({ params }: PageProps) {
                         >
                             Todos
                         </Link>
-                        {ALL_COLLECTIONS.map((cat) => (
+                        {visibleCollections.map((cat) => (
                             <Link
                                 key={cat.slug}
                                 href={`/productos/${cat.slug}`}

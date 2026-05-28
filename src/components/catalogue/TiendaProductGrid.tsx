@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/catalogue/ProductCard";
 import Link from "next/link";
-import { ALL_COLLECTIONS } from "@/lib/wixCollections";
+import { COLLECTIONS, OFERTAS_COLLECTION } from "@/lib/wixCollections";
 
 interface TiendaProductGridProps {
     products: any[];
@@ -41,6 +41,15 @@ export default function TiendaProductGrid({ products }: TiendaProductGridProps) 
         });
     }, [products, searchQuery]);
 
+    const hasOfertas = products.some(p =>
+        p.priceData?.formatted?.discountedPrice &&
+        p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
+    );
+
+    const visibleCollections = hasOfertas
+        ? [...COLLECTIONS, OFERTAS_COLLECTION]
+        : COLLECTIONS;
+
     return (
         <>
             {/* Sticky Category Bar + Search */}
@@ -55,7 +64,7 @@ export default function TiendaProductGrid({ products }: TiendaProductGridProps) 
                             >
                                 Todos
                             </Link>
-                            {ALL_COLLECTIONS.map((cat) => (
+                            {visibleCollections.map((cat) => (
                                 <Link
                                     key={cat.slug}
                                     href={`/tienda/${cat.slug}`}

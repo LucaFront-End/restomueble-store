@@ -42,6 +42,14 @@ const SLIDES: Slide[] = [
     },
     {
         id: 1,
+        type: "banner",
+        desktopImage: "/hero-desde5-desktop.jpg",
+        mobileImage: "/hero-desde5-mobile.jpg",
+        alt: "Desde 5 piezas — Josepja mobiliario para restaurantes",
+        href: "/tienda",
+    },
+    {
+        id: 2,
         preTitle: "Mobiliario para restaurantes",
         bgTitle: "JOSEPJA",
         desc: "Fabricamos mobiliario industrial a medida para restaurantes, antros y hoteles. Diseño de autor, producción nacional.",
@@ -51,7 +59,7 @@ const SLIDES: Slide[] = [
         imageAlt: "Silla industrial madera y metal — Josepja",
     },
     {
-        id: 2,
+        id: 3,
         preTitle: "Mesas y sillas resistentes",
         bgTitle: "RESTAURANTES",
         desc: "Mesas y sillas fabricadas a medida para el ritmo de un restaurante. Resistentes, apilables y con diseño de autor.",
@@ -61,7 +69,7 @@ const SLIDES: Slide[] = [
         imageAlt: "Colección de sillas para restaurante — Josepja",
     },
     {
-        id: 3,
+        id: 4,
         preTitle: "Periqueras y bancos de barra",
         bgTitle: "ANTROS",
         desc: "Periqueras y bancos de barra con estructura de acero y madera. El statement que tu espacio nocturno necesita.",
@@ -71,7 +79,7 @@ const SLIDES: Slide[] = [
         imageAlt: "Periquera industrial para antro o bar — Josepja",
     },
     {
-        id: 4,
+        id: 5,
         preTitle: "Mobiliario de gala",
         bgTitle: "EVENTOS",
         desc: "Sillas Tiffany y mobiliario de gala para bodas, banquetes y eventos corporativos. Elegancia que se renta.",
