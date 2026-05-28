@@ -226,15 +226,8 @@
 
     .hero-carousel__banner-img--mobile {
         display: block;
-        object-fit: contain;
-        object-position: center center;
-    }
-}
-
-/* Small phones (≤480px) */
-@media (max-width: 480px) {
-    .hero-carousel__banner-img--mobile {
-        object-position: center 20%;
+        object-fit: cover;
+        object-position: center top;
     }
 }
 
