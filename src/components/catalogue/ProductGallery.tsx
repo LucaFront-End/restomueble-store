@@ -36,7 +36,7 @@ export const ProductGallery = ({ mainImage, gallery, productName, externalSelect
                 initial={{ opacity: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="relative aspect-square lg:aspect-[4/5] w-full overflow-hidden bg-[#f5f5f5] rounded-sm group"
+                className="relative aspect-square lg:aspect-[4/5] w-full overflow-hidden bg-white rounded-sm group"
             >
                 <Image
                     src={selectedImage}
