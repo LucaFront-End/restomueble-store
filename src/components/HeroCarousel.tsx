@@ -131,7 +131,7 @@ export default function HeroCarousel() {
     const prevSlide = prev !== null ? SLIDES[prev] : null;
 
     return (
-        <section className="hero-carousel" ref={heroRef}>
+        <section className={`hero-carousel ${slide.type === "banner" ? "hero-carousel--banner-active" : ""}`} ref={heroRef}>
             <div className="hero-carousel__inner">
 
                 {/* ── Giant Background Title (only for default slides) ── */}

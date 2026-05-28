@@ -220,6 +220,10 @@
 
 /* Tablets portrait / large phones (≤768px): switch to mobile image */
 @media (max-width: 768px) {
+    .hero-carousel {
+        transition: min-height 0.4s ease, height 0.4s ease;
+    }
+
     .hero-carousel__banner-img--desktop {
         display: none;
     }
@@ -228,6 +232,46 @@
         display: block;
         object-fit: cover;
         object-position: center top;
+    }
+
+    /* Adjust container height to match the mobile banner aspect ratio (3:4) dynamically */
+    .hero-carousel.hero-carousel--banner-active {
+        min-height: calc(100vw * 4 / 3) !important;
+        height: calc(100vw * 4 / 3) !important;
+    }
+
+    .hero-carousel--banner-active .hero-carousel__banner {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .hero-carousel--banner-active .hero-carousel__banner-img--mobile {
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    /* Position dots over the banner slide on mobile */
+    .hero-carousel--banner-active .hero-carousel__inner {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .hero-carousel--banner-active .hero-carousel__dots {
+        position: absolute !important;
+        bottom: 16px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin: 0 !important;
+        z-index: 12 !important;
+        pointer-events: auto;
     }
 }
 
