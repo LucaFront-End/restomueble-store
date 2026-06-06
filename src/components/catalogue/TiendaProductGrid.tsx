@@ -46,9 +46,7 @@ export default function TiendaProductGrid({ products }: TiendaProductGridProps) 
         p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
     );
 
-    const visibleCollections = hasOfertas
-        ? [...COLLECTIONS, OFERTAS_COLLECTION]
-        : COLLECTIONS;
+    const visibleCollections = [...COLLECTIONS, OFERTAS_COLLECTION];
 
     return (
         <>

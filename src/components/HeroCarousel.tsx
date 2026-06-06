@@ -92,11 +92,31 @@ const SLIDES: Slide[] = [
 
 const SLIDE_DURATION = 5000;
 
+/**
+ * Josepja banner slides (id 0 & 1) expire on June 8, 2026 at 00:00 Mexico time (UTC-6).
+ * After that date they are removed from rotation automatically.
+ */
+const JOSEPJA_BANNER_EXPIRY = new Date("2026-06-08T06:00:00Z"); // midnight MX (UTC-6) = 06:00 UTC
+
+function getActiveSlides(): Slide[] {
+    const now = new Date();
+    if (now >= JOSEPJA_BANNER_EXPIRY) {
+        return SLIDES.filter((s) => s.id !== 0 && s.id !== 1);
+    }
+    return SLIDES;
+}
+
 export default function HeroCarousel() {
     const heroRef = useRef<HTMLElement>(null);
+    const [activeSlides, setActiveSlides] = useState<Slide[]>(SLIDES);
     const [current, setCurrent] = useState(0);
     const [prev, setPrev] = useState<number | null>(null);
     const [transitioning, setTransitioning] = useState(false);
+
+    /* ── Compute active slides on client (avoids hydration mismatch) ── */
+    useEffect(() => {
+        setActiveSlides(getActiveSlides());
+    }, []);
 
     /* ── Entrance animation (exactly like Velvet) ── */
     useEffect(() => {
@@ -121,14 +141,14 @@ export default function HeroCarousel() {
     /* ── Auto-advance ── */
     useEffect(() => {
         const timer = setTimeout(() => {
-            goTo((current + 1) % SLIDES.length);
+            goTo((current + 1) % activeSlides.length);
         }, SLIDE_DURATION);
         return () => clearTimeout(timer);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [current, transitioning]);
+    }, [current, transitioning, activeSlides]);
 
-    const slide = SLIDES[current];
-    const prevSlide = prev !== null ? SLIDES[prev] : null;
+    const slide = activeSlides[current];
+    const prevSlide = prev !== null ? activeSlides[prev] : null;
 
     return (
         <section className={`hero-carousel ${slide.type === "banner" ? "hero-carousel--banner-active" : ""}`} ref={heroRef}>
@@ -213,7 +233,7 @@ export default function HeroCarousel() {
 
                 {/* ── Slide Dots ── */}
                 <div className="hero-carousel__dots">
-                    {SLIDES.map((s, i) => (
+                    {activeSlides.map((s, i) => (
                         <button
                             key={s.id}
                             className={`hero-carousel__dot${i === current ? " hero-carousel__dot--active" : ""}`}

@@ -66,9 +66,7 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
         p.priceData?.formatted?.discountedPrice &&
         p.priceData?.formatted?.discountedPrice !== p.priceData?.formatted?.price
     );
-    const visibleCollections = hasOfertas
-        ? [...COLLECTIONS, OFERTAS_COLLECTION]
-        : COLLECTIONS;
+    const visibleCollections = [...COLLECTIONS, OFERTAS_COLLECTION];
 
     return (
         <main className="bg-white min-h-screen">
@@ -150,10 +148,17 @@ export default async function TiendaCategoriaPage({ params }: PageProps) {
                         ) : (
                             <div className="text-center py-32 bg-gray-50 rounded-2xl">
                                 <p className="text-xl text-[var(--text-secondary)] font-light mb-6">
-                                    {collection.wixId
-                                        ? "Todavía no hay productos en esta colección."
-                                        : "Esta colección aún no está vinculada a Wix."}
+                                    {categoria === "ofertas"
+                                        ? "Próximamente"
+                                        : collection.wixId
+                                            ? "Todavía no hay productos en esta colección."
+                                            : "Esta colección aún no está vinculada a Wix."}
                                 </p>
+                                {categoria === "ofertas" ? (
+                                    <p className="text-sm text-gray-400 mb-6">
+                                        Estamos preparando las mejores ofertas para ti. ¡Vuelve pronto!
+                                    </p>
+                                ) : null}
                                 <Link
                                     href="/tienda"
                                     className="inline-block border-b border-black text-black text-sm font-bold tracking-widest uppercase pb-1 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
