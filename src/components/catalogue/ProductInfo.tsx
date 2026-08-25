@@ -65,7 +65,7 @@ const AccordionItem = ({
 };
 
 export const ProductInfo = ({ title, price, originalPrice, description, children, slug }: ProductInfoProps) => {
-    const whatsappNumber = "525551147772";
+    const whatsappNumber = "525610174742";
     const whatsappBuyMessage = `SW-Hola, me interesa el producto: ${title}. ¿Me podrían dar más información?`;
     const whatsappBuyUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappBuyMessage)}`;
 

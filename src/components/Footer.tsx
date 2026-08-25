@@ -134,7 +134,7 @@ const Footer = () => {
                                     ventas@josepja.com
                                 </a>
                             </p>
-                            <p className="font-mono text-[13px]">+52 55 5114 7772</p>
+                            <p className="font-mono text-[13px]">+52 56 1017 4742</p>
                         </div>
                     </div>
 

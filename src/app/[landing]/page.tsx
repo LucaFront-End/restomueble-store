@@ -252,7 +252,7 @@ export default async function LandingPage({ params }: { params: Promise<{ landin
     const fetchedProducts = await getProductsForLanding();
 
     // WhatsApp link — CMS may have a full URL or just a number
-    const defaultWhatsappLink = "https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario";
+    const defaultWhatsappLink = "https://wa.me/525610174742?text=Hola,%20me%20interesa%20cotizar%20mobiliario";
     let whatsappLink = defaultWhatsappLink;
     if (landing.whatsapp) {
         if (landing.whatsapp.startsWith("http")) {

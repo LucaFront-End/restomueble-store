@@ -38,8 +38,8 @@ const contactInfo = [
             </svg>
         ),
         label: "Línea Directa",
-        value: "+52 55 5114 7772",
-        href: "tel:+525551147772",
+        value: "+52 56 1017 4742",
+        href: "tel:+525610174742",
         desc: "Atención inmediata Lun - Vie 9:00 - 18:00."
     }
 ];

@@ -59,7 +59,7 @@ export default async function ZonasPage() {
         tituloMetadescripcion: "",
     }));
 
-    const defaultWhatsapp = "https://wa.me/525551147772?text=Hola,%20me%20interesa%20cotizar%20mobiliario";
+    const defaultWhatsapp = "https://wa.me/525610174742?text=Hola,%20me%20interesa%20cotizar%20mobiliario";
 
     return (
         <main className="min-h-screen bg-gray-50">

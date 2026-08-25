@@ -14,8 +14,8 @@ interface CTABannerProps {
 const CTABanner = ({ content = {} }: CTABannerProps) => {
     const titulo = content.titulo || "¿Listo para transformar tu espacio?";
     const subtitulo = content.subtitulo || "Solicita una cotización personalizada para tu restaurante o proyecto corporativo. Descuentos por volumen.";
-    const telefono = content.telefono || "+52 55 5114 7772";
-    const whatsapp = content.whatsapp || "525551147772";
+    const telefono = content.telefono || "+52 56 1017 4742";
+    const whatsapp = content.whatsapp || "525610174742";
 
     return (
         <section className="section bg-[var(--accent-light)] relative overflow-hidden">

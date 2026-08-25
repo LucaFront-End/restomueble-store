@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const WHATSAPP_NUMBER = "525551147772";
+const WHATSAPP_NUMBER = "525610174742";
 const WHATSAPP_MESSAGE = "SW-Hola, me interesa cotizar mobiliario para mi negocio.";
 
 const WhatsAppFloat = () => {
