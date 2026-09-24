@@ -34,6 +34,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={poppins.variable}>
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RNQZWXL0NT"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-RNQZWXL0NT');
+            `,
+          }}
+        />
+      </head>
       <body className={poppins.className} style={{ paddingTop: "80px" }}>
         <WixContextProvider>
           <CataloguePopupProvider>
