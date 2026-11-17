@@ -42,6 +42,19 @@ const nextConfig: NextConfig = {
           source: "/tiendas-sitemap.xml",
           destination: "/sitemap-tiendas",
         },
+        // ── Dynamic Catalog Feeds (Meta & Google Merchant Center) ──
+        {
+          source: "/merchant.tsv",
+          destination: "/feed/merchant.tsv",
+        },
+        {
+          source: "/meta-feed.xml",
+          destination: "/feed/meta.xml",
+        },
+        {
+          source: "/meta-feed.csv",
+          destination: "/feed/meta.csv",
+        },
         // ── Wix proxy rewrites ──
         {
           source: "/_api/:path*",
